@@ -1,0 +1,5 @@
+0 ; rdi
+0 ; rbp
+VboxDDR0 + dba ; pop rdi; pop rbp; ret
+0x69 ; rdx
+VMMR0 + 1f7bd ; pop rax; ret
