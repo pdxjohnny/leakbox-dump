@@ -1,0 +1,2388 @@
+
+/var/www/html/VBoxDD2R0.r0:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <apicSetBase-0x1280>:
+       0:	55                   	push   %rbp
+       1:	ba 07 00 00 00       	mov    $0x7,%edx
+       6:	48 89 e5             	mov    %rsp,%rbp
+       9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+      10:	41 89 d0             	mov    %edx,%r8d
+      13:	42 8b 0c 87          	mov    (%rdi,%r8,4),%ecx
+      17:	85 c9                	test   %ecx,%ecx
+      19:	75 15                	jne    30 <apicSetBase-0x1250>
+      1b:	83 ea 01             	sub    $0x1,%edx
+      1e:	83 fa ff             	cmp    $0xffffffff,%edx
+      21:	75 ed                	jne    10 <apicSetBase-0x1270>
+      23:	89 f0                	mov    %esi,%eax
+      25:	5d                   	pop    %rbp
+      26:	c3                   	retq   
+      27:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+      2e:	00 00 
+      30:	0f bd c9             	bsr    %ecx,%ecx
+      33:	75 04                	jne    39 <apicSetBase-0x1247>
+      35:	31 c9                	xor    %ecx,%ecx
+      37:	eb 02                	jmp    3b <apicSetBase-0x1245>
+      39:	ff c1                	inc    %ecx
+      3b:	8d 41 ff             	lea    -0x1(%rcx),%eax
+      3e:	c1 e2 05             	shl    $0x5,%edx
+      41:	5d                   	pop    %rbp
+      42:	09 d0                	or     %edx,%eax
+      44:	c3                   	retq   
+      45:	66 66 2e 0f 1f 84 00 	data16 nopw %cs:0x0(%rax,%rax,1)
+      4c:	00 00 00 00 
+      50:	55                   	push   %rbp
+      51:	48 89 e5             	mov    %rsp,%rbp
+      54:	41 57                	push   %r15
+      56:	41 56                	push   %r14
+      58:	41 55                	push   %r13
+      5a:	41 54                	push   %r12
+      5c:	41 89 d7             	mov    %edx,%r15d
+      5f:	53                   	push   %rbx
+      60:	49 89 fe             	mov    %rdi,%r14
+      63:	41 89 f5             	mov    %esi,%r13d
+      66:	ba 20 00 00 00       	mov    $0x20,%edx
+      6b:	31 f6                	xor    %esi,%esi
+      6d:	48 89 cf             	mov    %rcx,%rdi
+      70:	48 83 ec 08          	sub    $0x8,%rsp
+      74:	48 89 cb             	mov    %rcx,%rbx
+      77:	e8 00 00 00 00       	callq  7c <apicSetBase-0x1204>
+      7c:	45 84 ff             	test   %r15b,%r15b
+      7f:	75 27                	jne    a8 <apicSetBase-0x11d8>
+      81:	41 80 fd ff          	cmp    $0xff,%r13b
+      85:	0f 84 95 00 00 00    	je     120 <apicSetBase-0x1160>
+      8b:	45 0f b6 ed          	movzbl %r13b,%r13d
+      8f:	44 0f ab 2b          	bts    %r13d,(%rbx)
+      93:	48 83 c4 08          	add    $0x8,%rsp
+      97:	48 89 d8             	mov    %rbx,%rax
+      9a:	5b                   	pop    %rbx
+      9b:	41 5c                	pop    %r12
+      9d:	41 5d                	pop    %r13
+      9f:	41 5e                	pop    %r14
+      a1:	41 5f                	pop    %r15
+      a3:	5d                   	pop    %rbp
+      a4:	c3                   	retq   
+      a5:	0f 1f 00             	nopl   (%rax)
+      a8:	41 8b 46 58          	mov    0x58(%r14),%eax
+      ac:	45 89 e9             	mov    %r13d,%r9d
+      af:	31 f6                	xor    %esi,%esi
+      b1:	41 83 e1 0f          	and    $0xf,%r9d
+      b5:	45 89 ec             	mov    %r13d,%r12d
+      b8:	49 8b 56 30          	mov    0x30(%r14),%rdx
+      bc:	85 c0                	test   %eax,%eax
+      be:	74 d3                	je     93 <apicSetBase-0x11ed>
+      c0:	44 0f b6 82 91 00 00 	movzbl 0x91(%rdx),%r8d
+      c7:	00 
+      c8:	41 80 f8 0f          	cmp    $0xf,%r8b
+      cc:	74 3f                	je     10d <apicSetBase-0x1173>
+      ce:	66 90                	xchg   %ax,%ax
+      d0:	45 84 c0             	test   %r8b,%r8b
+      d3:	75 1c                	jne    f1 <apicSetBase-0x118f>
+      d5:	0f b6 8a 90 00 00 00 	movzbl 0x90(%rdx),%ecx
+      dc:	89 cf                	mov    %ecx,%edi
+      de:	44 31 e7             	xor    %r12d,%edi
+      e1:	81 e7 f0 00 00 00    	and    $0xf0,%edi
+      e7:	75 08                	jne    f1 <apicSetBase-0x118f>
+      e9:	41 84 c9             	test   %cl,%r9b
+      ec:	74 03                	je     f1 <apicSetBase-0x118f>
+      ee:	0f ab 33             	bts    %esi,(%rbx)
+      f1:	83 c6 01             	add    $0x1,%esi
+      f4:	48 81 c2 e8 04 00 00 	add    $0x4e8,%rdx
+      fb:	39 c6                	cmp    %eax,%esi
+      fd:	74 94                	je     93 <apicSetBase-0x11ed>
+      ff:	44 0f b6 82 91 00 00 	movzbl 0x91(%rdx),%r8d
+     106:	00 
+     107:	41 80 f8 0f          	cmp    $0xf,%r8b
+     10b:	75 c3                	jne    d0 <apicSetBase-0x11b0>
+     10d:	44 84 a2 90 00 00 00 	test   %r12b,0x90(%rdx)
+     114:	74 db                	je     f1 <apicSetBase-0x118f>
+     116:	eb d6                	jmp    ee <apicSetBase-0x1192>
+     118:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+     11f:	00 
+     120:	ba 20 00 00 00       	mov    $0x20,%edx
+     125:	be ff 00 00 00       	mov    $0xff,%esi
+     12a:	48 89 df             	mov    %rbx,%rdi
+     12d:	e8 00 00 00 00       	callq  132 <apicSetBase-0x114e>
+     132:	e9 5c ff ff ff       	jmpq   93 <apicSetBase-0x11ed>
+     137:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     13e:	00 00 
+     140:	55                   	push   %rbp
+     141:	48 89 e5             	mov    %rsp,%rbp
+     144:	41 56                	push   %r14
+     146:	41 55                	push   %r13
+     148:	41 54                	push   %r12
+     14a:	53                   	push   %rbx
+     14b:	49 89 fc             	mov    %rdi,%r12
+     14e:	f6 86 8d 00 00 00 01 	testb  $0x1,0x8d(%rsi)
+     155:	48 89 f3             	mov    %rsi,%rbx
+     158:	0f 84 8a 00 00 00    	je     1e8 <apicSetBase-0x1098>
+     15e:	48 8d 7e 40          	lea    0x40(%rsi),%rdi
+     162:	be ff ff ff ff       	mov    $0xffffffff,%esi
+     167:	e8 94 fe ff ff       	callq  0 <apicSetBase-0x1280>
+     16c:	85 c0                	test   %eax,%eax
+     16e:	41 89 c5             	mov    %eax,%r13d
+     171:	78 65                	js     1d8 <apicSetBase-0x10a8>
+     173:	44 8b 73 7c          	mov    0x7c(%rbx),%r14d
+     177:	31 f6                	xor    %esi,%esi
+     179:	48 89 df             	mov    %rbx,%rdi
+     17c:	e8 7f fe ff ff       	callq  0 <apicSetBase-0x1280>
+     181:	c1 f8 04             	sar    $0x4,%eax
+     184:	41 c1 ee 04          	shr    $0x4,%r14d
+     188:	89 c2                	mov    %eax,%edx
+     18a:	c1 e2 04             	shl    $0x4,%edx
+     18d:	41 39 c6             	cmp    %eax,%r14d
+     190:	7c 03                	jl     195 <apicSetBase-0x10eb>
+     192:	8b 53 7c             	mov    0x7c(%rbx),%edx
+     195:	85 d2                	test   %edx,%edx
+     197:	74 12                	je     1ab <apicSetBase-0x10d5>
+     199:	41 81 e5 f0 00 00 00 	and    $0xf0,%r13d
+     1a0:	81 e2 f0 00 00 00    	and    $0xf0,%edx
+     1a6:	41 39 d5             	cmp    %edx,%r13d
+     1a9:	7e 2d                	jle    1d8 <apicSetBase-0x10a8>
+     1ab:	49 8b 44 24 28       	mov    0x28(%r12),%rax
+     1b0:	8b 93 84 00 00 00    	mov    0x84(%rbx),%edx
+     1b6:	be 01 00 00 00       	mov    $0x1,%esi
+     1bb:	49 8b 7c 24 20       	mov    0x20(%r12),%rdi
+     1c0:	ff 50 08             	callq  *0x8(%rax)
+     1c3:	5b                   	pop    %rbx
+     1c4:	b8 01 00 00 00       	mov    $0x1,%eax
+     1c9:	41 5c                	pop    %r12
+     1cb:	41 5d                	pop    %r13
+     1cd:	41 5e                	pop    %r14
+     1cf:	5d                   	pop    %rbp
+     1d0:	c3                   	retq   
+     1d1:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+     1d8:	5b                   	pop    %rbx
+     1d9:	31 c0                	xor    %eax,%eax
+     1db:	41 5c                	pop    %r12
+     1dd:	41 5d                	pop    %r13
+     1df:	41 5e                	pop    %r14
+     1e1:	5d                   	pop    %rbp
+     1e2:	c3                   	retq   
+     1e3:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+     1e8:	48 8b 47 28          	mov    0x28(%rdi),%rax
+     1ec:	8b 96 84 00 00 00    	mov    0x84(%rsi),%edx
+     1f2:	be 01 00 00 00       	mov    $0x1,%esi
+     1f7:	48 8b 7f 20          	mov    0x20(%rdi),%rdi
+     1fb:	ff 50 10             	callq  *0x10(%rax)
+     1fe:	5b                   	pop    %rbx
+     1ff:	31 c0                	xor    %eax,%eax
+     201:	41 5c                	pop    %r12
+     203:	41 5d                	pop    %r13
+     205:	41 5e                	pop    %r14
+     207:	5d                   	pop    %rbp
+     208:	c3                   	retq   
+     209:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+     210:	55                   	push   %rbp
+     211:	48 89 e5             	mov    %rsp,%rbp
+     214:	41 56                	push   %r14
+     216:	41 55                	push   %r13
+     218:	41 54                	push   %r12
+     21a:	53                   	push   %rbx
+     21b:	41 89 d6             	mov    %edx,%r14d
+     21e:	48 89 f3             	mov    %rsi,%rbx
+     221:	49 89 fc             	mov    %rdi,%r12
+     224:	e8 17 ff ff ff       	callq  140 <apicSetBase-0x1140>
+     229:	44 89 73 7c          	mov    %r14d,0x7c(%rbx)
+     22d:	41 89 c5             	mov    %eax,%r13d
+     230:	48 89 de             	mov    %rbx,%rsi
+     233:	4c 89 e7             	mov    %r12,%rdi
+     236:	e8 05 ff ff ff       	callq  140 <apicSetBase-0x1140>
+     23b:	41 38 c5             	cmp    %al,%r13b
+     23e:	77 10                	ja     250 <apicSetBase-0x1030>
+     240:	5b                   	pop    %rbx
+     241:	41 5c                	pop    %r12
+     243:	41 5d                	pop    %r13
+     245:	41 5e                	pop    %r14
+     247:	5d                   	pop    %rbp
+     248:	c3                   	retq   
+     249:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+     250:	49 8b 44 24 28       	mov    0x28(%r12),%rax
+     255:	8b 93 84 00 00 00    	mov    0x84(%rbx),%edx
+     25b:	be 01 00 00 00       	mov    $0x1,%esi
+     260:	5b                   	pop    %rbx
+     261:	49 8b 7c 24 20       	mov    0x20(%r12),%rdi
+     266:	41 5c                	pop    %r12
+     268:	41 5d                	pop    %r13
+     26a:	41 5e                	pop    %r14
+     26c:	5d                   	pop    %rbp
+     26d:	48 8b 40 10          	mov    0x10(%rax),%rax
+     271:	ff e0                	jmpq   *%rax
+     273:	66 66 66 66 2e 0f 1f 	data16 data16 data16 nopw %cs:0x0(%rax,%rax,1)
+     27a:	84 00 00 00 00 00 
+     280:	80 fa 07             	cmp    $0x7,%dl
+     283:	41 89 ca             	mov    %ecx,%r10d
+     286:	0f b6 c2             	movzbl %dl,%eax
+     289:	44 0f b6 c1          	movzbl %cl,%r8d
+     28d:	0f 87 6a 02 00 00    	ja     4fd <apicSetBase-0xd83>
+     293:	55                   	push   %rbp
+     294:	48 89 e5             	mov    %rsp,%rbp
+     297:	41 57                	push   %r15
+     299:	41 56                	push   %r14
+     29b:	41 55                	push   %r13
+     29d:	41 54                	push   %r12
+     29f:	49 89 fe             	mov    %rdi,%r14
+     2a2:	53                   	push   %rbx
+     2a3:	49 89 f4             	mov    %rsi,%r12
+     2a6:	48 83 ec 18          	sub    $0x18,%rsp
+     2aa:	ff 24 c5 00 00 00 00 	jmpq   *0x0(,%rax,8)
+     2b1:	bb ff ff ff ff       	mov    $0xffffffff,%ebx
+     2b6:	48 89 f7             	mov    %rsi,%rdi
+     2b9:	31 c0                	xor    %eax,%eax
+     2bb:	b9 08 00 00 00       	mov    $0x8,%ecx
+     2c0:	89 da                	mov    %ebx,%edx
+     2c2:	f3 af                	repz scas %es:(%rdi),%eax
+     2c4:	74 11                	je     2d7 <apicSetBase-0xfa9>
+     2c6:	48 8d 7f fc          	lea    -0x4(%rdi),%rdi
+     2ca:	8b 07                	mov    (%rdi),%eax
+     2cc:	48 29 f7             	sub    %rsi,%rdi
+     2cf:	c1 e7 03             	shl    $0x3,%edi
+     2d2:	0f bc d0             	bsf    %eax,%edx
+     2d5:	01 fa                	add    %edi,%edx
+     2d7:	85 d2                	test   %edx,%edx
+     2d9:	89 d3                	mov    %edx,%ebx
+     2db:	78 56                	js     333 <apicSetBase-0xf4d>
+     2dd:	41 3b 56 58          	cmp    0x58(%r14),%edx
+     2e1:	49 8b 76 30          	mov    0x30(%r14),%rsi
+     2e5:	0f 83 0d 01 00 00    	jae    3f8 <apicSetBase-0xe88>
+     2eb:	89 d0                	mov    %edx,%eax
+     2ed:	45 0f b6 d2          	movzbl %r10b,%r10d
+     2f1:	48 69 c0 e8 04 00 00 	imul   $0x4e8,%rax,%rax
+     2f8:	48 01 c6             	add    %rax,%rsi
+     2fb:	44 0f ab 56 40       	bts    %r10d,0x40(%rsi)
+     300:	45 84 c9             	test   %r9b,%r9b
+     303:	0f 84 05 02 00 00    	je     50e <apicSetBase-0xd72>
+     309:	44 0f ab 56 20       	bts    %r10d,0x20(%rsi)
+     30e:	4a 8d 14 86          	lea    (%rsi,%r8,4),%rdx
+     312:	8b 82 e8 00 00 00    	mov    0xe8(%rdx),%eax
+     318:	85 c0                	test   %eax,%eax
+     31a:	0f 84 e0 01 00 00    	je     500 <apicSetBase-0xd80>
+     320:	0d 00 00 00 80       	or     $0x80000000,%eax
+     325:	89 82 e8 00 00 00    	mov    %eax,0xe8(%rdx)
+     32b:	4c 89 f7             	mov    %r14,%rdi
+     32e:	e8 0d fe ff ff       	callq  140 <apicSetBase-0x1140>
+     333:	48 83 c4 18          	add    $0x18,%rsp
+     337:	31 c0                	xor    %eax,%eax
+     339:	5b                   	pop    %rbx
+     33a:	41 5c                	pop    %r12
+     33c:	41 5d                	pop    %r13
+     33e:	41 5e                	pop    %r14
+     340:	41 5f                	pop    %r15
+     342:	5d                   	pop    %rbp
+     343:	c3                   	retq   
+     344:	48 83 c4 18          	add    $0x18,%rsp
+     348:	b8 41 0a 00 00       	mov    $0xa41,%eax
+     34d:	5b                   	pop    %rbx
+     34e:	41 5c                	pop    %r12
+     350:	41 5d                	pop    %r13
+     352:	41 5e                	pop    %r14
+     354:	41 5f                	pop    %r15
+     356:	5d                   	pop    %rbp
+     357:	c3                   	retq   
+     358:	8b 57 58             	mov    0x58(%rdi),%edx
+     35b:	48 8b 5f 30          	mov    0x30(%rdi),%rbx
+     35f:	85 d2                	test   %edx,%edx
+     361:	74 d0                	je     333 <apicSetBase-0xf4d>
+     363:	41 0f b6 c0          	movzbl %r8b,%eax
+     367:	44 89 c9             	mov    %r9d,%ecx
+     36a:	45 31 ed             	xor    %r13d,%r13d
+     36d:	4c 8d 3c 83          	lea    (%rbx,%rax,4),%r15
+     371:	48 83 c3 20          	add    $0x20,%rbx
+     375:	eb 20                	jmp    397 <apicSetBase-0xee9>
+     377:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     37e:	00 00 
+     380:	41 83 c5 01          	add    $0x1,%r13d
+     384:	49 81 c7 e8 04 00 00 	add    $0x4e8,%r15
+     38b:	48 81 c3 e8 04 00 00 	add    $0x4e8,%rbx
+     392:	41 39 d5             	cmp    %edx,%r13d
+     395:	74 9c                	je     333 <apicSetBase-0xf4d>
+     397:	48 8d 73 e0          	lea    -0x20(%rbx),%rsi
+     39b:	45 0f a3 2c 24       	bt     %r13d,(%r12)
+     3a0:	0f 92 c0             	setb   %al
+     3a3:	83 e0 01             	and    $0x1,%eax
+     3a6:	84 c0                	test   %al,%al
+     3a8:	74 d6                	je     380 <apicSetBase-0xf00>
+     3aa:	44 0f ab 43 20       	bts    %r8d,0x20(%rbx)
+     3af:	84 c9                	test   %cl,%cl
+     3b1:	0f 84 24 01 00 00    	je     4db <apicSetBase-0xda5>
+     3b7:	44 0f ab 03          	bts    %r8d,(%rbx)
+     3bb:	41 8b 87 e8 00 00 00 	mov    0xe8(%r15),%eax
+     3c2:	85 c0                	test   %eax,%eax
+     3c4:	0f 84 24 01 00 00    	je     4ee <apicSetBase-0xd92>
+     3ca:	0d 00 00 00 80       	or     $0x80000000,%eax
+     3cf:	41 89 87 e8 00 00 00 	mov    %eax,0xe8(%r15)
+     3d6:	4c 89 f7             	mov    %r14,%rdi
+     3d9:	44 89 45 c4          	mov    %r8d,-0x3c(%rbp)
+     3dd:	88 4d cb             	mov    %cl,-0x35(%rbp)
+     3e0:	89 55 cc             	mov    %edx,-0x34(%rbp)
+     3e3:	e8 58 fd ff ff       	callq  140 <apicSetBase-0x1140>
+     3e8:	44 8b 45 c4          	mov    -0x3c(%rbp),%r8d
+     3ec:	0f b6 4d cb          	movzbl -0x35(%rbp),%ecx
+     3f0:	8b 55 cc             	mov    -0x34(%rbp),%edx
+     3f3:	eb 8b                	jmp    380 <apicSetBase-0xf00>
+     3f5:	0f 1f 00             	nopl   (%rax)
+     3f8:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+     3ff:	48 c7 c2 00 00 00 00 	mov    $0x0,%rdx
+     406:	be b1 01 00 00       	mov    $0x1b1,%esi
+     40b:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+     412:	e8 00 00 00 00       	callq  417 <apicSetBase-0xe69>
+     417:	89 de                	mov    %ebx,%esi
+     419:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+     420:	31 c0                	xor    %eax,%eax
+     422:	e8 00 00 00 00       	callq  427 <apicSetBase-0xe59>
+     427:	e8 00 00 00 00       	callq  42c <apicSetBase-0xe54>
+     42c:	cc                   	int3   
+     42d:	90                   	nop
+     42e:	eb c8                	jmp    3f8 <apicSetBase-0xe88>
+     430:	44 8b 7f 58          	mov    0x58(%rdi),%r15d
+     434:	4c 8b 6f 30          	mov    0x30(%rdi),%r13
+     438:	45 85 ff             	test   %r15d,%r15d
+     43b:	0f 84 f2 fe ff ff    	je     333 <apicSetBase-0xf4d>
+     441:	31 db                	xor    %ebx,%ebx
+     443:	eb 16                	jmp    45b <apicSetBase-0xe25>
+     445:	0f 1f 00             	nopl   (%rax)
+     448:	83 c3 01             	add    $0x1,%ebx
+     44b:	49 81 c5 e8 04 00 00 	add    $0x4e8,%r13
+     452:	44 39 fb             	cmp    %r15d,%ebx
+     455:	0f 84 d8 fe ff ff    	je     333 <apicSetBase-0xf4d>
+     45b:	41 0f a3 1c 24       	bt     %ebx,(%r12)
+     460:	0f 92 c0             	setb   %al
+     463:	83 e0 01             	and    $0x1,%eax
+     466:	84 c0                	test   %al,%al
+     468:	74 de                	je     448 <apicSetBase-0xe38>
+     46a:	49 8b 46 28          	mov    0x28(%r14),%rax
+     46e:	41 8b 95 84 00 00 00 	mov    0x84(%r13),%edx
+     475:	be 03 00 00 00       	mov    $0x3,%esi
+     47a:	49 8b 7e 20          	mov    0x20(%r14),%rdi
+     47e:	ff 50 08             	callq  *0x8(%rax)
+     481:	eb c5                	jmp    448 <apicSetBase-0xe38>
+     483:	44 8b 7f 58          	mov    0x58(%rdi),%r15d
+     487:	4c 8b 6f 30          	mov    0x30(%rdi),%r13
+     48b:	45 85 ff             	test   %r15d,%r15d
+     48e:	0f 84 9f fe ff ff    	je     333 <apicSetBase-0xf4d>
+     494:	31 db                	xor    %ebx,%ebx
+     496:	eb 1b                	jmp    4b3 <apicSetBase-0xdcd>
+     498:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+     49f:	00 
+     4a0:	83 c3 01             	add    $0x1,%ebx
+     4a3:	49 81 c5 e8 04 00 00 	add    $0x4e8,%r13
+     4aa:	44 39 fb             	cmp    %r15d,%ebx
+     4ad:	0f 84 80 fe ff ff    	je     333 <apicSetBase-0xf4d>
+     4b3:	41 0f a3 1c 24       	bt     %ebx,(%r12)
+     4b8:	0f 92 c0             	setb   %al
+     4bb:	83 e0 01             	and    $0x1,%eax
+     4be:	84 c0                	test   %al,%al
+     4c0:	74 de                	je     4a0 <apicSetBase-0xde0>
+     4c2:	49 8b 46 28          	mov    0x28(%r14),%rax
+     4c6:	41 8b 95 84 00 00 00 	mov    0x84(%r13),%edx
+     4cd:	be 02 00 00 00       	mov    $0x2,%esi
+     4d2:	49 8b 7e 20          	mov    0x20(%r14),%rdi
+     4d6:	ff 50 08             	callq  *0x8(%rax)
+     4d9:	eb c5                	jmp    4a0 <apicSetBase-0xde0>
+     4db:	44 0f b3 03          	btr    %r8d,(%rbx)
+     4df:	41 8b 87 e8 00 00 00 	mov    0xe8(%r15),%eax
+     4e6:	85 c0                	test   %eax,%eax
+     4e8:	0f 85 dc fe ff ff    	jne    3ca <apicSetBase-0xeb6>
+     4ee:	8b 45 10             	mov    0x10(%rbp),%eax
+     4f1:	41 89 87 e8 00 00 00 	mov    %eax,0xe8(%r15)
+     4f8:	e9 d9 fe ff ff       	jmpq   3d6 <apicSetBase-0xeaa>
+     4fd:	31 c0                	xor    %eax,%eax
+     4ff:	c3                   	retq   
+     500:	8b 45 10             	mov    0x10(%rbp),%eax
+     503:	89 82 e8 00 00 00    	mov    %eax,0xe8(%rdx)
+     509:	e9 1d fe ff ff       	jmpq   32b <apicSetBase-0xf55>
+     50e:	44 0f b3 56 20       	btr    %r10d,0x20(%rsi)
+     513:	e9 f6 fd ff ff       	jmpq   30e <apicSetBase-0xf72>
+     518:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+     51f:	00 
+     520:	55                   	push   %rbp
+     521:	48 89 e5             	mov    %rsp,%rbp
+     524:	41 57                	push   %r15
+     526:	41 56                	push   %r14
+     528:	41 55                	push   %r13
+     52a:	41 54                	push   %r12
+     52c:	49 89 ff             	mov    %rdi,%r15
+     52f:	53                   	push   %rbx
+     530:	49 89 f4             	mov    %rsi,%r12
+     533:	48 83 ec 38          	sub    $0x38,%rsp
+     537:	83 fa 3f             	cmp    $0x3f,%edx
+     53a:	0f 87 f1 00 00 00    	ja     631 <apicSetBase-0xc4f>
+     540:	89 d0                	mov    %edx,%eax
+     542:	49 89 cd             	mov    %rcx,%r13
+     545:	ff 24 c5 00 00 00 00 	jmpq   *0x0(,%rax,8)
+     54c:	0f 1f 40 00          	nopl   0x0(%rax)
+     550:	48 8b be c8 00 00 00 	mov    0xc8(%rsi),%rdi
+     557:	44 89 c6             	mov    %r8d,%esi
+     55a:	44 89 45 a8          	mov    %r8d,-0x58(%rbp)
+     55e:	e8 00 00 00 00       	callq  563 <apicSetBase-0xd1d>
+     563:	85 c0                	test   %eax,%eax
+     565:	89 c3                	mov    %eax,%ebx
+     567:	44 8b 45 a8          	mov    -0x58(%rbp),%r8d
+     56b:	75 73                	jne    5e0 <apicSetBase-0xca0>
+     56d:	49 8b 7f 38          	mov    0x38(%r15),%rdi
+     571:	44 89 c6             	mov    %r8d,%esi
+     574:	e8 00 00 00 00       	callq  579 <apicSetBase-0xd07>
+     579:	85 c0                	test   %eax,%eax
+     57b:	89 c3                	mov    %eax,%ebx
+     57d:	0f 85 ad 05 00 00    	jne    b30 <apicSetBase-0x750>
+     583:	45 85 ed             	test   %r13d,%r13d
+     586:	45 89 ac 24 a8 00 00 	mov    %r13d,0xa8(%r12)
+     58d:	00 
+     58e:	74 0c                	je     59c <apicSetBase-0xce4>
+     590:	41 f6 44 24 62 01    	testb  $0x1,0x62(%r12)
+     596:	0f 84 36 07 00 00    	je     cd2 <apicSetBase-0x5ae>
+     59c:	41 80 bc 24 d4 00 00 	cmpb   $0x0,0xd4(%r12)
+     5a3:	00 00 
+     5a5:	0f 85 89 06 00 00    	jne    c34 <apicSetBase-0x64c>
+     5ab:	49 8b bc 24 c8 00 00 	mov    0xc8(%r12),%rdi
+     5b2:	00 
+     5b3:	e8 00 00 00 00       	callq  5b8 <apicSetBase-0xcc8>
+     5b8:	49 89 84 24 b0 00 00 	mov    %rax,0xb0(%r12)
+     5bf:	00 
+     5c0:	49 8b bc 24 c8 00 00 	mov    0xc8(%r12),%rdi
+     5c7:	00 
+     5c8:	e8 00 00 00 00       	callq  5cd <apicSetBase-0xcb3>
+     5cd:	49 8b 7f 38          	mov    0x38(%r15),%rdi
+     5d1:	e8 00 00 00 00       	callq  5d6 <apicSetBase-0xcaa>
+     5d6:	31 db                	xor    %ebx,%ebx
+     5d8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+     5df:	00 
+     5e0:	48 8d 65 d8          	lea    -0x28(%rbp),%rsp
+     5e4:	89 d8                	mov    %ebx,%eax
+     5e6:	5b                   	pop    %rbx
+     5e7:	41 5c                	pop    %r12
+     5e9:	41 5d                	pop    %r13
+     5eb:	41 5e                	pop    %r14
+     5ed:	41 5f                	pop    %r15
+     5ef:	5d                   	pop    %rbp
+     5f0:	c3                   	retq   
+     5f1:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+     5f8:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     5fc:	44 89 c6             	mov    %r8d,%esi
+     5ff:	e8 00 00 00 00       	callq  604 <apicSetBase-0xc7c>
+     604:	85 c0                	test   %eax,%eax
+     606:	89 c3                	mov    %eax,%ebx
+     608:	75 d6                	jne    5e0 <apicSetBase-0xca0>
+     60a:	4c 89 ff             	mov    %r15,%rdi
+     60d:	44 89 ea             	mov    %r13d,%edx
+     610:	4c 89 e6             	mov    %r12,%rsi
+     613:	e8 f8 fb ff ff       	callq  210 <apicSetBase-0x1070>
+     618:	49 8b 7f 38          	mov    0x38(%r15),%rdi
+     61c:	e8 00 00 00 00       	callq  621 <apicSetBase-0xc5f>
+     621:	eb bd                	jmp    5e0 <apicSetBase-0xca0>
+     623:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+     628:	45 84 c9             	test   %r9b,%r9b
+     62b:	0f 85 67 04 00 00    	jne    a98 <apicSetBase-0x7e8>
+     631:	49 8b 7f 38          	mov    0x38(%r15),%rdi
+     635:	44 89 c6             	mov    %r8d,%esi
+     638:	e8 00 00 00 00       	callq  63d <apicSetBase-0xc43>
+     63d:	85 c0                	test   %eax,%eax
+     63f:	89 c3                	mov    %eax,%ebx
+     641:	75 9d                	jne    5e0 <apicSetBase-0xca0>
+     643:	41 81 8c 24 94 00 00 	orl    $0x80,0x94(%r12)
+     64a:	00 80 00 00 00 
+     64f:	49 8b 7f 38          	mov    0x38(%r15),%rdi
+     653:	e8 00 00 00 00       	callq  658 <apicSetBase-0xc28>
+     658:	eb 86                	jmp    5e0 <apicSetBase-0xca0>
+     65a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+     660:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     664:	44 89 c6             	mov    %r8d,%esi
+     667:	e8 00 00 00 00       	callq  66c <apicSetBase-0xc14>
+     66c:	85 c0                	test   %eax,%eax
+     66e:	89 c3                	mov    %eax,%ebx
+     670:	0f 85 6a ff ff ff    	jne    5e0 <apicSetBase-0xca0>
+     676:	be ff ff ff ff       	mov    $0xffffffff,%esi
+     67b:	4c 89 e7             	mov    %r12,%rdi
+     67e:	e8 7d f9 ff ff       	callq  0 <apicSetBase-0x1280>
+     683:	85 c0                	test   %eax,%eax
+     685:	0f 88 42 ff ff ff    	js     5cd <apicSetBase-0xcb3>
+     68b:	41 0f b3 04 24       	btr    %eax,(%r12)
+     690:	41 0f a3 44 24 20    	bt     %eax,0x20(%r12)
+     696:	0f 92 c2             	setb   %dl
+     699:	83 e2 01             	and    $0x1,%edx
+     69c:	84 d2                	test   %dl,%dl
+     69e:	0f 85 77 05 00 00    	jne    c1b <apicSetBase-0x665>
+     6a4:	4c 89 e6             	mov    %r12,%rsi
+     6a7:	4c 89 ff             	mov    %r15,%rdi
+     6aa:	e8 91 fa ff ff       	callq  140 <apicSetBase-0x1140>
+     6af:	e9 19 ff ff ff       	jmpq   5cd <apicSetBase-0xcb3>
+     6b4:	0f 1f 40 00          	nopl   0x0(%rax)
+     6b8:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     6bc:	44 89 c6             	mov    %r8d,%esi
+     6bf:	e8 00 00 00 00       	callq  6c4 <apicSetBase-0xbbc>
+     6c4:	85 c0                	test   %eax,%eax
+     6c6:	89 c3                	mov    %eax,%ebx
+     6c8:	0f 85 12 ff ff ff    	jne    5e0 <apicSetBase-0xca0>
+     6ce:	49 c1 ed 18          	shr    $0x18,%r13
+     6d2:	45 88 ac 24 90 00 00 	mov    %r13b,0x90(%r12)
+     6d9:	00 
+     6da:	49 8b 7f 38          	mov    0x38(%r15),%rdi
+     6de:	e8 00 00 00 00       	callq  6e3 <apicSetBase-0xb9d>
+     6e3:	e9 f8 fe ff ff       	jmpq   5e0 <apicSetBase-0xca0>
+     6e8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+     6ef:	00 
+     6f0:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     6f4:	44 89 c6             	mov    %r8d,%esi
+     6f7:	e8 00 00 00 00       	callq  6fc <apicSetBase-0xb84>
+     6fc:	85 c0                	test   %eax,%eax
+     6fe:	89 c3                	mov    %eax,%ebx
+     700:	0f 85 da fe ff ff    	jne    5e0 <apicSetBase-0xca0>
+     706:	49 c1 ed 1c          	shr    $0x1c,%r13
+     70a:	45 88 ac 24 91 00 00 	mov    %r13b,0x91(%r12)
+     711:	00 
+     712:	49 8b 7f 38          	mov    0x38(%r15),%rdi
+     716:	e8 00 00 00 00       	callq  71b <apicSetBase-0xb65>
+     71b:	e9 c0 fe ff ff       	jmpq   5e0 <apicSetBase-0xca0>
+     720:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     724:	44 89 c6             	mov    %r8d,%esi
+     727:	e8 00 00 00 00       	callq  72c <apicSetBase-0xb54>
+     72c:	85 c0                	test   %eax,%eax
+     72e:	89 c3                	mov    %eax,%ebx
+     730:	0f 85 aa fe ff ff    	jne    5e0 <apicSetBase-0xca0>
+     736:	41 81 e5 ff 01 00 00 	and    $0x1ff,%r13d
+     73d:	4c 89 ff             	mov    %r15,%rdi
+     740:	4c 89 e6             	mov    %r12,%rsi
+     743:	45 89 ac 24 8c 00 00 	mov    %r13d,0x8c(%r12)
+     74a:	00 
+     74b:	e8 f0 f9 ff ff       	callq  140 <apicSetBase-0x1140>
+     750:	49 8b 7f 38          	mov    0x38(%r15),%rdi
+     754:	e8 00 00 00 00       	callq  759 <apicSetBase-0xb27>
+     759:	e9 82 fe ff ff       	jmpq   5e0 <apicSetBase-0xca0>
+     75e:	66 90                	xchg   %ax,%ax
+     760:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     764:	44 89 c6             	mov    %r8d,%esi
+     767:	e8 00 00 00 00       	callq  76c <apicSetBase-0xb14>
+     76c:	85 c0                	test   %eax,%eax
+     76e:	89 c3                	mov    %eax,%ebx
+     770:	0f 85 6a fe ff ff    	jne    5e0 <apicSetBase-0xca0>
+     776:	44 89 e8             	mov    %r13d,%eax
+     779:	41 83 e5 03          	and    $0x3,%r13d
+     77d:	83 e0 0b             	and    $0xb,%eax
+     780:	41 89 84 24 a0 00 00 	mov    %eax,0xa0(%r12)
+     787:	00 
+     788:	d1 e8                	shr    %eax
+     78a:	83 e0 04             	and    $0x4,%eax
+     78d:	44 09 e8             	or     %r13d,%eax
+     790:	83 c0 01             	add    $0x1,%eax
+     793:	83 e0 07             	and    $0x7,%eax
+     796:	41 89 84 24 a4 00 00 	mov    %eax,0xa4(%r12)
+     79d:	00 
+     79e:	49 8b 7f 38          	mov    0x38(%r15),%rdi
+     7a2:	e8 00 00 00 00       	callq  7a7 <apicSetBase-0xad9>
+     7a7:	e9 34 fe ff ff       	jmpq   5e0 <apicSetBase-0xca0>
+     7ac:	0f 1f 40 00          	nopl   0x0(%rax)
+     7b0:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     7b4:	44 89 c6             	mov    %r8d,%esi
+     7b7:	44 89 4d a8          	mov    %r9d,-0x58(%rbp)
+     7bb:	e8 00 00 00 00       	callq  7c0 <apicSetBase-0xac0>
+     7c0:	85 c0                	test   %eax,%eax
+     7c2:	89 c3                	mov    %eax,%ebx
+     7c4:	0f 85 16 fe ff ff    	jne    5e0 <apicSetBase-0xca0>
+     7ca:	44 8b 4d a8          	mov    -0x58(%rbp),%r9d
+     7ce:	45 89 ac 24 98 00 00 	mov    %r13d,0x98(%r12)
+     7d5:	00 
+     7d6:	45 84 c9             	test   %r9b,%r9b
+     7d9:	0f 85 31 03 00 00    	jne    b10 <apicSetBase-0x770>
+     7df:	41 8b b4 24 9c 00 00 	mov    0x9c(%r12),%esi
+     7e6:	00 
+     7e7:	4c 89 e8             	mov    %r13,%rax
+     7ea:	0f b6 c4             	movzbl %ah,%eax
+     7ed:	83 e0 07             	and    $0x7,%eax
+     7f0:	41 89 c6             	mov    %eax,%r14d
+     7f3:	44 89 e8             	mov    %r13d,%eax
+     7f6:	c1 e8 12             	shr    $0x12,%eax
+     7f9:	83 e0 03             	and    $0x3,%eax
+     7fc:	83 f8 02             	cmp    $0x2,%eax
+     7ff:	0f 84 ab 03 00 00    	je     bb0 <apicSetBase-0x6d0>
+     805:	83 f8 03             	cmp    $0x3,%eax
+     808:	0f 84 e2 03 00 00    	je     bf0 <apicSetBase-0x690>
+     80e:	83 f8 01             	cmp    $0x1,%eax
+     811:	48 8d 45 b0          	lea    -0x50(%rbp),%rax
+     815:	48 89 45 a8          	mov    %rax,-0x58(%rbp)
+     819:	0f 84 b0 03 00 00    	je     bcf <apicSetBase-0x6b1>
+     81f:	44 89 ea             	mov    %r13d,%edx
+     822:	c1 ee 18             	shr    $0x18,%esi
+     825:	48 89 c1             	mov    %rax,%rcx
+     828:	c1 ea 0b             	shr    $0xb,%edx
+     82b:	4c 89 ff             	mov    %r15,%rdi
+     82e:	83 e2 01             	and    $0x1,%edx
+     831:	e8 1a f8 ff ff       	callq  50 <apicSetBase-0x1230>
+     836:	41 80 fe 05          	cmp    $0x5,%r14b
+     83a:	0f 84 08 03 00 00    	je     b48 <apicSetBase-0x738>
+     840:	41 80 fe 06          	cmp    $0x6,%r14b
+     844:	bb 40 0a 00 00       	mov    $0xa40,%ebx
+     849:	74 42                	je     88d <apicSetBase-0x9f3>
+     84b:	49 8b 47 28          	mov    0x28(%r15),%rax
+     84f:	49 8b 7f 20          	mov    0x20(%r15),%rdi
+     853:	be 01 00 00 00       	mov    $0x1,%esi
+     858:	ff 50 20             	callq  *0x20(%rax)
+     85b:	48 83 ec 08          	sub    $0x8,%rsp
+     85f:	48 8b 75 a8          	mov    -0x58(%rbp),%rsi
+     863:	45 89 e9             	mov    %r13d,%r9d
+     866:	45 89 e8             	mov    %r13d,%r8d
+     869:	50                   	push   %rax
+     86a:	41 c1 e9 0f          	shr    $0xf,%r9d
+     86e:	41 c1 e8 0e          	shr    $0xe,%r8d
+     872:	4c 89 ff             	mov    %r15,%rdi
+     875:	41 0f b6 cd          	movzbl %r13b,%ecx
+     879:	41 83 e1 01          	and    $0x1,%r9d
+     87d:	41 83 e0 01          	and    $0x1,%r8d
+     881:	44 89 f2             	mov    %r14d,%edx
+     884:	e8 f7 f9 ff ff       	callq  280 <apicSetBase-0x1000>
+     889:	5e                   	pop    %rsi
+     88a:	5f                   	pop    %rdi
+     88b:	89 c3                	mov    %eax,%ebx
+     88d:	49 8b 7f 38          	mov    0x38(%r15),%rdi
+     891:	e8 00 00 00 00       	callq  896 <apicSetBase-0x9ea>
+     896:	e9 45 fd ff ff       	jmpq   5e0 <apicSetBase-0xca0>
+     89b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+     8a0:	45 84 c9             	test   %r9b,%r9b
+     8a3:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     8a7:	44 89 c6             	mov    %r8d,%esi
+     8aa:	0f 85 88 fd ff ff    	jne    638 <apicSetBase-0xc48>
+     8b0:	e8 00 00 00 00       	callq  8b5 <apicSetBase-0x9cb>
+     8b5:	85 c0                	test   %eax,%eax
+     8b7:	89 c3                	mov    %eax,%ebx
+     8b9:	0f 85 21 fd ff ff    	jne    5e0 <apicSetBase-0xca0>
+     8bf:	45 89 ac 24 9c 00 00 	mov    %r13d,0x9c(%r12)
+     8c6:	00 
+     8c7:	eb c4                	jmp    88d <apicSetBase-0x9f3>
+     8c9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+     8d0:	48 8b be c8 00 00 00 	mov    0xc8(%rsi),%rdi
+     8d7:	44 89 c6             	mov    %r8d,%esi
+     8da:	44 89 45 a8          	mov    %r8d,-0x58(%rbp)
+     8de:	e8 00 00 00 00       	callq  8e3 <apicSetBase-0x99d>
+     8e3:	85 c0                	test   %eax,%eax
+     8e5:	89 c3                	mov    %eax,%ebx
+     8e7:	44 8b 45 a8          	mov    -0x58(%rbp),%r8d
+     8eb:	0f 85 ef fc ff ff    	jne    5e0 <apicSetBase-0xca0>
+     8f1:	49 8b 7f 38          	mov    0x38(%r15),%rdi
+     8f5:	44 89 c6             	mov    %r8d,%esi
+     8f8:	e8 00 00 00 00       	callq  8fd <apicSetBase-0x983>
+     8fd:	85 c0                	test   %eax,%eax
+     8ff:	89 c3                	mov    %eax,%ebx
+     901:	0f 85 29 02 00 00    	jne    b30 <apicSetBase-0x750>
+     907:	41 8b 5c 24 60       	mov    0x60(%r12),%ebx
+     90c:	45 89 6c 24 60       	mov    %r13d,0x60(%r12)
+     911:	89 d8                	mov    %ebx,%eax
+     913:	44 31 e8             	xor    %r13d,%eax
+     916:	a9 00 00 03 00       	test   $0x30000,%eax
+     91b:	0f 84 9f fc ff ff    	je     5c0 <apicSetBase-0xcc0>
+     921:	f7 c3 00 00 02 00    	test   $0x20000,%ebx
+     927:	74 35                	je     95e <apicSetBase-0x922>
+     929:	41 f7 c5 00 00 02 00 	test   $0x20000,%r13d
+     930:	75 2c                	jne    95e <apicSetBase-0x922>
+     932:	49 8b 84 24 b8 00 00 	mov    0xb8(%r12),%rax
+     939:	00 
+     93a:	49 2b 84 24 b0 00 00 	sub    0xb0(%r12),%rax
+     941:	00 
+     942:	41 8b 8c 24 a4 00 00 	mov    0xa4(%r12),%ecx
+     949:	00 
+     94a:	41 8b 94 24 a8 00 00 	mov    0xa8(%r12),%edx
+     951:	00 
+     952:	48 d3 e8             	shr    %cl,%rax
+     955:	48 39 d0             	cmp    %rdx,%rax
+     958:	0f 83 ab 03 00 00    	jae    d09 <apicSetBase-0x577>
+     95e:	41 f7 c5 00 00 01 00 	test   $0x10000,%r13d
+     965:	0f 85 55 fc ff ff    	jne    5c0 <apicSetBase-0xcc0>
+     96b:	41 80 bc 24 d4 00 00 	cmpb   $0x0,0xd4(%r12)
+     972:	00 00 
+     974:	0f 85 46 fc ff ff    	jne    5c0 <apicSetBase-0xcc0>
+     97a:	81 e3 00 00 01 00    	and    $0x10000,%ebx
+     980:	0f 84 3a fc ff ff    	je     5c0 <apicSetBase-0xcc0>
+     986:	41 8b 8c 24 a8 00 00 	mov    0xa8(%r12),%ecx
+     98d:	00 
+     98e:	85 c9                	test   %ecx,%ecx
+     990:	0f 84 2a fc ff ff    	je     5c0 <apicSetBase-0xcc0>
+     996:	41 81 e5 00 00 02 00 	and    $0x20000,%r13d
+     99d:	45 31 f6             	xor    %r14d,%r14d
+     9a0:	eb 48                	jmp    9ea <apicSetBase-0x896>
+     9a2:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+     9a8:	48 83 c6 01          	add    $0x1,%rsi
+     9ac:	31 d2                	xor    %edx,%edx
+     9ae:	48 f7 f6             	div    %rsi
+     9b1:	48 83 c0 01          	add    $0x1,%rax
+     9b5:	48 0f af c6          	imul   %rsi,%rax
+     9b9:	48 89 c3             	mov    %rax,%rbx
+     9bc:	48 89 d8             	mov    %rbx,%rax
+     9bf:	48 d3 e0             	shl    %cl,%rax
+     9c2:	48 8d 1c 38          	lea    (%rax,%rdi,1),%rbx
+     9c6:	49 8b bc 24 c8 00 00 	mov    0xc8(%r12),%rdi
+     9cd:	00 
+     9ce:	e8 00 00 00 00       	callq  9d3 <apicSetBase-0x8ad>
+     9d3:	48 39 c3             	cmp    %rax,%rbx
+     9d6:	0f 87 8b 02 00 00    	ja     c67 <apicSetBase-0x619>
+     9dc:	41 83 fe 0a          	cmp    $0xa,%r14d
+     9e0:	0f 87 81 02 00 00    	ja     c67 <apicSetBase-0x619>
+     9e6:	41 83 c6 01          	add    $0x1,%r14d
+     9ea:	49 8b bc 24 c8 00 00 	mov    0xc8(%r12),%rdi
+     9f1:	00 
+     9f2:	e8 00 00 00 00       	callq  9f7 <apicSetBase-0x889>
+     9f7:	49 8b bc 24 b0 00 00 	mov    0xb0(%r12),%rdi
+     9fe:	00 
+     9ff:	41 8b 8c 24 a4 00 00 	mov    0xa4(%r12),%ecx
+     a06:	00 
+     a07:	41 8b b4 24 a8 00 00 	mov    0xa8(%r12),%esi
+     a0e:	00 
+     a0f:	48 29 f8             	sub    %rdi,%rax
+     a12:	48 d3 e8             	shr    %cl,%rax
+     a15:	45 85 ed             	test   %r13d,%r13d
+     a18:	75 8e                	jne    9a8 <apicSetBase-0x8d8>
+     a1a:	48 39 f0             	cmp    %rsi,%rax
+     a1d:	0f 83 9d fb ff ff    	jae    5c0 <apicSetBase-0xcc0>
+     a23:	48 8d 5e 01          	lea    0x1(%rsi),%rbx
+     a27:	eb 93                	jmp    9bc <apicSetBase-0x8c4>
+     a29:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+     a30:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     a34:	44 89 c6             	mov    %r8d,%esi
+     a37:	e8 00 00 00 00       	callq  a3c <apicSetBase-0x844>
+     a3c:	85 c0                	test   %eax,%eax
+     a3e:	89 c3                	mov    %eax,%ebx
+     a40:	0f 85 9a fb ff ff    	jne    5e0 <apicSetBase-0xca0>
+     a46:	49 c1 ed 18          	shr    $0x18,%r13
+     a4a:	45 89 ac 24 80 00 00 	mov    %r13d,0x80(%r12)
+     a51:	00 
+     a52:	49 8b 7f 38          	mov    0x38(%r15),%rdi
+     a56:	e8 00 00 00 00       	callq  a5b <apicSetBase-0x825>
+     a5b:	e9 80 fb ff ff       	jmpq   5e0 <apicSetBase-0xca0>
+     a60:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     a64:	44 89 c6             	mov    %r8d,%esi
+     a67:	89 55 a8             	mov    %edx,-0x58(%rbp)
+     a6a:	e8 00 00 00 00       	callq  a6f <apicSetBase-0x811>
+     a6f:	85 c0                	test   %eax,%eax
+     a71:	89 c3                	mov    %eax,%ebx
+     a73:	8b 55 a8             	mov    -0x58(%rbp),%edx
+     a76:	0f 85 64 fb ff ff    	jne    5e0 <apicSetBase-0xca0>
+     a7c:	83 ea 32             	sub    $0x32,%edx
+     a7f:	45 89 6c 94 60       	mov    %r13d,0x60(%r12,%rdx,4)
+     a84:	49 8b 7f 38          	mov    0x38(%r15),%rdi
+     a88:	e8 00 00 00 00       	callq  a8d <apicSetBase-0x7f3>
+     a8d:	e9 4e fb ff ff       	jmpq   5e0 <apicSetBase-0xca0>
+     a92:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+     a98:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     a9c:	44 89 c6             	mov    %r8d,%esi
+     a9f:	e8 00 00 00 00       	callq  aa4 <apicSetBase-0x7dc>
+     aa4:	85 c0                	test   %eax,%eax
+     aa6:	89 c3                	mov    %eax,%ebx
+     aa8:	0f 85 32 fb ff ff    	jne    5e0 <apicSetBase-0xca0>
+     aae:	48 8d 7d b0          	lea    -0x50(%rbp),%rdi
+     ab2:	ba 20 00 00 00       	mov    $0x20,%edx
+     ab7:	31 f6                	xor    %esi,%esi
+     ab9:	e8 00 00 00 00       	callq  abe <apicSetBase-0x7c2>
+     abe:	41 8b 84 24 80 00 00 	mov    0x80(%r12),%eax
+     ac5:	00 
+     ac6:	0f ab 45 b0          	bts    %eax,-0x50(%rbp)
+     aca:	49 8b 47 28          	mov    0x28(%r15),%rax
+     ace:	49 8b 7f 20          	mov    0x20(%r15),%rdi
+     ad2:	be 01 00 00 00       	mov    $0x1,%esi
+     ad7:	ff 50 20             	callq  *0x20(%rax)
+     ada:	48 83 ec 08          	sub    $0x8,%rsp
+     ade:	48 8d 75 b0          	lea    -0x50(%rbp),%rsi
+     ae2:	31 d2                	xor    %edx,%edx
+     ae4:	50                   	push   %rax
+     ae5:	41 0f b6 cd          	movzbl %r13b,%ecx
+     ae9:	45 31 c9             	xor    %r9d,%r9d
+     aec:	45 31 c0             	xor    %r8d,%r8d
+     aef:	4c 89 ff             	mov    %r15,%rdi
+     af2:	e8 89 f7 ff ff       	callq  280 <apicSetBase-0x1000>
+     af7:	49 8b 7f 38          	mov    0x38(%r15),%rdi
+     afb:	89 c3                	mov    %eax,%ebx
+     afd:	e8 00 00 00 00       	callq  b02 <apicSetBase-0x77e>
+     b02:	58                   	pop    %rax
+     b03:	5a                   	pop    %rdx
+     b04:	e9 d7 fa ff ff       	jmpq   5e0 <apicSetBase-0xca0>
+     b09:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+     b10:	4c 89 e8             	mov    %r13,%rax
+     b13:	48 c1 e8 20          	shr    $0x20,%rax
+     b17:	89 c6                	mov    %eax,%esi
+     b19:	41 89 84 24 9c 00 00 	mov    %eax,0x9c(%r12)
+     b20:	00 
+     b21:	e9 c1 fc ff ff       	jmpq   7e7 <apicSetBase-0xa99>
+     b26:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)
+     b2d:	00 00 00 
+     b30:	49 8b bc 24 c8 00 00 	mov    0xc8(%r12),%rdi
+     b37:	00 
+     b38:	e8 00 00 00 00       	callq  b3d <apicSetBase-0x743>
+     b3d:	e9 9e fa ff ff       	jmpq   5e0 <apicSetBase-0xca0>
+     b42:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+     b48:	41 8b 94 24 98 00 00 	mov    0x98(%r12),%edx
+     b4f:	00 
+     b50:	89 d0                	mov    %edx,%eax
+     b52:	c1 ea 0f             	shr    $0xf,%edx
+     b55:	c1 e8 0e             	shr    $0xe,%eax
+     b58:	83 e0 01             	and    $0x1,%eax
+     b5b:	83 f0 01             	xor    $0x1,%eax
+     b5e:	85 d0                	test   %edx,%eax
+     b60:	0f 84 e5 fc ff ff    	je     84b <apicSetBase-0xa35>
+     b66:	41 8b 77 58          	mov    0x58(%r15),%esi
+     b6a:	31 c0                	xor    %eax,%eax
+     b6c:	49 8b 57 30          	mov    0x30(%r15),%rdx
+     b70:	85 f6                	test   %esi,%esi
+     b72:	74 2c                	je     ba0 <apicSetBase-0x6e0>
+     b74:	0f 1f 40 00          	nopl   0x0(%rax)
+     b78:	0f a3 45 b0          	bt     %eax,-0x50(%rbp)
+     b7c:	0f 92 c1             	setb   %cl
+     b7f:	83 e1 01             	and    $0x1,%ecx
+     b82:	84 c9                	test   %cl,%cl
+     b84:	74 0c                	je     b92 <apicSetBase-0x6ee>
+     b86:	8b 8a 80 00 00 00    	mov    0x80(%rdx),%ecx
+     b8c:	89 8a 88 00 00 00    	mov    %ecx,0x88(%rdx)
+     b92:	83 c0 01             	add    $0x1,%eax
+     b95:	48 81 c2 e8 04 00 00 	add    $0x4e8,%rdx
+     b9c:	39 f0                	cmp    %esi,%eax
+     b9e:	75 d8                	jne    b78 <apicSetBase-0x708>
+     ba0:	31 db                	xor    %ebx,%ebx
+     ba2:	e9 e6 fc ff ff       	jmpq   88d <apicSetBase-0x9f3>
+     ba7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     bae:	00 00 
+     bb0:	48 8d 45 b0          	lea    -0x50(%rbp),%rax
+     bb4:	ba 20 00 00 00       	mov    $0x20,%edx
+     bb9:	be ff 00 00 00       	mov    $0xff,%esi
+     bbe:	48 89 c7             	mov    %rax,%rdi
+     bc1:	48 89 45 a8          	mov    %rax,-0x58(%rbp)
+     bc5:	e8 00 00 00 00       	callq  bca <apicSetBase-0x6b6>
+     bca:	e9 67 fc ff ff       	jmpq   836 <apicSetBase-0xa4a>
+     bcf:	ba 20 00 00 00       	mov    $0x20,%edx
+     bd4:	31 f6                	xor    %esi,%esi
+     bd6:	48 89 c7             	mov    %rax,%rdi
+     bd9:	e8 00 00 00 00       	callq  bde <apicSetBase-0x6a2>
+     bde:	41 8b 84 24 80 00 00 	mov    0x80(%r12),%eax
+     be5:	00 
+     be6:	0f ab 45 b0          	bts    %eax,-0x50(%rbp)
+     bea:	e9 47 fc ff ff       	jmpq   836 <apicSetBase-0xa4a>
+     bef:	90                   	nop
+     bf0:	48 8d 45 b0          	lea    -0x50(%rbp),%rax
+     bf4:	ba 20 00 00 00       	mov    $0x20,%edx
+     bf9:	be ff 00 00 00       	mov    $0xff,%esi
+     bfe:	48 89 c7             	mov    %rax,%rdi
+     c01:	48 89 45 a8          	mov    %rax,-0x58(%rbp)
+     c05:	e8 00 00 00 00       	callq  c0a <apicSetBase-0x676>
+     c0a:	41 8b 84 24 80 00 00 	mov    0x80(%r12),%eax
+     c11:	00 
+     c12:	0f b3 45 b0          	btr    %eax,-0x50(%rbp)
+     c16:	e9 1b fc ff ff       	jmpq   836 <apicSetBase-0xa4a>
+     c1b:	41 0f b3 44 24 20    	btr    %eax,0x20(%r12)
+     c21:	49 8b 57 28          	mov    0x28(%r15),%rdx
+     c25:	0f b6 f0             	movzbl %al,%esi
+     c28:	49 8b 7f 20          	mov    0x20(%r15),%rdi
+     c2c:	ff 52 18             	callq  *0x18(%rdx)
+     c2f:	e9 70 fa ff ff       	jmpq   6a4 <apicSetBase-0xbdc>
+     c34:	49 8b bc 24 c8 00 00 	mov    0xc8(%r12),%rdi
+     c3b:	00 
+     c3c:	e8 00 00 00 00       	callq  c41 <apicSetBase-0x63f>
+     c41:	41 c6 84 24 d4 00 00 	movb   $0x0,0xd4(%r12)
+     c48:	00 00 
+     c4a:	41 c7 84 24 d8 00 00 	movl   $0x0,0xd8(%r12)
+     c51:	00 00 00 00 00 
+     c56:	41 c7 84 24 dc 00 00 	movl   $0x0,0xdc(%r12)
+     c5d:	00 00 00 00 00 
+     c62:	e9 44 f9 ff ff       	jmpq   5ab <apicSetBase-0xcd5>
+     c67:	49 8b bc 24 c8 00 00 	mov    0xc8(%r12),%rdi
+     c6e:	00 
+     c6f:	48 89 de             	mov    %rbx,%rsi
+     c72:	e8 00 00 00 00       	callq  c77 <apicSetBase-0x609>
+     c77:	41 8b 84 24 a8 00 00 	mov    0xa8(%r12),%eax
+     c7e:	00 
+     c7f:	41 39 84 24 d8 00 00 	cmp    %eax,0xd8(%r12)
+     c86:	00 
+     c87:	49 89 9c 24 b8 00 00 	mov    %rbx,0xb8(%r12)
+     c8e:	00 
+     c8f:	41 c6 84 24 d4 00 00 	movb   $0x1,0xd4(%r12)
+     c96:	00 01 
+     c98:	0f 84 9e 00 00 00    	je     d3c <apicSetBase-0x544>
+     c9e:	41 8b 8c 24 a4 00 00 	mov    0xa4(%r12),%ecx
+     ca5:	00 
+     ca6:	31 f6                	xor    %esi,%esi
+     ca8:	85 c0                	test   %eax,%eax
+     caa:	41 89 84 24 d8 00 00 	mov    %eax,0xd8(%r12)
+     cb1:	00 
+     cb2:	41 89 8c 24 dc 00 00 	mov    %ecx,0xdc(%r12)
+     cb9:	00 
+     cba:	0f 85 97 00 00 00    	jne    d57 <apicSetBase-0x529>
+     cc0:	49 8b bc 24 c8 00 00 	mov    0xc8(%r12),%rdi
+     cc7:	00 
+     cc8:	e8 00 00 00 00       	callq  ccd <apicSetBase-0x5b3>
+     ccd:	e9 ee f8 ff ff       	jmpq   5c0 <apicSetBase-0xcc0>
+     cd2:	41 8b 8c 24 a4 00 00 	mov    0xa4(%r12),%ecx
+     cd9:	00 
+     cda:	44 89 eb             	mov    %r13d,%ebx
+     cdd:	49 8b bc 24 c8 00 00 	mov    0xc8(%r12),%rdi
+     ce4:	00 
+     ce5:	48 83 c3 01          	add    $0x1,%rbx
+     ce9:	49 8d 94 24 b0 00 00 	lea    0xb0(%r12),%rdx
+     cf0:	00 
+     cf1:	48 d3 e3             	shl    %cl,%rbx
+     cf4:	48 89 de             	mov    %rbx,%rsi
+     cf7:	e8 00 00 00 00       	callq  cfc <apicSetBase-0x584>
+     cfc:	49 03 9c 24 b0 00 00 	add    0xb0(%r12),%rbx
+     d03:	00 
+     d04:	e9 6e ff ff ff       	jmpq   c77 <apicSetBase-0x609>
+     d09:	49 8b bc 24 c8 00 00 	mov    0xc8(%r12),%rdi
+     d10:	00 
+     d11:	e8 00 00 00 00       	callq  d16 <apicSetBase-0x56a>
+     d16:	41 c6 84 24 d4 00 00 	movb   $0x0,0xd4(%r12)
+     d1d:	00 00 
+     d1f:	41 c7 84 24 d8 00 00 	movl   $0x0,0xd8(%r12)
+     d26:	00 00 00 00 00 
+     d2b:	41 c7 84 24 dc 00 00 	movl   $0x0,0xdc(%r12)
+     d32:	00 00 00 00 00 
+     d37:	e9 22 fc ff ff       	jmpq   95e <apicSetBase-0x922>
+     d3c:	41 8b 8c 24 a4 00 00 	mov    0xa4(%r12),%ecx
+     d43:	00 
+     d44:	41 39 8c 24 dc 00 00 	cmp    %ecx,0xdc(%r12)
+     d4b:	00 
+     d4c:	0f 85 4c ff ff ff    	jne    c9e <apicSetBase-0x5e2>
+     d52:	e9 69 f8 ff ff       	jmpq   5c0 <apicSetBase-0xcc0>
+     d57:	49 8b bc 24 c8 00 00 	mov    0xc8(%r12),%rdi
+     d5e:	00 
+     d5f:	89 c3                	mov    %eax,%ebx
+     d61:	48 83 c3 01          	add    $0x1,%rbx
+     d65:	48 d3 e3             	shl    %cl,%rbx
+     d68:	e8 00 00 00 00       	callq  d6d <apicSetBase-0x513>
+     d6d:	31 d2                	xor    %edx,%edx
+     d6f:	48 f7 f3             	div    %rbx
+     d72:	89 c6                	mov    %eax,%esi
+     d74:	e9 47 ff ff ff       	jmpq   cc0 <apicSetBase-0x5c0>
+     d79:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+     d80:	55                   	push   %rbp
+     d81:	48 89 e5             	mov    %rsp,%rbp
+     d84:	41 56                	push   %r14
+     d86:	41 55                	push   %r13
+     d88:	41 54                	push   %r12
+     d8a:	53                   	push   %rbx
+     d8b:	49 89 fd             	mov    %rdi,%r13
+     d8e:	48 89 f3             	mov    %rsi,%rbx
+     d91:	49 89 cc             	mov    %rcx,%r12
+     d94:	48 83 ec 10          	sub    $0x10,%rsp
+     d98:	83 fa 3f             	cmp    $0x3f,%edx
+     d9b:	77 33                	ja     dd0 <apicSetBase-0x4b0>
+     d9d:	89 d0                	mov    %edx,%eax
+     d9f:	ff 24 c5 00 00 00 00 	jmpq   *0x0(,%rax,8)
+     da6:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)
+     dad:	00 00 00 
+     db0:	45 84 c9             	test   %r9b,%r9b
+     db3:	74 1b                	je     dd0 <apicSetBase-0x4b0>
+     db5:	49 c7 04 24 00 00 00 	movq   $0x0,(%r12)
+     dbc:	00 
+     dbd:	45 31 f6             	xor    %r14d,%r14d
+     dc0:	48 83 c4 10          	add    $0x10,%rsp
+     dc4:	44 89 f0             	mov    %r14d,%eax
+     dc7:	5b                   	pop    %rbx
+     dc8:	41 5c                	pop    %r12
+     dca:	41 5d                	pop    %r13
+     dcc:	41 5e                	pop    %r14
+     dce:	5d                   	pop    %rbp
+     dcf:	c3                   	retq   
+     dd0:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+     dd4:	44 89 c6             	mov    %r8d,%esi
+     dd7:	e8 00 00 00 00       	callq  ddc <apicSetBase-0x4a4>
+     ddc:	85 c0                	test   %eax,%eax
+     dde:	41 89 c6             	mov    %eax,%r14d
+     de1:	75 dd                	jne    dc0 <apicSetBase-0x4c0>
+     de3:	81 8b 94 00 00 00 80 	orl    $0x80,0x94(%rbx)
+     dea:	00 00 00 
+     ded:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+     df1:	e8 00 00 00 00       	callq  df6 <apicSetBase-0x48a>
+     df6:	49 c7 04 24 00 00 00 	movq   $0x0,(%r12)
+     dfd:	00 
+     dfe:	eb c0                	jmp    dc0 <apicSetBase-0x4c0>
+     e00:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     e04:	44 89 c6             	mov    %r8d,%esi
+     e07:	e8 00 00 00 00       	callq  e0c <apicSetBase-0x474>
+     e0c:	85 c0                	test   %eax,%eax
+     e0e:	41 89 c6             	mov    %eax,%r14d
+     e11:	75 ad                	jne    dc0 <apicSetBase-0x4c0>
+     e13:	44 8b 73 7c          	mov    0x7c(%rbx),%r14d
+     e17:	31 f6                	xor    %esi,%esi
+     e19:	48 89 df             	mov    %rbx,%rdi
+     e1c:	e8 df f1 ff ff       	callq  0 <apicSetBase-0x1280>
+     e21:	c1 f8 04             	sar    $0x4,%eax
+     e24:	41 c1 ee 04          	shr    $0x4,%r14d
+     e28:	89 c2                	mov    %eax,%edx
+     e2a:	c1 e2 04             	shl    $0x4,%edx
+     e2d:	41 39 c6             	cmp    %eax,%r14d
+     e30:	7c 03                	jl     e35 <apicSetBase-0x44b>
+     e32:	8b 53 7c             	mov    0x7c(%rbx),%edx
+     e35:	48 63 d2             	movslq %edx,%rdx
+     e38:	45 31 f6             	xor    %r14d,%r14d
+     e3b:	49 89 14 24          	mov    %rdx,(%r12)
+     e3f:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+     e43:	e8 00 00 00 00       	callq  e48 <apicSetBase-0x438>
+     e48:	e9 73 ff ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+     e4d:	0f 1f 00             	nopl   (%rax)
+     e50:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     e54:	44 89 c6             	mov    %r8d,%esi
+     e57:	e8 00 00 00 00       	callq  e5c <apicSetBase-0x424>
+     e5c:	85 c0                	test   %eax,%eax
+     e5e:	41 89 c6             	mov    %eax,%r14d
+     e61:	0f 85 59 ff ff ff    	jne    dc0 <apicSetBase-0x4c0>
+     e67:	8b 43 7c             	mov    0x7c(%rbx),%eax
+     e6a:	49 89 04 24          	mov    %rax,(%r12)
+     e6e:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+     e72:	e8 00 00 00 00       	callq  e77 <apicSetBase-0x409>
+     e77:	e9 44 ff ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+     e7c:	0f 1f 40 00          	nopl   0x0(%rax)
+     e80:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     e84:	44 89 c6             	mov    %r8d,%esi
+     e87:	e8 00 00 00 00       	callq  e8c <apicSetBase-0x3f4>
+     e8c:	85 c0                	test   %eax,%eax
+     e8e:	41 89 c6             	mov    %eax,%r14d
+     e91:	0f 85 29 ff ff ff    	jne    dc0 <apicSetBase-0x4c0>
+     e97:	49 c7 04 24 14 00 05 	movq   $0x50014,(%r12)
+     e9e:	00 
+     e9f:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+     ea3:	e8 00 00 00 00       	callq  ea8 <apicSetBase-0x3d8>
+     ea8:	e9 13 ff ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+     ead:	0f 1f 00             	nopl   (%rax)
+     eb0:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     eb4:	44 89 c6             	mov    %r8d,%esi
+     eb7:	e8 00 00 00 00       	callq  ebc <apicSetBase-0x3c4>
+     ebc:	85 c0                	test   %eax,%eax
+     ebe:	41 89 c6             	mov    %eax,%r14d
+     ec1:	0f 85 f9 fe ff ff    	jne    dc0 <apicSetBase-0x4c0>
+     ec7:	8b 83 80 00 00 00    	mov    0x80(%rbx),%eax
+     ecd:	c1 e0 18             	shl    $0x18,%eax
+     ed0:	49 89 04 24          	mov    %rax,(%r12)
+     ed4:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+     ed8:	e8 00 00 00 00       	callq  edd <apicSetBase-0x3a3>
+     edd:	e9 de fe ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+     ee2:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+     ee8:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     eec:	44 89 c6             	mov    %r8d,%esi
+     eef:	e8 00 00 00 00       	callq  ef4 <apicSetBase-0x38c>
+     ef4:	85 c0                	test   %eax,%eax
+     ef6:	41 89 c6             	mov    %eax,%r14d
+     ef9:	0f 85 c1 fe ff ff    	jne    dc0 <apicSetBase-0x4c0>
+     eff:	8b 83 a0 00 00 00    	mov    0xa0(%rbx),%eax
+     f05:	49 89 04 24          	mov    %rax,(%r12)
+     f09:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+     f0d:	e8 00 00 00 00       	callq  f12 <apicSetBase-0x36e>
+     f12:	e9 a9 fe ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+     f17:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     f1e:	00 00 
+     f20:	48 8b be c8 00 00 00 	mov    0xc8(%rsi),%rdi
+     f27:	44 89 c6             	mov    %r8d,%esi
+     f2a:	44 89 45 dc          	mov    %r8d,-0x24(%rbp)
+     f2e:	e8 00 00 00 00       	callq  f33 <apicSetBase-0x34d>
+     f33:	85 c0                	test   %eax,%eax
+     f35:	41 89 c6             	mov    %eax,%r14d
+     f38:	44 8b 45 dc          	mov    -0x24(%rbp),%r8d
+     f3c:	0f 85 7e fe ff ff    	jne    dc0 <apicSetBase-0x4c0>
+     f42:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+     f46:	44 89 c6             	mov    %r8d,%esi
+     f49:	e8 00 00 00 00       	callq  f4e <apicSetBase-0x332>
+     f4e:	85 c0                	test   %eax,%eax
+     f50:	41 89 c6             	mov    %eax,%r14d
+     f53:	48 8b bb c8 00 00 00 	mov    0xc8(%rbx),%rdi
+     f5a:	0f 85 ff 02 00 00    	jne    125f <apicSetBase-0x21>
+     f60:	e8 00 00 00 00       	callq  f65 <apicSetBase-0x31b>
+     f65:	48 2b 83 b0 00 00 00 	sub    0xb0(%rbx),%rax
+     f6c:	8b 8b a4 00 00 00    	mov    0xa4(%rbx),%ecx
+     f72:	8b b3 a8 00 00 00    	mov    0xa8(%rbx),%esi
+     f78:	48 d3 e8             	shr    %cl,%rax
+     f7b:	f6 43 62 02          	testb  $0x2,0x62(%rbx)
+     f7f:	48 89 f1             	mov    %rsi,%rcx
+     f82:	0f 85 e1 02 00 00    	jne    1269 <apicSetBase-0x17>
+     f88:	29 c1                	sub    %eax,%ecx
+     f8a:	48 39 f0             	cmp    %rsi,%rax
+     f8d:	b8 00 00 00 00       	mov    $0x0,%eax
+     f92:	48 0f 4c c1          	cmovl  %rcx,%rax
+     f96:	48 89 c2             	mov    %rax,%rdx
+     f99:	49 89 14 24          	mov    %rdx,(%r12)
+     f9d:	48 8b bb c8 00 00 00 	mov    0xc8(%rbx),%rdi
+     fa4:	e8 00 00 00 00       	callq  fa9 <apicSetBase-0x2d7>
+     fa9:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+     fad:	45 31 f6             	xor    %r14d,%r14d
+     fb0:	e8 00 00 00 00       	callq  fb5 <apicSetBase-0x2cb>
+     fb5:	e9 06 fe ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+     fba:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+     fc0:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     fc4:	44 89 c6             	mov    %r8d,%esi
+     fc7:	e8 00 00 00 00       	callq  fcc <apicSetBase-0x2b4>
+     fcc:	85 c0                	test   %eax,%eax
+     fce:	41 89 c6             	mov    %eax,%r14d
+     fd1:	0f 85 e9 fd ff ff    	jne    dc0 <apicSetBase-0x4c0>
+     fd7:	8b 83 a8 00 00 00    	mov    0xa8(%rbx),%eax
+     fdd:	49 89 04 24          	mov    %rax,(%r12)
+     fe1:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+     fe5:	e8 00 00 00 00       	callq  fea <apicSetBase-0x296>
+     fea:	e9 d1 fd ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+     fef:	90                   	nop
+     ff0:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+     ff4:	44 89 c6             	mov    %r8d,%esi
+     ff7:	89 55 dc             	mov    %edx,-0x24(%rbp)
+     ffa:	e8 00 00 00 00       	callq  fff <apicSetBase-0x281>
+     fff:	85 c0                	test   %eax,%eax
+    1001:	41 89 c6             	mov    %eax,%r14d
+    1004:	8b 55 dc             	mov    -0x24(%rbp),%edx
+    1007:	0f 85 b3 fd ff ff    	jne    dc0 <apicSetBase-0x4c0>
+    100d:	83 ea 32             	sub    $0x32,%edx
+    1010:	48 83 c2 18          	add    $0x18,%rdx
+    1014:	8b 04 93             	mov    (%rbx,%rdx,4),%eax
+    1017:	49 89 04 24          	mov    %rax,(%r12)
+    101b:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+    101f:	e8 00 00 00 00       	callq  1024 <apicSetBase-0x25c>
+    1024:	e9 97 fd ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+    1029:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+    1030:	45 84 c9             	test   %r9b,%r9b
+    1033:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+    1037:	44 89 c6             	mov    %r8d,%esi
+    103a:	0f 85 97 fd ff ff    	jne    dd7 <apicSetBase-0x4a9>
+    1040:	e8 00 00 00 00       	callq  1045 <apicSetBase-0x23b>
+    1045:	85 c0                	test   %eax,%eax
+    1047:	41 89 c6             	mov    %eax,%r14d
+    104a:	0f 85 70 fd ff ff    	jne    dc0 <apicSetBase-0x4c0>
+    1050:	8b 83 9c 00 00 00    	mov    0x9c(%rbx),%eax
+    1056:	49 89 04 24          	mov    %rax,(%r12)
+    105a:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+    105e:	e8 00 00 00 00       	callq  1063 <apicSetBase-0x21d>
+    1063:	e9 58 fd ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+    1068:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+    106f:	00 
+    1070:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+    1074:	44 89 c6             	mov    %r8d,%esi
+    1077:	44 89 4d dc          	mov    %r9d,-0x24(%rbp)
+    107b:	e8 00 00 00 00       	callq  1080 <apicSetBase-0x200>
+    1080:	85 c0                	test   %eax,%eax
+    1082:	41 89 c6             	mov    %eax,%r14d
+    1085:	0f 85 35 fd ff ff    	jne    dc0 <apicSetBase-0x4c0>
+    108b:	44 8b 4d dc          	mov    -0x24(%rbp),%r9d
+    108f:	45 84 c9             	test   %r9b,%r9b
+    1092:	0f 84 b8 01 00 00    	je     1250 <apicSetBase-0x30>
+    1098:	8b 83 9c 00 00 00    	mov    0x9c(%rbx),%eax
+    109e:	48 c1 e0 20          	shl    $0x20,%rax
+    10a2:	48 89 c2             	mov    %rax,%rdx
+    10a5:	8b 83 98 00 00 00    	mov    0x98(%rbx),%eax
+    10ab:	48 09 d0             	or     %rdx,%rax
+    10ae:	49 89 04 24          	mov    %rax,(%r12)
+    10b2:	e9 f2 fe ff ff       	jmpq   fa9 <apicSetBase-0x2d7>
+    10b7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    10be:	00 00 
+    10c0:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+    10c4:	44 89 c6             	mov    %r8d,%esi
+    10c7:	e8 00 00 00 00       	callq  10cc <apicSetBase-0x1b4>
+    10cc:	85 c0                	test   %eax,%eax
+    10ce:	41 89 c6             	mov    %eax,%r14d
+    10d1:	0f 85 e9 fc ff ff    	jne    dc0 <apicSetBase-0x4c0>
+    10d7:	8b 83 94 00 00 00    	mov    0x94(%rbx),%eax
+    10dd:	49 89 04 24          	mov    %rax,(%r12)
+    10e1:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+    10e5:	e8 00 00 00 00       	callq  10ea <apicSetBase-0x196>
+    10ea:	e9 d1 fc ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+    10ef:	90                   	nop
+    10f0:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+    10f4:	44 89 c6             	mov    %r8d,%esi
+    10f7:	e8 00 00 00 00       	callq  10fc <apicSetBase-0x184>
+    10fc:	85 c0                	test   %eax,%eax
+    10fe:	41 89 c6             	mov    %eax,%r14d
+    1101:	0f 85 b9 fc ff ff    	jne    dc0 <apicSetBase-0x4c0>
+    1107:	8b 83 8c 00 00 00    	mov    0x8c(%rbx),%eax
+    110d:	49 89 04 24          	mov    %rax,(%r12)
+    1111:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+    1115:	e8 00 00 00 00       	callq  111a <apicSetBase-0x166>
+    111a:	e9 a1 fc ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+    111f:	90                   	nop
+    1120:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+    1124:	44 89 c6             	mov    %r8d,%esi
+    1127:	e8 00 00 00 00       	callq  112c <apicSetBase-0x154>
+    112c:	85 c0                	test   %eax,%eax
+    112e:	41 89 c6             	mov    %eax,%r14d
+    1131:	0f 85 89 fc ff ff    	jne    dc0 <apicSetBase-0x4c0>
+    1137:	0f b6 83 91 00 00 00 	movzbl 0x91(%rbx),%eax
+    113e:	48 c1 e0 1c          	shl    $0x1c,%rax
+    1142:	48 0d ff ff ff 0f    	or     $0xfffffff,%rax
+    1148:	49 89 04 24          	mov    %rax,(%r12)
+    114c:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+    1150:	e8 00 00 00 00       	callq  1155 <apicSetBase-0x12b>
+    1155:	e9 66 fc ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+    115a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+    1160:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+    1164:	44 89 c6             	mov    %r8d,%esi
+    1167:	e8 00 00 00 00       	callq  116c <apicSetBase-0x114>
+    116c:	85 c0                	test   %eax,%eax
+    116e:	41 89 c6             	mov    %eax,%r14d
+    1171:	0f 85 49 fc ff ff    	jne    dc0 <apicSetBase-0x4c0>
+    1177:	0f b6 83 90 00 00 00 	movzbl 0x90(%rbx),%eax
+    117e:	48 c1 e0 18          	shl    $0x18,%rax
+    1182:	49 89 04 24          	mov    %rax,(%r12)
+    1186:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+    118a:	e8 00 00 00 00       	callq  118f <apicSetBase-0xf1>
+    118f:	e9 2c fc ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+    1194:	0f 1f 40 00          	nopl   0x0(%rax)
+    1198:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+    119c:	44 89 c6             	mov    %r8d,%esi
+    119f:	89 55 dc             	mov    %edx,-0x24(%rbp)
+    11a2:	e8 00 00 00 00       	callq  11a7 <apicSetBase-0xd9>
+    11a7:	85 c0                	test   %eax,%eax
+    11a9:	41 89 c6             	mov    %eax,%r14d
+    11ac:	8b 55 dc             	mov    -0x24(%rbp),%edx
+    11af:	0f 85 0b fc ff ff    	jne    dc0 <apicSetBase-0x4c0>
+    11b5:	83 e2 07             	and    $0x7,%edx
+    11b8:	48 83 c2 08          	add    $0x8,%rdx
+    11bc:	8b 04 93             	mov    (%rbx,%rdx,4),%eax
+    11bf:	49 89 04 24          	mov    %rax,(%r12)
+    11c3:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+    11c7:	e8 00 00 00 00       	callq  11cc <apicSetBase-0xb4>
+    11cc:	e9 ef fb ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+    11d1:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+    11d8:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+    11dc:	44 89 c6             	mov    %r8d,%esi
+    11df:	89 55 dc             	mov    %edx,-0x24(%rbp)
+    11e2:	e8 00 00 00 00       	callq  11e7 <apicSetBase-0x99>
+    11e7:	85 c0                	test   %eax,%eax
+    11e9:	41 89 c6             	mov    %eax,%r14d
+    11ec:	8b 55 dc             	mov    -0x24(%rbp),%edx
+    11ef:	0f 85 cb fb ff ff    	jne    dc0 <apicSetBase-0x4c0>
+    11f5:	83 e2 07             	and    $0x7,%edx
+    11f8:	8b 04 93             	mov    (%rbx,%rdx,4),%eax
+    11fb:	49 89 04 24          	mov    %rax,(%r12)
+    11ff:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+    1203:	e8 00 00 00 00       	callq  1208 <apicSetBase-0x78>
+    1208:	e9 b3 fb ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+    120d:	0f 1f 00             	nopl   (%rax)
+    1210:	48 8b 7f 38          	mov    0x38(%rdi),%rdi
+    1214:	44 89 c6             	mov    %r8d,%esi
+    1217:	89 55 dc             	mov    %edx,-0x24(%rbp)
+    121a:	e8 00 00 00 00       	callq  121f <apicSetBase-0x61>
+    121f:	85 c0                	test   %eax,%eax
+    1221:	41 89 c6             	mov    %eax,%r14d
+    1224:	8b 55 dc             	mov    -0x24(%rbp),%edx
+    1227:	0f 85 93 fb ff ff    	jne    dc0 <apicSetBase-0x4c0>
+    122d:	83 e2 07             	and    $0x7,%edx
+    1230:	48 83 c2 10          	add    $0x10,%rdx
+    1234:	8b 04 93             	mov    (%rbx,%rdx,4),%eax
+    1237:	49 89 04 24          	mov    %rax,(%r12)
+    123b:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+    123f:	e8 00 00 00 00       	callq  1244 <apicSetBase-0x3c>
+    1244:	e9 77 fb ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+    1249:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+    1250:	8b 83 98 00 00 00    	mov    0x98(%rbx),%eax
+    1256:	49 89 04 24          	mov    %rax,(%r12)
+    125a:	e9 4a fd ff ff       	jmpq   fa9 <apicSetBase-0x2d7>
+    125f:	e8 00 00 00 00       	callq  1264 <apicSetBase-0x1c>
+    1264:	e9 57 fb ff ff       	jmpq   dc0 <apicSetBase-0x4c0>
+    1269:	48 83 c6 01          	add    $0x1,%rsi
+    126d:	31 d2                	xor    %edx,%edx
+    126f:	48 f7 f6             	div    %rsi
+    1272:	89 c8                	mov    %ecx,%eax
+    1274:	29 d0                	sub    %edx,%eax
+    1276:	48 89 c2             	mov    %rax,%rdx
+    1279:	e9 1b fd ff ff       	jmpq   f99 <apicSetBase-0x2e7>
+    127e:	66 90                	xchg   %ax,%ax
+
+0000000000001280 <apicSetBase>:
+    1280:	55                   	push   %rbp
+    1281:	48 89 e5             	mov    %rsp,%rbp
+    1284:	41 54                	push   %r12
+    1286:	53                   	push   %rbx
+    1287:	39 b7 58 01 00 00    	cmp    %esi,0x158(%rdi)
+    128d:	49 89 fc             	mov    %rdi,%r12
+    1290:	89 f3                	mov    %esi,%ebx
+    1292:	48 8b 8f 30 01 00 00 	mov    0x130(%rdi),%rcx
+    1299:	0f 86 c1 00 00 00    	jbe    1360 <apicSetBase+0xe0>
+    129f:	89 f0                	mov    %esi,%eax
+    12a1:	be 02 00 00 00       	mov    $0x2,%esi
+    12a6:	48 69 c0 e8 04 00 00 	imul   $0x4e8,%rax,%rax
+    12ad:	48 01 c8             	add    %rcx,%rax
+    12b0:	8b 48 78             	mov    0x78(%rax),%ecx
+    12b3:	89 cf                	mov    %ecx,%edi
+    12b5:	c1 ef 0a             	shr    $0xa,%edi
+    12b8:	83 e7 03             	and    $0x3,%edi
+    12bb:	83 ff 02             	cmp    $0x2,%edi
+    12be:	74 0d                	je     12cd <apicSetBase+0x4d>
+    12c0:	31 f6                	xor    %esi,%esi
+    12c2:	83 ff 03             	cmp    $0x3,%edi
+    12c5:	40 0f 94 c6          	sete   %sil
+    12c9:	8d 74 36 01          	lea    0x1(%rsi,%rsi,1),%esi
+    12cd:	45 8b 84 24 50 01 00 	mov    0x150(%r12),%r8d
+    12d4:	00 
+    12d5:	bf 00 f8 ff ff       	mov    $0xfffff800,%edi
+    12da:	41 83 f8 02          	cmp    $0x2,%r8d
+    12de:	74 12                	je     12f2 <apicSetBase+0x72>
+    12e0:	41 83 f8 03          	cmp    $0x3,%r8d
+    12e4:	66 bf 00 fc          	mov    $0xfc00,%di
+    12e8:	41 b8 00 f0 ff ff    	mov    $0xfffff000,%r8d
+    12ee:	41 0f 45 f8          	cmovne %r8d,%edi
+    12f2:	21 fa                	and    %edi,%edx
+    12f4:	81 e1 00 01 00 00    	and    $0x100,%ecx
+    12fa:	09 ca                	or     %ecx,%edx
+    12fc:	89 50 78             	mov    %edx,0x78(%rax)
+    12ff:	c1 ea 0a             	shr    $0xa,%edx
+    1302:	83 e2 03             	and    $0x3,%edx
+    1305:	83 ea 02             	sub    $0x2,%edx
+    1308:	83 fa 01             	cmp    $0x1,%edx
+    130b:	0f 86 87 00 00 00    	jbe    1398 <apicSetBase+0x118>
+    1311:	83 fe 01             	cmp    $0x1,%esi
+    1314:	0f 84 7e 00 00 00    	je     1398 <apicSetBase+0x118>
+    131a:	81 a0 8c 00 00 00 ff 	andl   $0xfffffeff,0x8c(%rax)
+    1321:	fe ff ff 
+    1324:	8b 90 84 00 00 00    	mov    0x84(%rax),%edx
+    132a:	be 01 00 00 00       	mov    $0x1,%esi
+    132f:	49 8b 8c 24 28 01 00 	mov    0x128(%r12),%rcx
+    1336:	00 
+    1337:	49 8b bc 24 20 01 00 	mov    0x120(%r12),%rdi
+    133e:	00 
+    133f:	ff 51 10             	callq  *0x10(%rcx)
+    1342:	49 8b 84 24 28 01 00 	mov    0x128(%r12),%rax
+    1349:	00 
+    134a:	4c 89 e7             	mov    %r12,%rdi
+    134d:	be 01 00 00 00       	mov    $0x1,%esi
+    1352:	5b                   	pop    %rbx
+    1353:	41 5c                	pop    %r12
+    1355:	5d                   	pop    %rbp
+    1356:	48 8b 40 28          	mov    0x28(%rax),%rax
+    135a:	ff e0                	jmpq   *%rax
+    135c:	0f 1f 40 00          	nopl   0x0(%rax)
+    1360:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    1367:	48 c7 c2 00 00 00 00 	mov    $0x0,%rdx
+    136e:	be b1 01 00 00       	mov    $0x1b1,%esi
+    1373:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    137a:	e8 00 00 00 00       	callq  137f <apicSetBase+0xff>
+    137f:	89 de                	mov    %ebx,%esi
+    1381:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    1388:	31 c0                	xor    %eax,%eax
+    138a:	e8 00 00 00 00       	callq  138f <apicSetBase+0x10f>
+    138f:	e8 00 00 00 00       	callq  1394 <apicSetBase+0x114>
+    1394:	cc                   	int3   
+    1395:	90                   	nop
+    1396:	eb c8                	jmp    1360 <apicSetBase+0xe0>
+    1398:	5b                   	pop    %rbx
+    1399:	41 5c                	pop    %r12
+    139b:	5d                   	pop    %rbp
+    139c:	c3                   	retq   
+    139d:	0f 1f 00             	nopl   (%rax)
+
+00000000000013a0 <apicGetBase>:
+    13a0:	55                   	push   %rbp
+    13a1:	48 89 e5             	mov    %rsp,%rbp
+    13a4:	53                   	push   %rbx
+    13a5:	89 f3                	mov    %esi,%ebx
+    13a7:	48 83 ec 08          	sub    $0x8,%rsp
+    13ab:	39 b7 58 01 00 00    	cmp    %esi,0x158(%rdi)
+    13b1:	48 8b 97 30 01 00 00 	mov    0x130(%rdi),%rdx
+    13b8:	76 16                	jbe    13d0 <apicGetBase+0x30>
+    13ba:	89 f0                	mov    %esi,%eax
+    13bc:	48 69 c0 e8 04 00 00 	imul   $0x4e8,%rax,%rax
+    13c3:	8b 44 02 78          	mov    0x78(%rdx,%rax,1),%eax
+    13c7:	48 83 c4 08          	add    $0x8,%rsp
+    13cb:	5b                   	pop    %rbx
+    13cc:	5d                   	pop    %rbp
+    13cd:	c3                   	retq   
+    13ce:	66 90                	xchg   %ax,%ax
+    13d0:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    13d7:	48 c7 c2 00 00 00 00 	mov    $0x0,%rdx
+    13de:	be b1 01 00 00       	mov    $0x1b1,%esi
+    13e3:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    13ea:	e8 00 00 00 00       	callq  13ef <apicGetBase+0x4f>
+    13ef:	89 de                	mov    %ebx,%esi
+    13f1:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    13f8:	31 c0                	xor    %eax,%eax
+    13fa:	e8 00 00 00 00       	callq  13ff <apicGetBase+0x5f>
+    13ff:	e8 00 00 00 00       	callq  1404 <apicGetBase+0x64>
+    1404:	cc                   	int3   
+    1405:	90                   	nop
+    1406:	eb c8                	jmp    13d0 <apicGetBase+0x30>
+    1408:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+    140f:	00 
+
+0000000000001410 <apicSetTPR>:
+    1410:	55                   	push   %rbp
+    1411:	48 89 f8             	mov    %rdi,%rax
+    1414:	48 8d bf 00 01 00 00 	lea    0x100(%rdi),%rdi
+    141b:	48 89 e5             	mov    %rsp,%rbp
+    141e:	53                   	push   %rbx
+    141f:	89 f3                	mov    %esi,%ebx
+    1421:	48 83 ec 08          	sub    $0x8,%rsp
+    1425:	39 98 58 01 00 00    	cmp    %ebx,0x158(%rax)
+    142b:	48 8b b0 30 01 00 00 	mov    0x130(%rax),%rsi
+    1432:	76 1c                	jbe    1450 <apicSetTPR+0x40>
+    1434:	89 d8                	mov    %ebx,%eax
+    1436:	48 83 c4 08          	add    $0x8,%rsp
+    143a:	0f b6 d2             	movzbl %dl,%edx
+    143d:	48 69 c0 e8 04 00 00 	imul   $0x4e8,%rax,%rax
+    1444:	5b                   	pop    %rbx
+    1445:	5d                   	pop    %rbp
+    1446:	48 01 c6             	add    %rax,%rsi
+    1449:	e9 c2 ed ff ff       	jmpq   210 <apicSetBase-0x1070>
+    144e:	66 90                	xchg   %ax,%ax
+    1450:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    1457:	48 c7 c2 00 00 00 00 	mov    $0x0,%rdx
+    145e:	be b1 01 00 00       	mov    $0x1b1,%esi
+    1463:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    146a:	e8 00 00 00 00       	callq  146f <apicSetTPR+0x5f>
+    146f:	89 de                	mov    %ebx,%esi
+    1471:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    1478:	31 c0                	xor    %eax,%eax
+    147a:	e8 00 00 00 00       	callq  147f <apicSetTPR+0x6f>
+    147f:	e8 00 00 00 00       	callq  1484 <apicSetTPR+0x74>
+    1484:	cc                   	int3   
+    1485:	90                   	nop
+    1486:	eb c8                	jmp    1450 <apicSetTPR+0x40>
+    1488:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+    148f:	00 
+
+0000000000001490 <apicGetTPR>:
+    1490:	55                   	push   %rbp
+    1491:	48 89 e5             	mov    %rsp,%rbp
+    1494:	53                   	push   %rbx
+    1495:	89 f3                	mov    %esi,%ebx
+    1497:	48 83 ec 08          	sub    $0x8,%rsp
+    149b:	39 b7 58 01 00 00    	cmp    %esi,0x158(%rdi)
+    14a1:	48 8b 97 30 01 00 00 	mov    0x130(%rdi),%rdx
+    14a8:	76 16                	jbe    14c0 <apicGetTPR+0x30>
+    14aa:	89 f0                	mov    %esi,%eax
+    14ac:	48 69 c0 e8 04 00 00 	imul   $0x4e8,%rax,%rax
+    14b3:	8b 44 02 7c          	mov    0x7c(%rdx,%rax,1),%eax
+    14b7:	48 83 c4 08          	add    $0x8,%rsp
+    14bb:	5b                   	pop    %rbx
+    14bc:	5d                   	pop    %rbp
+    14bd:	c3                   	retq   
+    14be:	66 90                	xchg   %ax,%ax
+    14c0:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    14c7:	48 c7 c2 00 00 00 00 	mov    $0x0,%rdx
+    14ce:	be b1 01 00 00       	mov    $0x1b1,%esi
+    14d3:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    14da:	e8 00 00 00 00       	callq  14df <apicGetTPR+0x4f>
+    14df:	89 de                	mov    %ebx,%esi
+    14e1:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    14e8:	31 c0                	xor    %eax,%eax
+    14ea:	e8 00 00 00 00       	callq  14ef <apicGetTPR+0x5f>
+    14ef:	e8 00 00 00 00       	callq  14f4 <apicGetTPR+0x64>
+    14f4:	cc                   	int3   
+    14f5:	90                   	nop
+    14f6:	eb c8                	jmp    14c0 <apicGetTPR+0x30>
+    14f8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+    14ff:	00 
+
+0000000000001500 <apicGetTimerFreq>:
+    1500:	8b 97 58 01 00 00    	mov    0x158(%rdi),%edx
+    1506:	48 8b 87 30 01 00 00 	mov    0x130(%rdi),%rax
+    150d:	85 d2                	test   %edx,%edx
+    150f:	74 0c                	je     151d <apicGetTimerFreq+0x1d>
+    1511:	48 8b b8 c8 00 00 00 	mov    0xc8(%rax),%rdi
+    1518:	e9 00 00 00 00       	jmpq   151d <apicGetTimerFreq+0x1d>
+    151d:	55                   	push   %rbp
+    151e:	48 89 e5             	mov    %rsp,%rbp
+    1521:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+    1528:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    152f:	48 c7 c2 00 00 00 00 	mov    $0x0,%rdx
+    1536:	be b1 01 00 00       	mov    $0x1b1,%esi
+    153b:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    1542:	e8 00 00 00 00       	callq  1547 <apicGetTimerFreq+0x47>
+    1547:	31 f6                	xor    %esi,%esi
+    1549:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    1550:	31 c0                	xor    %eax,%eax
+    1552:	e8 00 00 00 00       	callq  1557 <apicGetTimerFreq+0x57>
+    1557:	e8 00 00 00 00       	callq  155c <apicGetTimerFreq+0x5c>
+    155c:	cc                   	int3   
+    155d:	90                   	nop
+    155e:	eb c8                	jmp    1528 <apicGetTimerFreq+0x28>
+
+0000000000001560 <apicWriteMSR>:
+    1560:	48 89 f8             	mov    %rdi,%rax
+    1563:	48 8d bf 00 01 00 00 	lea    0x100(%rdi),%rdi
+    156a:	83 b8 50 01 00 00 02 	cmpl   $0x2,0x150(%rax)
+    1571:	7e 75                	jle    15e8 <apicWriteMSR+0x88>
+    1573:	55                   	push   %rbp
+    1574:	48 89 e5             	mov    %rsp,%rbp
+    1577:	53                   	push   %rbx
+    1578:	89 f3                	mov    %esi,%ebx
+    157a:	48 83 ec 08          	sub    $0x8,%rsp
+    157e:	39 98 58 01 00 00    	cmp    %ebx,0x158(%rax)
+    1584:	48 8b b0 30 01 00 00 	mov    0x130(%rax),%rsi
+    158b:	76 23                	jbe    15b0 <apicWriteMSR+0x50>
+    158d:	89 d8                	mov    %ebx,%eax
+    158f:	48 83 c4 08          	add    $0x8,%rsp
+    1593:	0f b6 d2             	movzbl %dl,%edx
+    1596:	48 69 c0 e8 04 00 00 	imul   $0x4e8,%rax,%rax
+    159d:	41 b9 01 00 00 00    	mov    $0x1,%r9d
+    15a3:	45 31 c0             	xor    %r8d,%r8d
+    15a6:	5b                   	pop    %rbx
+    15a7:	5d                   	pop    %rbp
+    15a8:	48 01 c6             	add    %rax,%rsi
+    15ab:	e9 70 ef ff ff       	jmpq   520 <apicSetBase-0xd60>
+    15b0:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    15b7:	48 c7 c2 00 00 00 00 	mov    $0x0,%rdx
+    15be:	be b1 01 00 00       	mov    $0x1b1,%esi
+    15c3:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    15ca:	e8 00 00 00 00       	callq  15cf <apicWriteMSR+0x6f>
+    15cf:	89 de                	mov    %ebx,%esi
+    15d1:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    15d8:	31 c0                	xor    %eax,%eax
+    15da:	e8 00 00 00 00       	callq  15df <apicWriteMSR+0x7f>
+    15df:	e8 00 00 00 00       	callq  15e4 <apicWriteMSR+0x84>
+    15e4:	cc                   	int3   
+    15e5:	90                   	nop
+    15e6:	eb c8                	jmp    15b0 <apicWriteMSR+0x50>
+    15e8:	b8 84 fb ff ff       	mov    $0xfffffb84,%eax
+    15ed:	c3                   	retq   
+    15ee:	66 90                	xchg   %ax,%ax
+
+00000000000015f0 <apicReadMSR>:
+    15f0:	48 89 f8             	mov    %rdi,%rax
+    15f3:	48 8d bf 00 01 00 00 	lea    0x100(%rdi),%rdi
+    15fa:	83 b8 50 01 00 00 02 	cmpl   $0x2,0x150(%rax)
+    1601:	7e 75                	jle    1678 <apicReadMSR+0x88>
+    1603:	55                   	push   %rbp
+    1604:	48 89 e5             	mov    %rsp,%rbp
+    1607:	53                   	push   %rbx
+    1608:	89 f3                	mov    %esi,%ebx
+    160a:	48 83 ec 08          	sub    $0x8,%rsp
+    160e:	39 98 58 01 00 00    	cmp    %ebx,0x158(%rax)
+    1614:	48 8b b0 30 01 00 00 	mov    0x130(%rax),%rsi
+    161b:	76 23                	jbe    1640 <apicReadMSR+0x50>
+    161d:	89 d8                	mov    %ebx,%eax
+    161f:	48 83 c4 08          	add    $0x8,%rsp
+    1623:	0f b6 d2             	movzbl %dl,%edx
+    1626:	48 69 c0 e8 04 00 00 	imul   $0x4e8,%rax,%rax
+    162d:	41 b9 01 00 00 00    	mov    $0x1,%r9d
+    1633:	45 31 c0             	xor    %r8d,%r8d
+    1636:	5b                   	pop    %rbx
+    1637:	5d                   	pop    %rbp
+    1638:	48 01 c6             	add    %rax,%rsi
+    163b:	e9 40 f7 ff ff       	jmpq   d80 <apicSetBase-0x500>
+    1640:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    1647:	48 c7 c2 00 00 00 00 	mov    $0x0,%rdx
+    164e:	be b1 01 00 00       	mov    $0x1b1,%esi
+    1653:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    165a:	e8 00 00 00 00       	callq  165f <apicReadMSR+0x6f>
+    165f:	89 de                	mov    %ebx,%esi
+    1661:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    1668:	31 c0                	xor    %eax,%eax
+    166a:	e8 00 00 00 00       	callq  166f <apicReadMSR+0x7f>
+    166f:	e8 00 00 00 00       	callq  1674 <apicReadMSR+0x84>
+    1674:	cc                   	int3   
+    1675:	90                   	nop
+    1676:	eb c8                	jmp    1640 <apicReadMSR+0x50>
+    1678:	b8 84 fb ff ff       	mov    $0xfffffb84,%eax
+    167d:	c3                   	retq   
+    167e:	66 90                	xchg   %ax,%ax
+
+0000000000001680 <apicBusDeliverCallback>:
+    1680:	55                   	push   %rbp
+    1681:	0f b6 d2             	movzbl %dl,%edx
+    1684:	40 0f b6 f6          	movzbl %sil,%esi
+    1688:	48 89 e5             	mov    %rsp,%rbp
+    168b:	41 57                	push   %r15
+    168d:	41 56                	push   %r14
+    168f:	41 55                	push   %r13
+    1691:	41 54                	push   %r12
+    1693:	41 89 cc             	mov    %ecx,%r12d
+    1696:	53                   	push   %rbx
+    1697:	48 8d 9f 00 01 00 00 	lea    0x100(%rdi),%rbx
+    169e:	48 8d 4d b0          	lea    -0x50(%rbp),%rcx
+    16a2:	45 89 c7             	mov    %r8d,%r15d
+    16a5:	45 89 cd             	mov    %r9d,%r13d
+    16a8:	48 83 ec 28          	sub    $0x28,%rsp
+    16ac:	48 89 df             	mov    %rbx,%rdi
+    16af:	44 8b 75 10          	mov    0x10(%rbp),%r14d
+    16b3:	e8 98 e9 ff ff       	callq  50 <apicSetBase-0x1230>
+    16b8:	8b 75 18             	mov    0x18(%rbp),%esi
+    16bb:	48 83 ec 08          	sub    $0x8,%rsp
+    16bf:	41 0f b6 cf          	movzbl %r15b,%ecx
+    16c3:	41 0f b6 d4          	movzbl %r12b,%edx
+    16c7:	45 0f b6 ce          	movzbl %r14b,%r9d
+    16cb:	45 0f b6 c5          	movzbl %r13b,%r8d
+    16cf:	48 89 df             	mov    %rbx,%rdi
+    16d2:	56                   	push   %rsi
+    16d3:	48 89 c6             	mov    %rax,%rsi
+    16d6:	e8 a5 eb ff ff       	callq  280 <apicSetBase-0x1000>
+    16db:	48 8d 65 d8          	lea    -0x28(%rbp),%rsp
+    16df:	5b                   	pop    %rbx
+    16e0:	41 5c                	pop    %r12
+    16e2:	41 5d                	pop    %r13
+    16e4:	41 5e                	pop    %r14
+    16e6:	41 5f                	pop    %r15
+    16e8:	5d                   	pop    %rbp
+    16e9:	c3                   	retq   
+    16ea:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+00000000000016f0 <apicLocalInterrupt>:
+    16f0:	55                   	push   %rbp
+    16f1:	48 89 e5             	mov    %rsp,%rbp
+    16f4:	41 56                	push   %r14
+    16f6:	41 55                	push   %r13
+    16f8:	41 54                	push   %r12
+    16fa:	53                   	push   %rbx
+    16fb:	44 8b 87 58 01 00 00 	mov    0x158(%rdi),%r8d
+    1702:	48 8b 87 30 01 00 00 	mov    0x130(%rdi),%rax
+    1709:	45 85 c0             	test   %r8d,%r8d
+    170c:	74 4a                	je     1758 <apicLocalInterrupt+0x68>
+    170e:	f6 80 8d 00 00 00 01 	testb  $0x1,0x8d(%rax)
+    1715:	41 89 d6             	mov    %edx,%r14d
+    1718:	0f 85 88 00 00 00    	jne    17a6 <apicLocalInterrupt+0xb6>
+    171e:	45 84 f6             	test   %r14b,%r14b
+    1721:	48 8b 8f 28 01 00 00 	mov    0x128(%rdi),%rcx
+    1728:	8b 90 84 00 00 00    	mov    0x84(%rax),%edx
+    172e:	48 8b bf 20 01 00 00 	mov    0x120(%rdi),%rdi
+    1735:	be 04 00 00 00       	mov    $0x4,%esi
+    173a:	74 54                	je     1790 <apicLocalInterrupt+0xa0>
+    173c:	ff 51 08             	callq  *0x8(%rcx)
+    173f:	48 8d 65 e0          	lea    -0x20(%rbp),%rsp
+    1743:	45 31 e4             	xor    %r12d,%r12d
+    1746:	44 89 e0             	mov    %r12d,%eax
+    1749:	5b                   	pop    %rbx
+    174a:	41 5c                	pop    %r12
+    174c:	41 5d                	pop    %r13
+    174e:	41 5e                	pop    %r14
+    1750:	5d                   	pop    %rbp
+    1751:	c3                   	retq   
+    1752:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+    1758:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    175f:	48 c7 c2 00 00 00 00 	mov    $0x0,%rdx
+    1766:	be b1 01 00 00       	mov    $0x1b1,%esi
+    176b:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    1772:	e8 00 00 00 00       	callq  1777 <apicLocalInterrupt+0x87>
+    1777:	31 f6                	xor    %esi,%esi
+    1779:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    1780:	31 c0                	xor    %eax,%eax
+    1782:	e8 00 00 00 00       	callq  1787 <apicLocalInterrupt+0x97>
+    1787:	e8 00 00 00 00       	callq  178c <apicLocalInterrupt+0x9c>
+    178c:	cc                   	int3   
+    178d:	90                   	nop
+    178e:	eb c8                	jmp    1758 <apicLocalInterrupt+0x68>
+    1790:	45 31 e4             	xor    %r12d,%r12d
+    1793:	ff 51 10             	callq  *0x10(%rcx)
+    1796:	48 8d 65 e0          	lea    -0x20(%rbp),%rsp
+    179a:	44 89 e0             	mov    %r12d,%eax
+    179d:	5b                   	pop    %rbx
+    179e:	41 5c                	pop    %r12
+    17a0:	41 5d                	pop    %r13
+    17a2:	41 5e                	pop    %r14
+    17a4:	5d                   	pop    %rbp
+    17a5:	c3                   	retq   
+    17a6:	40 80 fe 01          	cmp    $0x1,%sil
+    17aa:	41 bc fe ff ff ff    	mov    $0xfffffffe,%r12d
+    17b0:	77 e4                	ja     1796 <apicLocalInterrupt+0xa6>
+    17b2:	44 0f b6 ee          	movzbl %sil,%r13d
+    17b6:	41 8d 55 03          	lea    0x3(%r13),%edx
+    17ba:	48 63 d2             	movslq %edx,%rdx
+    17bd:	48 83 c2 18          	add    $0x18,%rdx
+    17c1:	8b 14 90             	mov    (%rax,%rdx,4),%edx
+    17c4:	f7 c2 00 00 01 00    	test   $0x10000,%edx
+    17ca:	0f 85 6f ff ff ff    	jne    173f <apicLocalInterrupt+0x4f>
+    17d0:	c1 ea 08             	shr    $0x8,%edx
+    17d3:	89 d3                	mov    %edx,%ebx
+    17d5:	83 e3 07             	and    $0x7,%ebx
+    17d8:	80 fb 02             	cmp    $0x2,%bl
+    17db:	0f 84 98 00 00 00    	je     1879 <apicLocalInterrupt+0x189>
+    17e1:	76 3d                	jbe    1820 <apicLocalInterrupt+0x130>
+    17e3:	45 31 e4             	xor    %r12d,%r12d
+    17e6:	80 fb 04             	cmp    $0x4,%bl
+    17e9:	74 ab                	je     1796 <apicLocalInterrupt+0xa6>
+    17eb:	80 fb 07             	cmp    $0x7,%bl
+    17ee:	0f 85 a3 00 00 00    	jne    1897 <apicLocalInterrupt+0x1a7>
+    17f4:	45 84 f6             	test   %r14b,%r14b
+    17f7:	48 8b 8f 28 01 00 00 	mov    0x128(%rdi),%rcx
+    17fe:	8b 90 84 00 00 00    	mov    0x84(%rax),%edx
+    1804:	48 8b bf 20 01 00 00 	mov    0x120(%rdi),%rdi
+    180b:	be 04 00 00 00       	mov    $0x4,%esi
+    1810:	0f 84 24 01 00 00    	je     193a <apicLocalInterrupt+0x24a>
+    1816:	ff 51 08             	callq  *0x8(%rcx)
+    1819:	e9 78 ff ff ff       	jmpq   1796 <apicLocalInterrupt+0xa6>
+    181e:	66 90                	xchg   %ax,%ax
+    1820:	84 db                	test   %bl,%bl
+    1822:	75 73                	jne    1897 <apicLocalInterrupt+0x1a7>
+    1824:	bf 10 00 2f 00       	mov    $0x2f0010,%edi
+    1829:	e8 00 00 00 00       	callq  182e <apicLocalInterrupt+0x13e>
+    182e:	48 85 c0             	test   %rax,%rax
+    1831:	0f 84 08 ff ff ff    	je     173f <apicLocalInterrupt+0x4f>
+    1837:	8b 15 00 00 00 00    	mov    0x0(%rip),%edx        # 183d <apicLocalInterrupt+0x14d>
+    183d:	83 fa 04             	cmp    $0x4,%edx
+    1840:	0f 87 f9 fe ff ff    	ja     173f <apicLocalInterrupt+0x4f>
+    1846:	83 c2 01             	add    $0x1,%edx
+    1849:	48 89 c7             	mov    %rax,%rdi
+    184c:	45 0f b6 ce          	movzbl %r14b,%r9d
+    1850:	89 15 00 00 00 00    	mov    %edx,0x0(%rip)        # 1856 <apicLocalInterrupt+0x166>
+    1856:	45 89 e8             	mov    %r13d,%r8d
+    1859:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    1860:	ba 2f 00 00 00       	mov    $0x2f,%edx
+    1865:	be 10 00 00 00       	mov    $0x10,%esi
+    186a:	31 c0                	xor    %eax,%eax
+    186c:	e8 00 00 00 00       	callq  1871 <apicLocalInterrupt+0x181>
+    1871:	45 31 e4             	xor    %r12d,%r12d
+    1874:	e9 1d ff ff ff       	jmpq   1796 <apicLocalInterrupt+0xa6>
+    1879:	48 8b 8f 28 01 00 00 	mov    0x128(%rdi),%rcx
+    1880:	8b 90 84 00 00 00    	mov    0x84(%rax),%edx
+    1886:	be 03 00 00 00       	mov    $0x3,%esi
+    188b:	48 8b bf 20 01 00 00 	mov    0x120(%rdi),%rdi
+    1892:	e9 a5 fe ff ff       	jmpq   173c <apicLocalInterrupt+0x4c>
+    1897:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # 189d <apicLocalInterrupt+0x1ad>
+    189d:	8d 50 01             	lea    0x1(%rax),%edx
+    18a0:	83 f8 63             	cmp    $0x63,%eax
+    18a3:	89 15 00 00 00 00    	mov    %edx,0x0(%rip)        # 18a9 <apicLocalInterrupt+0x1b9>
+    18a9:	0f 87 80 00 00 00    	ja     192f <apicLocalInterrupt+0x23f>
+    18af:	bf 10 00 2f 00       	mov    $0x2f0010,%edi
+    18b4:	e8 00 00 00 00       	callq  18b9 <apicLocalInterrupt+0x1c9>
+    18b9:	48 85 c0             	test   %rax,%rax
+    18bc:	74 31                	je     18ef <apicLocalInterrupt+0x1ff>
+    18be:	6a 00                	pushq  $0x0
+    18c0:	68 00 00 00 00       	pushq  $0x0
+    18c5:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    18cc:	be 10 00 00 00       	mov    $0x10,%esi
+    18d1:	48 89 c7             	mov    %rax,%rdi
+    18d4:	41 b9 9d 04 00 00    	mov    $0x49d,%r9d
+    18da:	49 c7 c0 00 00 00 00 	mov    $0x0,%r8
+    18e1:	ba 2f 00 00 00       	mov    $0x2f,%edx
+    18e6:	31 c0                	xor    %eax,%eax
+    18e8:	e8 00 00 00 00       	callq  18ed <apicLocalInterrupt+0x1fd>
+    18ed:	59                   	pop    %rcx
+    18ee:	5e                   	pop    %rsi
+    18ef:	bf 10 00 2f 00       	mov    $0x2f0010,%edi
+    18f4:	e8 00 00 00 00       	callq  18f9 <apicLocalInterrupt+0x209>
+    18f9:	48 85 c0             	test   %rax,%rax
+    18fc:	74 31                	je     192f <apicLocalInterrupt+0x23f>
+    18fe:	48 83 ec 08          	sub    $0x8,%rsp
+    1902:	45 0f b6 f6          	movzbl %r14b,%r14d
+    1906:	41 89 d8             	mov    %ebx,%r8d
+    1909:	41 56                	push   %r14
+    190b:	ba 2f 00 00 00       	mov    $0x2f,%edx
+    1910:	48 89 c7             	mov    %rax,%rdi
+    1913:	45 89 e9             	mov    %r13d,%r9d
+    1916:	31 c0                	xor    %eax,%eax
+    1918:	41 83 e0 07          	and    $0x7,%r8d
+    191c:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    1923:	be 10 00 00 00       	mov    $0x10,%esi
+    1928:	e8 00 00 00 00       	callq  192d <apicLocalInterrupt+0x23d>
+    192d:	58                   	pop    %rax
+    192e:	5a                   	pop    %rdx
+    192f:	41 bc 1c ff ff ff    	mov    $0xffffff1c,%r12d
+    1935:	e9 5c fe ff ff       	jmpq   1796 <apicLocalInterrupt+0xa6>
+    193a:	ff 51 10             	callq  *0x10(%rcx)
+    193d:	e9 54 fe ff ff       	jmpq   1796 <apicLocalInterrupt+0xa6>
+    1942:	66 66 66 66 66 2e 0f 	data16 data16 data16 data16 nopw %cs:0x0(%rax,%rax,1)
+    1949:	1f 84 00 00 00 00 00 
+
+0000000000001950 <apicHasPendingIrq>:
+    1950:	48 81 ff 00 ff ff ff 	cmp    $0xffffffffffffff00,%rdi
+    1957:	0f 84 d8 00 00 00    	je     1a35 <apicHasPendingIrq+0xe5>
+    195d:	55                   	push   %rbp
+    195e:	48 89 e5             	mov    %rsp,%rbp
+    1961:	41 55                	push   %r13
+    1963:	41 54                	push   %r12
+    1965:	53                   	push   %rbx
+    1966:	49 89 d4             	mov    %rdx,%r12
+    1969:	89 f3                	mov    %esi,%ebx
+    196b:	48 83 ec 08          	sub    $0x8,%rsp
+    196f:	39 b7 58 01 00 00    	cmp    %esi,0x158(%rdi)
+    1975:	48 8b 97 30 01 00 00 	mov    0x130(%rdi),%rdx
+    197c:	76 62                	jbe    19e0 <apicHasPendingIrq+0x90>
+    197e:	89 f0                	mov    %esi,%eax
+    1980:	be ff ff ff ff       	mov    $0xffffffff,%esi
+    1985:	48 69 c0 e8 04 00 00 	imul   $0x4e8,%rax,%rax
+    198c:	48 8d 1c 02          	lea    (%rdx,%rax,1),%rbx
+    1990:	48 8d 7b 40          	lea    0x40(%rbx),%rdi
+    1994:	e8 67 e6 ff ff       	callq  0 <apicSetBase-0x1280>
+    1999:	85 c0                	test   %eax,%eax
+    199b:	41 89 c5             	mov    %eax,%r13d
+    199e:	78 78                	js     1a18 <apicHasPendingIrq+0xc8>
+    19a0:	31 f6                	xor    %esi,%esi
+    19a2:	48 89 df             	mov    %rbx,%rdi
+    19a5:	e8 56 e6 ff ff       	callq  0 <apicSetBase-0x1280>
+    19aa:	85 c0                	test   %eax,%eax
+    19ac:	89 c2                	mov    %eax,%edx
+    19ae:	74 12                	je     19c2 <apicHasPendingIrq+0x72>
+    19b0:	44 89 e8             	mov    %r13d,%eax
+    19b3:	81 e2 f0 00 00 00    	and    $0xf0,%edx
+    19b9:	25 f0 00 00 00       	and    $0xf0,%eax
+    19be:	39 d0                	cmp    %edx,%eax
+    19c0:	7e 56                	jle    1a18 <apicHasPendingIrq+0xc8>
+    19c2:	4d 85 e4             	test   %r12,%r12
+    19c5:	74 5e                	je     1a25 <apicHasPendingIrq+0xd5>
+    19c7:	45 88 2c 24          	mov    %r13b,(%r12)
+    19cb:	48 83 c4 08          	add    $0x8,%rsp
+    19cf:	b8 01 00 00 00       	mov    $0x1,%eax
+    19d4:	5b                   	pop    %rbx
+    19d5:	41 5c                	pop    %r12
+    19d7:	41 5d                	pop    %r13
+    19d9:	5d                   	pop    %rbp
+    19da:	c3                   	retq   
+    19db:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+    19e0:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    19e7:	48 c7 c2 00 00 00 00 	mov    $0x0,%rdx
+    19ee:	be b1 01 00 00       	mov    $0x1b1,%esi
+    19f3:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    19fa:	e8 00 00 00 00       	callq  19ff <apicHasPendingIrq+0xaf>
+    19ff:	89 de                	mov    %ebx,%esi
+    1a01:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    1a08:	31 c0                	xor    %eax,%eax
+    1a0a:	e8 00 00 00 00       	callq  1a0f <apicHasPendingIrq+0xbf>
+    1a0f:	e8 00 00 00 00       	callq  1a14 <apicHasPendingIrq+0xc4>
+    1a14:	cc                   	int3   
+    1a15:	90                   	nop
+    1a16:	eb c8                	jmp    19e0 <apicHasPendingIrq+0x90>
+    1a18:	48 83 c4 08          	add    $0x8,%rsp
+    1a1c:	31 c0                	xor    %eax,%eax
+    1a1e:	5b                   	pop    %rbx
+    1a1f:	41 5c                	pop    %r12
+    1a21:	41 5d                	pop    %r13
+    1a23:	5d                   	pop    %rbp
+    1a24:	c3                   	retq   
+    1a25:	48 83 c4 08          	add    $0x8,%rsp
+    1a29:	b8 01 00 00 00       	mov    $0x1,%eax
+    1a2e:	5b                   	pop    %rbx
+    1a2f:	41 5c                	pop    %r12
+    1a31:	41 5d                	pop    %r13
+    1a33:	5d                   	pop    %rbp
+    1a34:	c3                   	retq   
+    1a35:	31 c0                	xor    %eax,%eax
+    1a37:	c3                   	retq   
+    1a38:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+    1a3f:	00 
+
+0000000000001a40 <apicGetInterrupt>:
+    1a40:	55                   	push   %rbp
+    1a41:	48 89 e5             	mov    %rsp,%rbp
+    1a44:	41 56                	push   %r14
+    1a46:	49 89 fe             	mov    %rdi,%r14
+    1a49:	49 81 c6 00 01 00 00 	add    $0x100,%r14
+    1a50:	41 55                	push   %r13
+    1a52:	41 54                	push   %r12
+    1a54:	53                   	push   %rbx
+    1a55:	0f 84 e5 00 00 00    	je     1b40 <apicGetInterrupt+0x100>
+    1a5b:	39 b7 58 01 00 00    	cmp    %esi,0x158(%rdi)
+    1a61:	49 89 d5             	mov    %rdx,%r13
+    1a64:	89 f3                	mov    %esi,%ebx
+    1a66:	48 8b 97 30 01 00 00 	mov    0x130(%rdi),%rdx
+    1a6d:	0f 86 7d 00 00 00    	jbe    1af0 <apicGetInterrupt+0xb0>
+    1a73:	89 f0                	mov    %esi,%eax
+    1a75:	48 69 c0 e8 04 00 00 	imul   $0x4e8,%rax,%rax
+    1a7c:	48 8d 1c 02          	lea    (%rdx,%rax,1),%rbx
+    1a80:	f6 83 8d 00 00 00 01 	testb  $0x1,0x8d(%rbx)
+    1a87:	0f 84 b3 00 00 00    	je     1b40 <apicGetInterrupt+0x100>
+    1a8d:	48 8d 7b 40          	lea    0x40(%rbx),%rdi
+    1a91:	be ff ff ff ff       	mov    $0xffffffff,%esi
+    1a96:	e8 65 e5 ff ff       	callq  0 <apicSetBase-0x1280>
+    1a9b:	85 c0                	test   %eax,%eax
+    1a9d:	41 89 c4             	mov    %eax,%r12d
+    1aa0:	0f 88 9a 00 00 00    	js     1b40 <apicGetInterrupt+0x100>
+    1aa6:	8b 43 7c             	mov    0x7c(%rbx),%eax
+    1aa9:	85 c0                	test   %eax,%eax
+    1aab:	74 05                	je     1ab2 <apicGetInterrupt+0x72>
+    1aad:	44 39 e0             	cmp    %r12d,%eax
+    1ab0:	73 76                	jae    1b28 <apicGetInterrupt+0xe8>
+    1ab2:	44 0f b3 63 40       	btr    %r12d,0x40(%rbx)
+    1ab7:	44 0f ab 23          	bts    %r12d,(%rbx)
+    1abb:	49 63 c4             	movslq %r12d,%rax
+    1abe:	48 89 de             	mov    %rbx,%rsi
+    1ac1:	4c 89 f7             	mov    %r14,%rdi
+    1ac4:	48 8d 04 83          	lea    (%rbx,%rax,4),%rax
+    1ac8:	8b 90 e8 00 00 00    	mov    0xe8(%rax),%edx
+    1ace:	41 89 55 00          	mov    %edx,0x0(%r13)
+    1ad2:	c7 80 e8 00 00 00 00 	movl   $0x0,0xe8(%rax)
+    1ad9:	00 00 00 
+    1adc:	e8 5f e6 ff ff       	callq  140 <apicSetBase-0x1140>
+    1ae1:	5b                   	pop    %rbx
+    1ae2:	44 89 e0             	mov    %r12d,%eax
+    1ae5:	41 5c                	pop    %r12
+    1ae7:	41 5d                	pop    %r13
+    1ae9:	41 5e                	pop    %r14
+    1aeb:	5d                   	pop    %rbp
+    1aec:	c3                   	retq   
+    1aed:	0f 1f 00             	nopl   (%rax)
+    1af0:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    1af7:	48 c7 c2 00 00 00 00 	mov    $0x0,%rdx
+    1afe:	be b1 01 00 00       	mov    $0x1b1,%esi
+    1b03:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    1b0a:	e8 00 00 00 00       	callq  1b0f <apicGetInterrupt+0xcf>
+    1b0f:	89 de                	mov    %ebx,%esi
+    1b11:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    1b18:	31 c0                	xor    %eax,%eax
+    1b1a:	e8 00 00 00 00       	callq  1b1f <apicGetInterrupt+0xdf>
+    1b1f:	e8 00 00 00 00       	callq  1b24 <apicGetInterrupt+0xe4>
+    1b24:	cc                   	int3   
+    1b25:	90                   	nop
+    1b26:	eb c8                	jmp    1af0 <apicGetInterrupt+0xb0>
+    1b28:	41 c7 45 00 00 00 00 	movl   $0x0,0x0(%r13)
+    1b2f:	00 
+    1b30:	0f b6 83 8c 00 00 00 	movzbl 0x8c(%rbx),%eax
+    1b37:	5b                   	pop    %rbx
+    1b38:	41 5c                	pop    %r12
+    1b3a:	41 5d                	pop    %r13
+    1b3c:	41 5e                	pop    %r14
+    1b3e:	5d                   	pop    %rbp
+    1b3f:	c3                   	retq   
+    1b40:	5b                   	pop    %rbx
+    1b41:	b8 ff ff ff ff       	mov    $0xffffffff,%eax
+    1b46:	41 5c                	pop    %r12
+    1b48:	41 5d                	pop    %r13
+    1b4a:	41 5e                	pop    %r14
+    1b4c:	5d                   	pop    %rbp
+    1b4d:	c3                   	retq   
+    1b4e:	66 90                	xchg   %ax,%ax
+
+0000000000001b50 <apicMMIORead>:
+    1b50:	55                   	push   %rbp
+    1b51:	48 89 e5             	mov    %rsp,%rbp
+    1b54:	41 57                	push   %r15
+    1b56:	41 56                	push   %r14
+    1b58:	41 55                	push   %r13
+    1b5a:	41 54                	push   %r12
+    1b5c:	49 89 fe             	mov    %rdi,%r14
+    1b5f:	53                   	push   %rbx
+    1b60:	49 89 d7             	mov    %rdx,%r15
+    1b63:	49 89 cc             	mov    %rcx,%r12
+    1b66:	4c 8d af 00 01 00 00 	lea    0x100(%rdi),%r13
+    1b6d:	48 83 ec 18          	sub    $0x18,%rsp
+    1b71:	48 8b 87 28 01 00 00 	mov    0x128(%rdi),%rax
+    1b78:	48 8b bf 20 01 00 00 	mov    0x120(%rdi),%rdi
+    1b7f:	ff 50 40             	callq  *0x40(%rax)
+    1b82:	41 3b 86 58 01 00 00 	cmp    0x158(%r14),%eax
+    1b89:	89 c3                	mov    %eax,%ebx
+    1b8b:	49 8b b6 30 01 00 00 	mov    0x130(%r14),%rsi
+    1b92:	73 4c                	jae    1be0 <apicMMIORead+0x90>
+    1b94:	89 c0                	mov    %eax,%eax
+    1b96:	4c 89 fa             	mov    %r15,%rdx
+    1b99:	48 8d 4d c8          	lea    -0x38(%rbp),%rcx
+    1b9d:	48 69 c0 e8 04 00 00 	imul   $0x4e8,%rax,%rax
+    1ba4:	48 c1 ea 04          	shr    $0x4,%rdx
+    1ba8:	4c 89 ef             	mov    %r13,%rdi
+    1bab:	0f b6 d2             	movzbl %dl,%edx
+    1bae:	45 31 c9             	xor    %r9d,%r9d
+    1bb1:	41 b8 3f 0a 00 00    	mov    $0xa3f,%r8d
+    1bb7:	48 c7 45 c8 00 00 00 	movq   $0x0,-0x38(%rbp)
+    1bbe:	00 
+    1bbf:	48 01 c6             	add    %rax,%rsi
+    1bc2:	e8 b9 f1 ff ff       	callq  d80 <apicSetBase-0x500>
+    1bc7:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx
+    1bcb:	41 89 14 24          	mov    %edx,(%r12)
+    1bcf:	48 83 c4 18          	add    $0x18,%rsp
+    1bd3:	5b                   	pop    %rbx
+    1bd4:	41 5c                	pop    %r12
+    1bd6:	41 5d                	pop    %r13
+    1bd8:	41 5e                	pop    %r14
+    1bda:	41 5f                	pop    %r15
+    1bdc:	5d                   	pop    %rbp
+    1bdd:	c3                   	retq   
+    1bde:	66 90                	xchg   %ax,%ax
+    1be0:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    1be7:	48 c7 c2 00 00 00 00 	mov    $0x0,%rdx
+    1bee:	be b1 01 00 00       	mov    $0x1b1,%esi
+    1bf3:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    1bfa:	e8 00 00 00 00       	callq  1bff <apicMMIORead+0xaf>
+    1bff:	89 de                	mov    %ebx,%esi
+    1c01:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    1c08:	31 c0                	xor    %eax,%eax
+    1c0a:	e8 00 00 00 00       	callq  1c0f <apicMMIORead+0xbf>
+    1c0f:	e8 00 00 00 00       	callq  1c14 <apicMMIORead+0xc4>
+    1c14:	cc                   	int3   
+    1c15:	90                   	nop
+    1c16:	eb c8                	jmp    1be0 <apicMMIORead+0x90>
+    1c18:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+    1c1f:	00 
+
+0000000000001c20 <apicMMIOWrite>:
+    1c20:	55                   	push   %rbp
+    1c21:	48 89 e5             	mov    %rsp,%rbp
+    1c24:	41 57                	push   %r15
+    1c26:	41 56                	push   %r14
+    1c28:	41 55                	push   %r13
+    1c2a:	41 54                	push   %r12
+    1c2c:	49 89 fd             	mov    %rdi,%r13
+    1c2f:	53                   	push   %rbx
+    1c30:	49 89 d6             	mov    %rdx,%r14
+    1c33:	49 89 cf             	mov    %rcx,%r15
+    1c36:	4c 8d a7 00 01 00 00 	lea    0x100(%rdi),%r12
+    1c3d:	48 83 ec 08          	sub    $0x8,%rsp
+    1c41:	48 8b 87 28 01 00 00 	mov    0x128(%rdi),%rax
+    1c48:	48 8b bf 20 01 00 00 	mov    0x120(%rdi),%rdi
+    1c4f:	ff 50 40             	callq  *0x40(%rax)
+    1c52:	41 3b 85 58 01 00 00 	cmp    0x158(%r13),%eax
+    1c59:	89 c3                	mov    %eax,%ebx
+    1c5b:	49 8b b5 30 01 00 00 	mov    0x130(%r13),%rsi
+    1c62:	73 3c                	jae    1ca0 <apicMMIOWrite+0x80>
+    1c64:	89 c0                	mov    %eax,%eax
+    1c66:	41 8b 0f             	mov    (%r15),%ecx
+    1c69:	48 83 c4 08          	add    $0x8,%rsp
+    1c6d:	48 69 c0 e8 04 00 00 	imul   $0x4e8,%rax,%rax
+    1c74:	4c 89 f2             	mov    %r14,%rdx
+    1c77:	4c 89 e7             	mov    %r12,%rdi
+    1c7a:	5b                   	pop    %rbx
+    1c7b:	41 5c                	pop    %r12
+    1c7d:	41 5d                	pop    %r13
+    1c7f:	41 5e                	pop    %r14
+    1c81:	41 5f                	pop    %r15
+    1c83:	5d                   	pop    %rbp
+    1c84:	48 c1 ea 04          	shr    $0x4,%rdx
+    1c88:	48 01 c6             	add    %rax,%rsi
+    1c8b:	45 31 c9             	xor    %r9d,%r9d
+    1c8e:	0f b6 d2             	movzbl %dl,%edx
+    1c91:	41 b8 40 0a 00 00    	mov    $0xa40,%r8d
+    1c97:	e9 84 e8 ff ff       	jmpq   520 <apicSetBase-0xd60>
+    1c9c:	0f 1f 40 00          	nopl   0x0(%rax)
+    1ca0:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    1ca7:	48 c7 c2 00 00 00 00 	mov    $0x0,%rdx
+    1cae:	be b1 01 00 00       	mov    $0x1b1,%esi
+    1cb3:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    1cba:	e8 00 00 00 00       	callq  1cbf <apicMMIOWrite+0x9f>
+    1cbf:	89 de                	mov    %ebx,%esi
+    1cc1:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi
+    1cc8:	31 c0                	xor    %eax,%eax
+    1cca:	e8 00 00 00 00       	callq  1ccf <apicMMIOWrite+0xaf>
+    1ccf:	e8 00 00 00 00       	callq  1cd4 <apicMMIOWrite+0xb4>
+    1cd4:	cc                   	int3   
+    1cd5:	90                   	nop
+    1cd6:	eb c8                	jmp    1ca0 <apicMMIOWrite+0x80>
+    1cd8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+    1cdf:	00 
+    1ce0:	55                   	push   %rbp
+    1ce1:	48 89 e5             	mov    %rsp,%rbp
+    1ce4:	41 55                	push   %r13
+    1ce6:	41 54                	push   %r12
+    1ce8:	53                   	push   %rbx
+    1ce9:	49 89 fc             	mov    %rdi,%r12
+    1cec:	31 db                	xor    %ebx,%ebx
+    1cee:	41 bd 01 00 00 00    	mov    $0x1,%r13d
+    1cf4:	48 83 ec 08          	sub    $0x8,%rsp
+    1cf8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+    1cff:	00 
+    1d00:	41 8b 44 24 04       	mov    0x4(%r12),%eax
+    1d05:	44 89 ef             	mov    %r13d,%edi
+    1d08:	89 d9                	mov    %ebx,%ecx
+    1d0a:	d3 e7                	shl    %cl,%edi
+    1d0c:	85 c7                	test   %eax,%edi
+    1d0e:	0f 84 99 00 00 00    	je     1dad <apicMMIOWrite+0x18d>
+    1d14:	4d 8b 44 dc 08       	mov    0x8(%r12,%rbx,8),%r8
+    1d19:	41 f7 c0 00 00 01 00 	test   $0x10000,%r8d
+    1d20:	0f 85 87 00 00 00    	jne    1dad <apicMMIOWrite+0x18d>
+    1d26:	4d 89 c2             	mov    %r8,%r10
+    1d29:	4c 89 c2             	mov    %r8,%rdx
+    1d2c:	4c 89 c1             	mov    %r8,%rcx
+    1d2f:	4d 89 c1             	mov    %r8,%r9
+    1d32:	48 c1 ea 0b          	shr    $0xb,%rdx
+    1d36:	48 c1 e9 08          	shr    $0x8,%rcx
+    1d3a:	49 c1 e9 0d          	shr    $0xd,%r9
+    1d3e:	49 c1 ea 0f          	shr    $0xf,%r10
+    1d42:	4c 89 c6             	mov    %r8,%rsi
+    1d45:	48 c1 ee 38          	shr    $0x38,%rsi
+    1d49:	83 e2 01             	and    $0x1,%edx
+    1d4c:	83 e1 07             	and    $0x7,%ecx
+    1d4f:	41 83 e1 01          	and    $0x1,%r9d
+    1d53:	41 83 e2 01          	and    $0x1,%r10d
+    1d57:	45 8b 9c 9c c8 00 00 	mov    0xc8(%r12,%rbx,4),%r11d
+    1d5e:	00 
+    1d5f:	75 15                	jne    1d76 <apicMMIOWrite+0x156>
+    1d61:	f7 d7                	not    %edi
+    1d63:	41 c7 84 9c c8 00 00 	movl   $0x0,0xc8(%r12,%rbx,4)
+    1d6a:	00 00 00 00 00 
+    1d6f:	21 f8                	and    %edi,%eax
+    1d71:	41 89 44 24 04       	mov    %eax,0x4(%r12)
+    1d76:	80 f9 07             	cmp    $0x7,%cl
+    1d79:	b8 ff 00 00 00       	mov    $0xff,%eax
+    1d7e:	45 0f b6 c0          	movzbl %r8b,%r8d
+    1d82:	44 0f 44 c0          	cmove  %eax,%r8d
+    1d86:	49 8b 84 24 40 01 00 	mov    0x140(%r12),%rax
+    1d8d:	00 
+    1d8e:	45 0f b6 d2          	movzbl %r10b,%r10d
+    1d92:	41 53                	push   %r11
+    1d94:	0f b6 d2             	movzbl %dl,%edx
+    1d97:	41 52                	push   %r10
+    1d99:	0f b6 c9             	movzbl %cl,%ecx
+    1d9c:	49 8b bc 24 38 01 00 	mov    0x138(%r12),%rdi
+    1da3:	00 
+    1da4:	41 83 e1 01          	and    $0x1,%r9d
+    1da8:	ff 50 08             	callq  *0x8(%rax)
+    1dab:	58                   	pop    %rax
+    1dac:	5a                   	pop    %rdx
+    1dad:	48 83 c3 01          	add    $0x1,%rbx
+    1db1:	48 83 fb 18          	cmp    $0x18,%rbx
+    1db5:	0f 85 45 ff ff ff    	jne    1d00 <apicMMIOWrite+0xe0>
+    1dbb:	48 8d 65 e8          	lea    -0x18(%rbp),%rsp
+    1dbf:	5b                   	pop    %rbx
+    1dc0:	41 5c                	pop    %r12
+    1dc2:	41 5d                	pop    %r13
+    1dc4:	5d                   	pop    %rbp
+    1dc5:	c3                   	retq   
+    1dc6:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)
+    1dcd:	00 00 00 
+
+0000000000001dd0 <ioapicMMIORead>:
+    1dd0:	55                   	push   %rbp
+    1dd1:	be 3f 0a 00 00       	mov    $0xa3f,%esi
+    1dd6:	48 89 e5             	mov    %rsp,%rbp
+    1dd9:	41 55                	push   %r13
+    1ddb:	41 54                	push   %r12
+    1ddd:	53                   	push   %rbx
+    1dde:	49 89 fc             	mov    %rdi,%r12
+    1de1:	48 89 d3             	mov    %rdx,%rbx
+    1de4:	49 89 cd             	mov    %rcx,%r13
+    1de7:	48 83 ec 08          	sub    $0x8,%rsp
+    1deb:	48 8b 87 40 02 00 00 	mov    0x240(%rdi),%rax
+    1df2:	48 8b bf 38 02 00 00 	mov    0x238(%rdi),%rdi
+    1df9:	ff 50 10             	callq  *0x10(%rax)
+    1dfc:	85 c0                	test   %eax,%eax
+    1dfe:	75 26                	jne    1e26 <ioapicMMIORead+0x56>
+    1e00:	0f b6 d3             	movzbl %bl,%edx
+    1e03:	85 d2                	test   %edx,%edx
+    1e05:	74 31                	je     1e38 <ioapicMMIORead+0x68>
+    1e07:	83 fa 10             	cmp    $0x10,%edx
+    1e0a:	bb 38 0a 00 00       	mov    $0xa38,%ebx
+    1e0f:	74 3f                	je     1e50 <ioapicMMIORead+0x80>
+    1e11:	49 8b 84 24 40 02 00 	mov    0x240(%r12),%rax
+    1e18:	00 
+    1e19:	49 8b bc 24 38 02 00 	mov    0x238(%r12),%rdi
+    1e20:	00 
+    1e21:	ff 50 18             	callq  *0x18(%rax)
+    1e24:	89 d8                	mov    %ebx,%eax
+    1e26:	48 83 c4 08          	add    $0x8,%rsp
+    1e2a:	5b                   	pop    %rbx
+    1e2b:	41 5c                	pop    %r12
+    1e2d:	41 5d                	pop    %r13
+    1e2f:	5d                   	pop    %rbp
+    1e30:	c3                   	retq   
+    1e31:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+    1e38:	41 0f b6 84 24 01 01 	movzbl 0x101(%r12),%eax
+    1e3f:	00 00 
+    1e41:	31 db                	xor    %ebx,%ebx
+    1e43:	41 89 45 00          	mov    %eax,0x0(%r13)
+    1e47:	eb c8                	jmp    1e11 <ioapicMMIORead+0x41>
+    1e49:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+    1e50:	41 0f b6 84 24 01 01 	movzbl 0x101(%r12),%eax
+    1e57:	00 00 
+    1e59:	85 c0                	test   %eax,%eax
+    1e5b:	89 c2                	mov    %eax,%edx
+    1e5d:	74 31                	je     1e90 <ioapicMMIORead+0xc0>
+    1e5f:	83 f8 01             	cmp    $0x1,%eax
+    1e62:	74 53                	je     1eb7 <ioapicMMIORead+0xe7>
+    1e64:	83 f8 02             	cmp    $0x2,%eax
+    1e67:	74 70                	je     1ed9 <ioapicMMIORead+0x109>
+    1e69:	83 e8 10             	sub    $0x10,%eax
+    1e6c:	83 f8 2f             	cmp    $0x2f,%eax
+    1e6f:	77 37                	ja     1ea8 <ioapicMMIORead+0xd8>
+    1e71:	d1 e8                	shr    %eax
+    1e73:	83 e2 01             	and    $0x1,%edx
+    1e76:	75 4e                	jne    1ec6 <ioapicMMIORead+0xf6>
+    1e78:	49 8b 84 c4 08 01 00 	mov    0x108(%r12,%rax,8),%rax
+    1e7f:	00 
+    1e80:	31 db                	xor    %ebx,%ebx
+    1e82:	41 89 45 00          	mov    %eax,0x0(%r13)
+    1e86:	eb 89                	jmp    1e11 <ioapicMMIORead+0x41>
+    1e88:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+    1e8f:	00 
+    1e90:	41 0f b6 84 24 00 01 	movzbl 0x100(%r12),%eax
+    1e97:	00 00 
+    1e99:	66 31 db             	xor    %bx,%bx
+    1e9c:	c1 e0 18             	shl    $0x18,%eax
+    1e9f:	41 89 45 00          	mov    %eax,0x0(%r13)
+    1ea3:	e9 69 ff ff ff       	jmpq   1e11 <ioapicMMIORead+0x41>
+    1ea8:	41 c7 45 00 ff ff ff 	movl   $0xffffffff,0x0(%r13)
+    1eaf:	ff 
+    1eb0:	31 db                	xor    %ebx,%ebx
+    1eb2:	e9 5a ff ff ff       	jmpq   1e11 <ioapicMMIORead+0x41>
+    1eb7:	41 c7 45 00 11 00 17 	movl   $0x170011,0x0(%r13)
+    1ebe:	00 
+    1ebf:	31 db                	xor    %ebx,%ebx
+    1ec1:	e9 4b ff ff ff       	jmpq   1e11 <ioapicMMIORead+0x41>
+    1ec6:	41 8b 84 c4 0c 01 00 	mov    0x10c(%r12,%rax,8),%eax
+    1ecd:	00 
+    1ece:	31 db                	xor    %ebx,%ebx
+    1ed0:	41 89 45 00          	mov    %eax,0x0(%r13)
+    1ed4:	e9 38 ff ff ff       	jmpq   1e11 <ioapicMMIORead+0x41>
+    1ed9:	41 c7 45 00 00 00 00 	movl   $0x0,0x0(%r13)
+    1ee0:	00 
+    1ee1:	31 db                	xor    %ebx,%ebx
+    1ee3:	e9 29 ff ff ff       	jmpq   1e11 <ioapicMMIORead+0x41>
+    1ee8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+    1eef:	00 
+
+0000000000001ef0 <ioapicMMIOWrite>:
+    1ef0:	55                   	push   %rbp
+    1ef1:	be 40 0a 00 00       	mov    $0xa40,%esi
+    1ef6:	48 89 e5             	mov    %rsp,%rbp
+    1ef9:	41 56                	push   %r14
+    1efb:	41 55                	push   %r13
+    1efd:	41 54                	push   %r12
+    1eff:	53                   	push   %rbx
+    1f00:	49 89 d4             	mov    %rdx,%r12
+    1f03:	48 8b 87 40 02 00 00 	mov    0x240(%rdi),%rax
+    1f0a:	48 89 fb             	mov    %rdi,%rbx
+    1f0d:	49 89 cd             	mov    %rcx,%r13
+    1f10:	48 8b bf 38 02 00 00 	mov    0x238(%rdi),%rdi
+    1f17:	ff 50 10             	callq  *0x10(%rax)
+    1f1a:	85 c0                	test   %eax,%eax
+    1f1c:	75 26                	jne    1f44 <ioapicMMIOWrite+0x54>
+    1f1e:	45 0f b6 e4          	movzbl %r12b,%r12d
+    1f22:	45 8b 6d 00          	mov    0x0(%r13),%r13d
+    1f26:	45 85 e4             	test   %r12d,%r12d
+    1f29:	74 2d                	je     1f58 <ioapicMMIOWrite+0x68>
+    1f2b:	41 83 fc 10          	cmp    $0x10,%r12d
+    1f2f:	74 37                	je     1f68 <ioapicMMIOWrite+0x78>
+    1f31:	48 8b 83 40 02 00 00 	mov    0x240(%rbx),%rax
+    1f38:	48 8b bb 38 02 00 00 	mov    0x238(%rbx),%rdi
+    1f3f:	ff 50 18             	callq  *0x18(%rax)
+    1f42:	31 c0                	xor    %eax,%eax
+    1f44:	48 8d 65 e0          	lea    -0x20(%rbp),%rsp
+    1f48:	5b                   	pop    %rbx
+    1f49:	41 5c                	pop    %r12
+    1f4b:	41 5d                	pop    %r13
+    1f4d:	41 5e                	pop    %r14
+    1f4f:	5d                   	pop    %rbp
+    1f50:	c3                   	retq   
+    1f51:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+    1f58:	44 88 ab 01 01 00 00 	mov    %r13b,0x101(%rbx)
+    1f5f:	eb d0                	jmp    1f31 <ioapicMMIOWrite+0x41>
+    1f61:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+    1f68:	44 0f b6 b3 01 01 00 	movzbl 0x101(%rbx),%r14d
+    1f6f:	00 
+    1f70:	45 85 f6             	test   %r14d,%r14d
+    1f73:	44 89 f0             	mov    %r14d,%eax
+    1f76:	74 60                	je     1fd8 <ioapicMMIOWrite+0xe8>
+    1f78:	45 8d 66 f0          	lea    -0x10(%r14),%r12d
+    1f7c:	41 83 fc 2f          	cmp    $0x2f,%r12d
+    1f80:	77 af                	ja     1f31 <ioapicMMIOWrite+0x41>
+    1f82:	41 d1 ec             	shr    %r12d
+    1f85:	a8 01                	test   $0x1,%al
+    1f87:	75 5f                	jne    1fe8 <ioapicMMIOWrite+0xf8>
+    1f89:	41 f7 c5 00 00 01 00 	test   $0x10000,%r13d
+    1f90:	75 0e                	jne    1fa0 <ioapicMMIOWrite+0xb0>
+    1f92:	41 0f b6 c5          	movzbl %r13b,%eax
+    1f96:	83 e8 10             	sub    $0x10,%eax
+    1f99:	3d ee 00 00 00       	cmp    $0xee,%eax
+    1f9e:	77 60                	ja     2000 <ioapicMMIOWrite+0x110>
+    1fa0:	48 b8 00 50 00 00 ff 	movabs $0xffffffff00005000,%rax
+    1fa7:	ff ff ff 
+    1faa:	4a 23 84 e3 08 01 00 	and    0x108(%rbx,%r12,8),%rax
+    1fb1:	00 
+    1fb2:	41 81 e5 ff af ff ff 	and    $0xffffafff,%r13d
+    1fb9:	49 09 c5             	or     %rax,%r13
+    1fbc:	48 8d bb 00 01 00 00 	lea    0x100(%rbx),%rdi
+    1fc3:	4e 89 ac e3 08 01 00 	mov    %r13,0x108(%rbx,%r12,8)
+    1fca:	00 
+    1fcb:	e8 10 fd ff ff       	callq  1ce0 <apicMMIOWrite+0xc0>
+    1fd0:	e9 5c ff ff ff       	jmpq   1f31 <ioapicMMIOWrite+0x41>
+    1fd5:	0f 1f 00             	nopl   (%rax)
+    1fd8:	41 c1 ed 18          	shr    $0x18,%r13d
+    1fdc:	44 88 ab 00 01 00 00 	mov    %r13b,0x100(%rbx)
+    1fe3:	e9 49 ff ff ff       	jmpq   1f31 <ioapicMMIOWrite+0x41>
+    1fe8:	42 8b 84 e3 08 01 00 	mov    0x108(%rbx,%r12,8),%eax
+    1fef:	00 
+    1ff0:	41 81 e5 00 00 00 ff 	and    $0xff000000,%r13d
+    1ff7:	49 c1 e5 20          	shl    $0x20,%r13
+    1ffb:	49 09 c5             	or     %rax,%r13
+    1ffe:	eb bc                	jmp    1fbc <ioapicMMIOWrite+0xcc>
+    2000:	bf 10 00 2f 00       	mov    $0x2f0010,%edi
+    2005:	e8 00 00 00 00       	callq  200a <ioapicMMIOWrite+0x11a>
+    200a:	48 85 c0             	test   %rax,%rax
+    200d:	74 26                	je     2035 <ioapicMMIOWrite+0x145>
+    200f:	52                   	push   %rdx
+    2010:	41 54                	push   %r12
+    2012:	48 c7 c1 00 00 00 00 	mov    $0x0,%rcx
+    2019:	be 10 00 00 00       	mov    $0x10,%esi
+    201e:	48 89 c7             	mov    %rax,%rdi
+    2021:	45 89 f1             	mov    %r14d,%r9d
+    2024:	45 89 e8             	mov    %r13d,%r8d
+    2027:	ba 2f 00 00 00       	mov    $0x2f,%edx
+    202c:	31 c0                	xor    %eax,%eax
+    202e:	e8 00 00 00 00       	callq  2033 <ioapicMMIOWrite+0x143>
+    2033:	59                   	pop    %rcx
+    2034:	5e                   	pop    %rsi
+    2035:	4e 8b ac e3 08 01 00 	mov    0x108(%rbx,%r12,8),%r13
+    203c:	00 
+    203d:	e9 7a ff ff ff       	jmpq   1fbc <ioapicMMIOWrite+0xcc>
+    2042:	66 66 66 66 66 2e 0f 	data16 data16 data16 data16 nopw %cs:0x0(%rax,%rax,1)
+    2049:	1f 84 00 00 00 00 00 
+
+0000000000002050 <ioapicSetIrq>:
+    2050:	83 fe 17             	cmp    $0x17,%esi
+    2053:	0f 87 91 00 00 00    	ja     20ea <ioapicSetIrq+0x9a>
+    2059:	55                   	push   %rbp
+    205a:	41 89 c8             	mov    %ecx,%r8d
+    205d:	b8 01 00 00 00       	mov    $0x1,%eax
+    2062:	89 f1                	mov    %esi,%ecx
+    2064:	48 63 f6             	movslq %esi,%rsi
+    2067:	48 89 e5             	mov    %rsp,%rbp
+    206a:	41 55                	push   %r13
+    206c:	41 54                	push   %r12
+    206e:	53                   	push   %rbx
+    206f:	48 89 fb             	mov    %rdi,%rbx
+    2072:	d3 e0                	shl    %cl,%eax
+    2074:	48 8d bf 00 01 00 00 	lea    0x100(%rdi),%rdi
+    207b:	41 89 c4             	mov    %eax,%r12d
+    207e:	48 83 ec 18          	sub    $0x18,%rsp
+    2082:	f6 84 f3 09 01 00 00 	testb  $0x80,0x109(%rbx,%rsi,8)
+    2089:	80 
+    208a:	74 64                	je     20f0 <ioapicSetIrq+0xa0>
+    208c:	85 d2                	test   %edx,%edx
+    208e:	89 55 dc             	mov    %edx,-0x24(%rbp)
+    2091:	0f 84 91 00 00 00    	je     2128 <ioapicSetIrq+0xd8>
+    2097:	4c 8d 2c b3          	lea    (%rbx,%rsi,4),%r13
+    209b:	09 83 04 01 00 00    	or     %eax,0x104(%rbx)
+    20a1:	b8 00 00 00 80       	mov    $0x80000000,%eax
+    20a6:	41 8b 8d c8 01 00 00 	mov    0x1c8(%r13),%ecx
+    20ad:	85 c9                	test   %ecx,%ecx
+    20af:	44 0f 45 c0          	cmovne %eax,%r8d
+    20b3:	45 89 85 c8 01 00 00 	mov    %r8d,0x1c8(%r13)
+    20ba:	e8 21 fc ff ff       	callq  1ce0 <apicMMIOWrite+0xc0>
+    20bf:	8b 55 dc             	mov    -0x24(%rbp),%edx
+    20c2:	83 e2 03             	and    $0x3,%edx
+    20c5:	83 fa 03             	cmp    $0x3,%edx
+    20c8:	75 16                	jne    20e0 <ioapicSetIrq+0x90>
+    20ca:	44 89 e0             	mov    %r12d,%eax
+    20cd:	f7 d0                	not    %eax
+    20cf:	21 83 04 01 00 00    	and    %eax,0x104(%rbx)
+    20d5:	41 c7 85 c8 01 00 00 	movl   $0x0,0x1c8(%r13)
+    20dc:	00 00 00 00 
+    20e0:	48 83 c4 18          	add    $0x18,%rsp
+    20e4:	5b                   	pop    %rbx
+    20e5:	41 5c                	pop    %r12
+    20e7:	41 5d                	pop    %r13
+    20e9:	5d                   	pop    %rbp
+    20ea:	f3 c3                	repz retq 
+    20ec:	0f 1f 40 00          	nopl   0x0(%rax)
+    20f0:	85 d2                	test   %edx,%edx
+    20f2:	74 ec                	je     20e0 <ioapicSetIrq+0x90>
+    20f4:	09 83 04 01 00 00    	or     %eax,0x104(%rbx)
+    20fa:	48 8d 04 b3          	lea    (%rbx,%rsi,4),%rax
+    20fe:	8b 90 c8 01 00 00    	mov    0x1c8(%rax),%edx
+    2104:	85 d2                	test   %edx,%edx
+    2106:	ba 00 00 00 80       	mov    $0x80000000,%edx
+    210b:	44 0f 45 c2          	cmovne %edx,%r8d
+    210f:	44 89 80 c8 01 00 00 	mov    %r8d,0x1c8(%rax)
+    2116:	48 83 c4 18          	add    $0x18,%rsp
+    211a:	5b                   	pop    %rbx
+    211b:	41 5c                	pop    %r12
+    211d:	41 5d                	pop    %r13
+    211f:	5d                   	pop    %rbp
+    2120:	e9 bb fb ff ff       	jmpq   1ce0 <apicMMIOWrite+0xc0>
+    2125:	0f 1f 00             	nopl   (%rax)
+    2128:	f7 d0                	not    %eax
+    212a:	21 83 04 01 00 00    	and    %eax,0x104(%rbx)
+    2130:	c7 84 b3 c8 01 00 00 	movl   $0x0,0x1c8(%rbx,%rsi,4)
+    2137:	00 00 00 00 
+    213b:	48 83 c4 18          	add    $0x18,%rsp
+    213f:	5b                   	pop    %rbx
+    2140:	41 5c                	pop    %r12
+    2142:	41 5d                	pop    %r13
+    2144:	5d                   	pop    %rbp
+    2145:	eb a3                	jmp    20ea <ioapicSetIrq+0x9a>
+    2147:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    214e:	00 00 
+
+0000000000002150 <ioapicSendMsi>:
+    2150:	55                   	push   %rbp
+    2151:	41 89 d2             	mov    %edx,%r10d
+    2154:	48 89 f0             	mov    %rsi,%rax
+    2157:	4c 8b 9f 40 02 00 00 	mov    0x240(%rdi),%r11
+    215e:	41 c1 ea 08          	shr    $0x8,%r10d
+    2162:	48 c1 e8 02          	shr    $0x2,%rax
+    2166:	48 89 e5             	mov    %rsp,%rbp
+    2169:	51                   	push   %rcx
+    216a:	89 d1                	mov    %edx,%ecx
+    216c:	c1 e9 0f             	shr    $0xf,%ecx
+    216f:	41 83 e2 07          	and    $0x7,%r10d
+    2173:	83 e0 01             	and    $0x1,%eax
+    2176:	83 e1 01             	and    $0x1,%ecx
+    2179:	81 e6 f0 ff 0f 00    	and    $0xffff0,%esi
+    217f:	44 0f b6 c2          	movzbl %dl,%r8d
+    2183:	51                   	push   %rcx
+    2184:	89 c2                	mov    %eax,%edx
+    2186:	48 c1 ee 0c          	shr    $0xc,%rsi
+    218a:	45 31 c9             	xor    %r9d,%r9d
+    218d:	44 89 d1             	mov    %r10d,%ecx
+    2190:	41 ff 53 08          	callq  *0x8(%r11)
+    2194:	58                   	pop    %rax
+    2195:	5a                   	pop    %rdx
+    2196:	c9                   	leaveq 
+    2197:	c3                   	retq   
