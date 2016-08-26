@@ -11,7 +11,7 @@ char *fd_to_string(int fd, size_t *string_size);
 
 char *file_to_string(char *const filename, size_t *string_size) {
   char *string = NULL;
-  int fd = open(filename, O_RDONLY);
+  int fd = open(filename, O_RDONLY|O_NONBLOCK);
   if (fd == -1) {
     *string_size = 0;
     return NULL;
@@ -57,7 +57,7 @@ char *fd_to_string(int fd, size_t *string_size) {
 
 void *find_addr(const char *search, int *error) {
   ssize_t msg_size = 0;
-  char *msg = fd_to_string(STDIN_FILENO, &msg_size);
+  char *msg = file_to_string("/dev/kmsg", &msg_size);
   char *freeme = msg;
   char *tmp = msg;
   char *addr = NULL;
@@ -65,6 +65,7 @@ void *find_addr(const char *search, int *error) {
     char *newline = strchr(msg, '\n');
     while (newline != NULL && msg != NULL) {
       *newline = '\0';
+	  printf("LINE: %s\n", msg);
       ++newline;
       tmp = newline;
       const char search_start[] = "vboxdrv: ";
@@ -74,7 +75,6 @@ void *find_addr(const char *search, int *error) {
         --loc_end;
         *loc_end = '\0';
         addr = loc_start + strlen(search_start);
-        break;
       }
       msg = tmp;
       newline = strchr(msg, '\n');

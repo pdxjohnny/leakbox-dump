@@ -14,9 +14,18 @@ char *fd_to_string(struct file *fd, size_t *string_size);
 void *find_addr(const char *search, int *error);
 
 char *file_to_string(char *const filename, size_t *string_size) {
+  int err = 0;
   char *string = NULL;
-  struct file *fd = filp_open(filename, O_RDONLY, 0);
+  struct file *fd = NULL;
+  mm_segment_t oldfs;
+
+  oldfs = get_fs();
+  set_fs(get_ds());
+  fd = filp_open(filename, O_RDONLY, 0);
+  set_fs(oldfs);
+
   if (fd == NULL) {
+    printk(KERN_INFO "wtf could not open file\n");
     *string_size = 0;
     return NULL;
   }
@@ -35,6 +44,7 @@ char *fd_to_string(struct file *fd, size_t *string_size) {
   *string_size = 0;
   memset(buf, 0, buf_size);
   bytes_read = fd->f_op->read(fd, buf, buf_size, &fd->f_pos);
+  printk(KERN_INFO "bytes_read: %d\n", bytes_read);
   if (bytes_read > 0) {
     buf_length = (size_t)bytes_read;
   }
@@ -52,6 +62,7 @@ char *fd_to_string(struct file *fd, size_t *string_size) {
     tmp = NULL;
     memset(buf, 0, buf_size);
     bytes_read = fd->f_op->read(fd, buf, buf_size, &fd->f_pos);
+    printk(KERN_INFO "bytes_read: %d\n", bytes_read);
     if (bytes_read > 0) {
       buf_length = (size_t)bytes_read;
     }
@@ -62,7 +73,7 @@ char *fd_to_string(struct file *fd, size_t *string_size) {
 void *find_addr(const char *search, int *error) {
   char search_start[] = "vboxdrv: ";
   ssize_t msg_size = 0;
-  char *msg = file_to_string("/var/log/kern.log", &msg_size);
+  char *msg = file_to_string("/dev/kmsg", &msg_size);
   char *kfreeme = msg;
   char *tmp = msg;
   char *addr = NULL;
@@ -81,7 +92,6 @@ void *find_addr(const char *search, int *error) {
         --loc_end;
         *loc_end = '\0';
         addr = loc_start + strlen(search_start);
-        break;
       }
       msg = tmp;
       newline = strchr(msg, '\n');
