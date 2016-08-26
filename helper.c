@@ -20,17 +20,18 @@ char *file_to_string(char *const filename, size_t *string_size) {
   mm_segment_t oldfs;
 
   oldfs = get_fs();
-  set_fs(get_ds());
+  set_fs(KERNEL_DS);
   fd = filp_open(filename, O_RDONLY, 0);
-  set_fs(oldfs);
 
   if (fd == NULL) {
     printk(KERN_INFO "wtf could not open file\n");
     *string_size = 0;
+	set_fs(oldfs);
     return NULL;
   }
   string = fd_to_string(fd, string_size);
   filp_close(fd, NULL);
+  set_fs(oldfs);
   return string;
 }
 
