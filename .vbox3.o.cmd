@@ -581,6 +581,76 @@ deps_/home/johnsa1/Documents/kmodule/vbox3.o := \
     $(wildcard include/config/have/mod/arch/specific.h) \
     $(wildcard include/config/modules/use/elf/rel.h) \
     $(wildcard include/config/modules/use/elf/rela.h) \
+  /home/johnsa1/Documents/kmodule/helper.c \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/slab.h \
+    $(wildcard include/config/slab/debug.h) \
+    $(wildcard include/config/failslab.h) \
+    $(wildcard include/config/memcg/kmem.h) \
+    $(wildcard include/config/slob.h) \
+    $(wildcard include/config/slab.h) \
+    $(wildcard include/config/slub.h) \
+    $(wildcard include/config/debug/slab.h) \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/kmemleak.h \
+    $(wildcard include/config/debug/kmemleak.h) \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/slab_def.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/reciprocal_div.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/fs.h \
+    $(wildcard include/config/fs/posix/acl.h) \
+    $(wildcard include/config/security.h) \
+    $(wildcard include/config/ima.h) \
+    $(wildcard include/config/quota.h) \
+    $(wildcard include/config/fsnotify.h) \
+    $(wildcard include/config/epoll.h) \
+    $(wildcard include/config/file/locking.h) \
+    $(wildcard include/config/auditsyscall.h) \
+    $(wildcard include/config/block.h) \
+    $(wildcard include/config/fs/xip.h) \
+    $(wildcard include/config/migration.h) \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/kdev_t.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/uapi/linux/kdev_t.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/dcache.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/rculist.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/rculist_bl.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/list_bl.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/bit_spinlock.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/lockref.h \
+    $(wildcard include/config/arch/use/cmpxchg/lockref.h) \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/path.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/list_lru.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/radix-tree.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/pid.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/capability.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/uapi/linux/capability.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/semaphore.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/uapi/linux/fiemap.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/shrinker.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/migrate_mode.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/percpu-rwsem.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/blk_types.h \
+    $(wildcard include/config/blk/cgroup.h) \
+    $(wildcard include/config/blk/dev/integrity.h) \
+  /usr/src/linux-headers-3.16.0-4-common/include/uapi/linux/fs.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/uapi/linux/limits.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/quota.h \
+    $(wildcard include/config/quota/netlink/interface.h) \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/percpu_counter.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/uapi/linux/dqblk_xfs.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/dqblk_v1.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/dqblk_v2.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/dqblk_qtree.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/projid.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/uapi/linux/quota.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/nfs_fs_i.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/linux/fcntl.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/uapi/linux/fcntl.h \
+  /usr/src/linux-headers-3.16.0-4-common/arch/x86/include/uapi/asm/fcntl.h \
+  /usr/src/linux-headers-3.16.0-4-common/include/uapi/asm-generic/fcntl.h \
+  /usr/src/linux-headers-3.16.0-4-common/arch/x86/include/asm/uaccess.h \
+    $(wildcard include/config/x86/intel/usercopy.h) \
+    $(wildcard include/config/debug/strict/user/copy/checks.h) \
+  /usr/src/linux-headers-3.16.0-4-common/arch/x86/include/asm/smap.h \
+    $(wildcard include/config/x86/smap.h) \
+  /usr/src/linux-headers-3.16.0-4-common/arch/x86/include/asm/uaccess_64.h \
 
 /home/johnsa1/Documents/kmodule/vbox3.o: $(deps_/home/johnsa1/Documents/kmodule/vbox3.o)
 
