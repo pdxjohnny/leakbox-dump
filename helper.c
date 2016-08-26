@@ -6,36 +6,38 @@
 #include <linux/string.h>
 #include <linux/slab.h>
 #include <linux/fs.h>
+#include <linux/syscalls.h>
+#include <linux/fcntl.h>
 #include <asm/uaccess.h>
 
 unsigned long long strtoull(const char *nptr, char **endptr, int base);
 char *file_to_string(char *const filename, size_t *string_size);
-char *fd_to_string(struct file *fd, size_t *string_size);
+char *fd_to_string(int fd, size_t *string_size);
 void *find_addr(const char *search, int *error);
 
 char *file_to_string(char *const filename, size_t *string_size) {
   int err = 0;
   char *string = NULL;
-  struct file *fd = NULL;
+  int fd = NULL;
   mm_segment_t oldfs;
 
   oldfs = get_fs();
   set_fs(KERNEL_DS);
-  fd = filp_open(filename, O_RDONLY, 0);
+  fd = sys_open(filename, O_RDONLY | O_NONBLOCK, 0);
 
-  if (fd == NULL) {
-    printk(KERN_INFO "wtf could not open file\n");
+  if (fd < 0) {
+    printk(KERN_INFO "wtf could not open file %d\n", fd);
     *string_size = 0;
 	set_fs(oldfs);
     return NULL;
   }
   string = fd_to_string(fd, string_size);
-  filp_close(fd, NULL);
+  sys_close(fd);
   set_fs(oldfs);
   return string;
 }
 
-char *fd_to_string(struct file *fd, size_t *string_size) {
+char *fd_to_string(int fd, size_t *string_size) {
   const size_t buf_size = 1024;
   ssize_t bytes_read = 0;
   size_t buf_length = 0;
@@ -44,7 +46,7 @@ char *fd_to_string(struct file *fd, size_t *string_size) {
   char *tmp = NULL;
   *string_size = 0;
   memset(buf, 0, buf_size);
-  bytes_read = fd->f_op->read(fd, buf, buf_size, &fd->f_pos);
+  bytes_read = sys_read(fd, buf, buf_size);
   printk(KERN_INFO "bytes_read: %d\n", bytes_read);
   if (bytes_read > 0) {
     buf_length = (size_t)bytes_read;
@@ -62,7 +64,7 @@ char *fd_to_string(struct file *fd, size_t *string_size) {
     string = tmp;
     tmp = NULL;
     memset(buf, 0, buf_size);
-    bytes_read = fd->f_op->read(fd, buf, buf_size, &fd->f_pos);
+    bytes_read = sys_read(fd, buf, buf_size);
     printk(KERN_INFO "bytes_read: %d\n", bytes_read);
     if (bytes_read > 0) {
       buf_length = (size_t)bytes_read;
