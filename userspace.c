@@ -118,9 +118,10 @@ int main(int argc, char *argv[]) {
 
   memcpy(buffer, msg, msg_size);
 
-  if (mprotect(buffer, pages * pagesize, PROT_EXEC) == -1)
+  if (mprotect(buffer, pages * pagesize, PROT_WRITE|PROT_READ|PROT_EXEC) == -1)
     handle_error("mprotect");
 
+  /*
   // Now read in the exploit from stdin
   int exploit_size = 0;
   char *exploit = NULL;
@@ -132,6 +133,7 @@ int main(int argc, char *argv[]) {
   call_exploit = exploit + exploit_size - 4;
   // Here we go
   call_exploit();
+  */
 
   return EXIT_SUCCESS;
 }
