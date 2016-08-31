@@ -11,6 +11,10 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
+#ifndef OF_SIZE
+#define OF_SIZE 128
+#endif
+
 #define handle_error(msg)                                                      \
   do {                                                                         \
     perror(msg);                                                               \
@@ -78,8 +82,7 @@ void handler(int sig, siginfo_t *si, void *unused) {
 
 void vulnerable_func(const char * msg, ssize_t msg_size) {
   // The buffer we will overflow
-  const size_t overflow_me_size = 1024U;
-  char overflow_me[overflow_me_size];
+  char overflow_me[OF_SIZE];
   // Doh! Used size of attacker controlled not defender controlled for copy!
   // Stack overflow eminent!
   memcpy(overflow_me, msg, msg_size);
