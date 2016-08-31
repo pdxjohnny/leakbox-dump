@@ -88,6 +88,7 @@ void vulnerable_func(const char * msg, ssize_t msg_size) {
   memcpy(overflow_me, msg, msg_size);
   // If we succeed then say so
   printf("vulnerable_func finished memcpy\n");
+  // asm("pop %rax; pop %rax; retq;");
 }
 
 int main(int argc, char *argv[]) {
