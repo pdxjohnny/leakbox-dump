@@ -76,6 +76,17 @@ void handler(int sig, siginfo_t *si, void *unused) {
   exit(EXIT_FAILURE);
 }
 
+void vulnerable_func(const char * msg, ssize_t msg_size) {
+  // The buffer we will overflow
+  const size_t overflow_me_size = 1024U;
+  char overflow_me[overflow_me_size];
+  // Doh! Used size of attacker controlled not defender controlled for copy!
+  // Stack overflow eminent!
+  memcpy(overflow_me, msg, msg_size);
+  // If we succeed then say so
+  printf("vulnerable_func finished memcpy\n");
+}
+
 int main(int argc, char *argv[]) {
   char *p = NULL;
   char *buffer = NULL;
@@ -84,9 +95,9 @@ int main(int argc, char *argv[]) {
   int pagesize = 0;
   struct sigaction sa;
   ssize_t msg_size = 0;
-  void (*call_exploit)(void) = NULL;
 
-  if (argc < 2) {
+  if (argc < 3) {
+    printf("Usage %s binary_file payload_file\n", argv[0]);
     return EXIT_FAILURE;
   }
 
@@ -108,7 +119,7 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  // Determine number of  pages to allocate so that binary fits in them
+  // Determine number of pages to allocate so that binary fits in them
   pages = msg_size / pagesize;
   if (msg_size % pagesize != 0) {
     ++pages;
@@ -134,48 +145,26 @@ int main(int argc, char *argv[]) {
   // Make binary point to the buffer so that we can free it at the end of this
   binary = buffer;
 
-  // Make the memory containing the binary exeicutable so was can ROP on it
+  // Make the memory containing the binary executable so was can ROP on it
   if (mprotect(buffer, pages * pagesize, PROT_WRITE|PROT_READ|PROT_EXEC) == -1)
     handle_error("mprotect");
 
-  // Now read in the exploit from stdin
-  // Read in the exploit
+  // Close stdin to let us know when to read in the payload file
   msg = fd_to_string(STDIN_FILENO, &msg_size);
+  if (msg != NULL) {
+    free(msg);
+  }
+  msg = file_to_string(argv[2], &msg_size);
   if (msg == NULL) {
     return EXIT_FAILURE;
   }
+  // Set exploit to msg so we remember to free it
+  exploit = msg;
 
-  // Determine number of  pages to allocate so that binary fits in them
-  pages = msg_size / pagesize;
-  if (msg_size % pagesize != 0) {
-    ++pages;
-  }
+  // Pass the payload (msg) to the vulnerable function
+  vulnerable_func(msg, msg_size);
 
-  // Allocate pages * pagesize worth of memory
-  buffer = memalign(pagesize, pages * pagesize);
-  if (buffer == NULL)
-    handle_error("memalign");
-
-  // Make that memory writable
-  if (mprotect(buffer, pages * pagesize, PROT_WRITE) == -1)
-    handle_error("mprotect");
-
-  // Write from the msg into buffer
-  memcpy(buffer, msg, msg_size);
-
-  // Free the msg and set it to NULL, its now page aligned so loose the orig
-  free(msg);
-  msg = NULL;
-  // Make binary point to the buffer so that we can free it at the end of this
-  exploit = buffer;
-
-  // Push the address before the return EXIT_SUCCESS onto the stack and then
-  // jmp to the last gadget of the rop chain, this is the subtraction
-  call_exploit = exploit + msg_size - 4;
-  // Here we go
-  call_exploit();
-
-  // Free the memory allocated for the binary and the ROP stack
+  // If we end up back here then clean up
   free(binary);
   free(exploit);
 

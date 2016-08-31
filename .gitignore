@@ -6,3 +6,5 @@
 modules.order
 userspace
 *.mod.c
+*.symvers
+payload
