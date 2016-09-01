@@ -18,12 +18,16 @@ MODULE_AUTHOR("John Andersen, Fredric Carl");
 #endif
 
 static int exploit_length = 0;
-static char *exploit_payload = "blah";
+static int  exploit_payload[1000];
+static char exploit_prep[1000];
+static int arr_argc = 0;
 
-module_param(exploit_payload, charp, 0000);
+module_param_array(exploit_payload, int, &arr_argc, 0000);
 MODULE_PARM_DESC(exploit_payload, "Exploit payload");
 module_param(exploit_length, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(exploit_length, "Length of payload");
+
+unsigned long long strtoull(const char *nptr, char **endptr, int base);
 
 void vulnerable_func(const char * msg, ssize_t msg_size) {
   // The buffer we will overflow
@@ -37,13 +41,22 @@ void vulnerable_func(const char * msg, ssize_t msg_size) {
 }
 
 static int __init vbox_poc_init(void) {
+  int i;
+  int j;
+  char buf[3] = {0, 0, 0};
   printk(INFO "Loaded\n");
 
-  printk(INFO "Exploit payload: %s\n", exploit_payload);
+  // printk(INFO "Exploit payload: %s\n", exploit_payload);
   printk(INFO "Payload length: %d\n", exploit_length);
 
+  for (i = 0, j = 0; i < 1000; i += 2, ++j) {
+	buf[0] = exploit_payload[i];
+	buf[1] = exploit_payload[i + 1];
+    exploit_prep[j] = strtoull(buf, NULL, 16);
+  }
+
   printk(INFO "Calling vulnerable_func\n");
-  vulnerable_func(exploit_payload, exploit_length);
+  vulnerable_func(exploit_prep, exploit_length);
   printk(INFO "Done with vulnerable_func\n");
 
   return 0;
@@ -51,6 +64,68 @@ static int __init vbox_poc_init(void) {
 
 static void __exit vbox_poc_exit(void) {
   printk(INFO "Unloaded\n");
+}
+
+unsigned long long strtoull(const char *nptr, char **endptr, int base) {
+  const char *s;
+  unsigned long long acc;
+  char c;
+  unsigned long long cutoff;
+  int neg, any, cutlim;
+
+  /*
+   * See strtoq for comments as to the logic used.
+   */
+  s = nptr;
+  do {
+    c = *s++;
+  } while (c == ' ');
+  if (c == '-') {
+    neg = 1;
+    c = *s++;
+  } else {
+    neg = 0;
+    if (c == '+')
+      c = *s++;
+  }
+  if ((base == 0 || base == 16) && c == '0' && (*s == 'x' || *s == 'X')) {
+    c = s[1];
+    s += 2;
+    base = 16;
+  }
+  if (base == 0)
+    base = c == '0' ? 8 : 10;
+  acc = any = 0;
+
+  cutoff = ULLONG_MAX / base;
+  cutlim = ULLONG_MAX % base;
+  for (;; c = *s++) {
+    if (c >= '0' && c <= '9')
+      c -= '0';
+    else if (c >= 'A' && c <= 'Z')
+      c -= 'A' - 10;
+    else if (c >= 'a' && c <= 'z')
+      c -= 'a' - 10;
+    else
+      break;
+    if (c >= base)
+      break;
+    if (any < 0 || acc > cutoff || (acc == cutoff && c > cutlim))
+      any = -1;
+    else {
+      any = 1;
+      acc *= base;
+      acc += c;
+    }
+  }
+  if (any < 0) {
+    acc = ULLONG_MAX;
+  } else if (!any) {
+  } else if (neg)
+    acc = -acc;
+  if (endptr != NULL)
+    *endptr = (char *)(any ? s - 1 : nptr);
+  return (acc);
 }
 
 module_init(vbox_poc_init);

