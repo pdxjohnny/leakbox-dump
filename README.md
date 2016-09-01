@@ -61,7 +61,7 @@ driver) you are unable to use standard techniques such as ROP to gain code
 execution because you don't know where any of the gadgets you need to use are.
 
 When something running in ring 0 leaks addresses, which is what VirtualBox is
-doing, the attacker now knows where they gadgets they need are located and thus
+doing, the attacker now knows where the gadgets they need are located and thus
 can execute whatever code they want at the highest level of privilege.
 
 We believed it was necessary to create a POC for this because by leaking
@@ -78,7 +78,7 @@ thus owning it.
 ## How does your POC do that?
 
 Our POC grabs the leaked addresses from `dmesg` and constructs a ROP chain that
-points to gadgets in `VMMR0.0`. We created a extremely basic kernel module which
+points to gadgets in `VMMR0.r0`. We created a extremely basic kernel module which
 experiences a stack buffer overflow. The module init calls the vulnerable
 function which `memcpy`'s into a buffer on the stack. The ROP chain is
 prepended with the address of a `retq` which creates a ret slide into the
@@ -114,5 +114,5 @@ earlier versions as well.
 
 ## Recommendations
 
-We *strongly* recommend that VirtualBox be patched so that it does not log the
+We **strongly** recommend that VirtualBox be patched so that it does not log the
 addresses of its modules.
