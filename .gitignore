@@ -8,3 +8,4 @@ userspace
 *.mod.c
 *.symvers
 payload
+*__pycache__
