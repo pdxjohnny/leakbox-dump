@@ -1,0 +1,8 @@
+obj-m += vbox3.o
+CFLAGS_vbox3.o := -fno-stack-protector
+
+all:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+
+clean:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
