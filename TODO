@@ -1,0 +1,2 @@
+Add up sizes of elf until .bss and write the string there
+readelf -S /opt/VirtualBox/VMMR0.r0 | less
