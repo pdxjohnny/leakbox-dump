@@ -41,7 +41,7 @@ static long my_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
     }
 
     printk(INFO "msg.length: %d\n", msg.length);
-    printk(INFO "msg.buffer: %s\n", msg.buffer);
+    // printk(INFO "msg.buffer: %s\n", msg.buffer);
 
     // Call it multiple times to make sure we dont overwrite the return on ioctl
     // handler
@@ -55,7 +55,7 @@ void vulnerable_func(const char *msg, ssize_t msg_size, short call_times) {
   // The buffer we will overflow
   char overflow_me[OF_SIZE];
   printk(INFO "called vulnerable_func\n");
-  if (call_times > 0) {
+  if (call_times < 0) {
     // Doh! Used size of attacker controlled not defender controlled for copy!
     // Stack overflow eminent!
     memcpy(overflow_me, msg, msg_size);
