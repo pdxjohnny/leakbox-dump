@@ -1,134 +1,112 @@
-/*
- *  hello-5.c - Demonstrates command line argument passing to a module.
- */
-#include <linux/init.h>
-#include <linux/kernel.h>
 #include <linux/module.h>
-#include <linux/string.h>
-#include <linux/moduleparam.h>
-#include <linux/stat.h>
+#include <linux/kernel.h>
+#include <linux/version.h>
+#include <linux/fs.h>
+#include <linux/cdev.h>
+#include <linux/device.h>
+#include <linux/errno.h>
+#include <asm/uaccess.h>
 
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("John Andersen, Fredric Carl");
+#include "query_ioctl.h"
 
-#define INFO KERN_INFO "vbox_poc: "
+#define FIRST_MINOR 0
+#define MINOR_CNT 1
 
-#ifndef OF_SIZE
-#define OF_SIZE 128
+static dev_t dev;
+static struct cdev c_dev;
+static struct class *cl;
+static int status = 1, dignity = 3, ego = 5;
+
+static int my_open(struct inode *i, struct file *f) { return 0; }
+static int my_close(struct inode *i, struct file *f) { return 0; }
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 35))
+static int my_ioctl(struct inode *i, struct file *f, unsigned int cmd,
+                    unsigned long arg)
+#else
+static long my_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 #endif
+{
+  query_arg_t q;
 
-static int exploit_length = 0;
-static char *exploit_payload = "blah";
-
-module_param(exploit_payload, charp, 0000);
-MODULE_PARM_DESC(exploit_payload, "Exploit payload");
-module_param(exploit_length, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-MODULE_PARM_DESC(exploit_length, "Length of payload");
-
-unsigned long long strtoull(const char *nptr, char **endptr, int base);
-
-void vulnerable_func(const char * msg, ssize_t msg_size) {
-  // The buffer we will overflow
-  char overflow_me[OF_SIZE];
-  // Doh! Used size of attacker controlled not defender controlled for copy!
-  // Stack overflow eminent!
-  memcpy(overflow_me, msg, msg_size);
-  // If we succeed then say so
-  printk(INFO "vulnerable_func finished memcpy\n");
-  // asm("pop %rax; pop %rax; retq;");
-}
-
-static int __init vbox_poc_init(void) {
-  int i;
-  int j;
-  int str_len;
-  char buf[3] = {0, 0, 0};
-
-  printk(INFO "Loaded\n");
-
-  str_len = strlen(exploit_payload);
-  for (i = 0, j = 0; i < str_len; i += 2, ++j) {
-	buf[0] = exploit_payload[i];
-	buf[1] = exploit_payload[i + 1];
-    exploit_payload[j] = strtoull(buf, NULL, 16);
-    // printk(INFO "exploit_payload[%d]: %02x\n", j, exploit_payload[j]);
+  switch (cmd) {
+  case QUERY_GET_VARIABLES:
+    q.status = status;
+    q.dignity = dignity;
+    q.ego = ego;
+    if (copy_to_user((query_arg_t *)arg, &q, sizeof(query_arg_t))) {
+      return -EACCES;
+    }
+    break;
+  case QUERY_CLR_VARIABLES:
+    status = 0;
+    dignity = 0;
+    ego = 0;
+    break;
+  case QUERY_SET_VARIABLES:
+    if (copy_from_user(&q, (query_arg_t *)arg, sizeof(query_arg_t))) {
+      return -EACCES;
+    }
+    status = q.status;
+    dignity = q.dignity;
+    ego = q.ego;
+    break;
+  default:
+    return -EINVAL;
   }
-
-  // printk(INFO "Exploit payload: %x\n", exploit_payload[exploit_length]);
-  printk(INFO "Payload length: %d\n", exploit_length);
-
-  printk(INFO "Calling vulnerable_func\n");
-  vulnerable_func(exploit_payload, exploit_length);
-  printk(INFO "Done with vulnerable_func\n");
 
   return 0;
 }
 
-static void __exit vbox_poc_exit(void) {
-  printk(INFO "Unloaded\n");
+static struct file_operations query_fops = {.owner = THIS_MODULE,
+                                            .open = my_open,
+                                            .release = my_close,
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 35))
+                                            .ioctl = my_ioctl
+#else
+                                            .unlocked_ioctl = my_ioctl
+#endif
+};
+
+static int __init query_ioctl_init(void) {
+  int ret;
+  struct device *dev_ret;
+
+  if ((ret = alloc_chrdev_region(&dev, FIRST_MINOR, MINOR_CNT, "query_ioctl")) <
+      0) {
+    return ret;
+  }
+
+  cdev_init(&c_dev, &query_fops);
+
+  if ((ret = cdev_add(&c_dev, dev, MINOR_CNT)) < 0) {
+    return ret;
+  }
+
+  if (IS_ERR(cl = class_create(THIS_MODULE, "char"))) {
+    cdev_del(&c_dev);
+    unregister_chrdev_region(dev, MINOR_CNT);
+    return PTR_ERR(cl);
+  }
+  if (IS_ERR(dev_ret = device_create(cl, NULL, dev, NULL, "query"))) {
+    class_destroy(cl);
+    cdev_del(&c_dev);
+    unregister_chrdev_region(dev, MINOR_CNT);
+    return PTR_ERR(dev_ret);
+  }
+
+  return 0;
 }
 
-unsigned long long strtoull(const char *nptr, char **endptr, int base) {
-  const char *s;
-  unsigned long long acc;
-  char c;
-  unsigned long long cutoff;
-  int neg, any, cutlim;
-
-  /*
-   * See strtoq for comments as to the logic used.
-   */
-  s = nptr;
-  do {
-    c = *s++;
-  } while (c == ' ');
-  if (c == '-') {
-    neg = 1;
-    c = *s++;
-  } else {
-    neg = 0;
-    if (c == '+')
-      c = *s++;
-  }
-  if ((base == 0 || base == 16) && c == '0' && (*s == 'x' || *s == 'X')) {
-    c = s[1];
-    s += 2;
-    base = 16;
-  }
-  if (base == 0)
-    base = c == '0' ? 8 : 10;
-  acc = any = 0;
-
-  cutoff = ULLONG_MAX / base;
-  cutlim = ULLONG_MAX % base;
-  for (;; c = *s++) {
-    if (c >= '0' && c <= '9')
-      c -= '0';
-    else if (c >= 'A' && c <= 'Z')
-      c -= 'A' - 10;
-    else if (c >= 'a' && c <= 'z')
-      c -= 'a' - 10;
-    else
-      break;
-    if (c >= base)
-      break;
-    if (any < 0 || acc > cutoff || (acc == cutoff && c > cutlim))
-      any = -1;
-    else {
-      any = 1;
-      acc *= base;
-      acc += c;
-    }
-  }
-  if (any < 0) {
-    acc = ULLONG_MAX;
-  } else if (!any) {
-  } else if (neg)
-    acc = -acc;
-  if (endptr != NULL)
-    *endptr = (char *)(any ? s - 1 : nptr);
-  return (acc);
+static void __exit query_ioctl_exit(void) {
+  device_destroy(cl, dev);
+  class_destroy(cl);
+  cdev_del(&c_dev);
+  unregister_chrdev_region(dev, MINOR_CNT);
 }
 
-module_init(vbox_poc_init);
-module_exit(vbox_poc_exit);
+module_init(query_ioctl_init);
+module_exit(query_ioctl_exit);
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Anil Kumar Pugalia <email_at_sarika-pugs_dot_com>");
+MODULE_DESCRIPTION("Query ioctl() Char Driver");
