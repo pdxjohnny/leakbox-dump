@@ -10,3 +10,4 @@ userspace
 payload
 *__pycache__
 src/
+query_app

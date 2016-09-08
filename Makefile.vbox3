@@ -1,7 +1,7 @@
 obj-m := vbox3.o
 CFLAGS_vbox3.o := -fno-stack-protector
 
-module:
+all:
 	$(CC) query_app.c -o query_app
 	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
