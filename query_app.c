@@ -65,6 +65,8 @@ int main(int argc, char *argv[]) {
   char *tmp;
   struct poc_msg msg;
 
+  printf("getuid before: %d\n", getuid());
+
   if (argc > 1) {
     tmp = file_to_string(argv[1], &msg_length);
   } else {
@@ -89,6 +91,8 @@ int main(int argc, char *argv[]) {
   }
 
   close(fd);
+
+  printf("getuid after: %d\n", getuid());
 
   return 0;
 }

