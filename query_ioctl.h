@@ -1,11 +1,14 @@
 #ifndef QUERY_IOCTL_H
 #define QUERY_IOCTL_H
 #include <linux/ioctl.h>
+#include <linux/types.h>
 
-typedef struct { int status, dignity, ego; } query_arg_t;
+#define BUFFER_SIZE 1000
+#define VBOX_POC_SEND_MSG _IOW(13371337, 1337, struct poc_msg *)
 
-#define QUERY_GET_VARIABLES _IOR('q', 1, query_arg_t *)
-#define QUERY_CLR_VARIABLES _IO('q', 2)
-#define QUERY_SET_VARIABLES _IOW('q', 3, query_arg_t *)
+struct poc_msg {
+  __u32 length;
+  char buffer[BUFFER_SIZE];
+};
 
 #endif

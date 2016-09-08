@@ -1,90 +1,91 @@
-#include <stdio.h>
-#include <sys/types.h>
 #include <fcntl.h>
-#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <sys/ioctl.h>
 
 #include "query_ioctl.h"
 
-void get_vars(int fd) {
-  query_arg_t q;
+char *file_to_string(char *const filename, size_t *string_size);
+char *fd_to_string(int fd, size_t *string_size);
 
-  if (ioctl(fd, QUERY_GET_VARIABLES, &q) == -1) {
-    perror("query_apps ioctl get");
-  } else {
-    printf("Status : %d\n", q.status);
-    printf("Dignity: %d\n", q.dignity);
-    printf("Ego    : %d\n", q.ego);
+char *file_to_string(char *const filename, size_t *string_size) {
+  char *string = NULL;
+  int fd = open(filename, O_RDONLY);
+  if (fd == -1) {
+    *string_size = 0;
+    return NULL;
   }
+  string = fd_to_string(fd, string_size);
+  close(fd);
+  return string;
 }
-void clr_vars(int fd) {
-  if (ioctl(fd, QUERY_CLR_VARIABLES) == -1) {
-    perror("query_apps ioctl clr");
-  }
-}
-void set_vars(int fd) {
-  int v;
-  query_arg_t q;
 
-  printf("Enter Status: ");
-  scanf("%d", &v);
-  getchar();
-  q.status = v;
-  printf("Enter Dignity: ");
-  scanf("%d", &v);
-  getchar();
-  q.dignity = v;
-  printf("Enter Ego: ");
-  scanf("%d", &v);
-  getchar();
-  q.ego = v;
-
-  if (ioctl(fd, QUERY_SET_VARIABLES, &q) == -1) {
-    perror("query_apps ioctl set");
+char *fd_to_string(int fd, size_t *string_size) {
+  const size_t buf_size = 1024;
+  ssize_t bytes_read = 0;
+  size_t buf_length = 0;
+  char buf[buf_size];
+  char *string = NULL;
+  char *tmp = NULL;
+  *string_size = 0;
+  memset(buf, 0, buf_size);
+  bytes_read = read(fd, buf, buf_size);
+  if (bytes_read > 0) {
+    buf_length = (size_t)bytes_read;
   }
+  while (bytes_read > 0) {
+    tmp = malloc(*string_size + buf_length);
+    if (string != NULL) {
+      memcpy(tmp, string, *string_size);
+    }
+    memcpy(tmp + *string_size, buf, buf_length);
+    *string_size += buf_length;
+    if (string != NULL) {
+      free(string);
+    }
+    string = tmp;
+    tmp = NULL;
+    memset(buf, 0, buf_size);
+    bytes_read = read(fd, buf, buf_size);
+    if (bytes_read > 0) {
+      buf_length = (size_t)bytes_read;
+    }
+  }
+  return string;
 }
 
 int main(int argc, char *argv[]) {
-  char *file_name = "/dev/query";
   int fd;
-  enum { e_get, e_clr, e_set } option;
+  ssize_t msg_length = 0;
+  char ioctl_device[] = "/dev/query";
+  char *tmp;
+  struct poc_msg msg;
 
-  if (argc == 1) {
-    option = e_get;
-  } else if (argc == 2) {
-    if (strcmp(argv[1], "-g") == 0) {
-      option = e_get;
-    } else if (strcmp(argv[1], "-c") == 0) {
-      option = e_clr;
-    } else if (strcmp(argv[1], "-s") == 0) {
-      option = e_set;
-    } else {
-      fprintf(stderr, "Usage: %s [-g | -c | -s]\n", argv[0]);
-      return 1;
-    }
+  if (argc > 1) {
+    tmp = file_to_string(argv[1], &msg_length);
   } else {
-    fprintf(stderr, "Usage: %s [-g | -c | -s]\n", argv[0]);
-    return 1;
+    tmp = fd_to_string(STDIN_FILENO, &msg_length);
   }
-  fd = open(file_name, O_RDWR);
-  if (fd == -1) {
-    perror("query_apps open");
-    return 2;
+  if (tmp == NULL) {
+    printf("ERROR: You need to give some input to send to vbox_poc\n");
+    return EXIT_FAILURE;
+  }
+  memcpy(msg.buffer, tmp, msg_length);
+  free(tmp);
+  msg.length = (__u32) msg_length;
+
+  fd = open(ioctl_device, O_RDWR);
+  if (fd < 0) {
+    perror("open /dev/query: ");
+    return EXIT_FAILURE;
   }
 
-  switch (option) {
-  case e_get:
-    get_vars(fd);
-    break;
-  case e_clr:
-    clr_vars(fd);
-    break;
-  case e_set:
-    set_vars(fd);
-    break;
-  default:
-    break;
+  if (ioctl(fd, VBOX_POC_SEND_MSG, &msg) == -1) {
+    perror("when sending: ");
   }
 
   close(fd);

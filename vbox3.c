@@ -13,10 +13,13 @@
 #define FIRST_MINOR 0
 #define MINOR_CNT 1
 
+#define OF_SIZE 256
+
 static dev_t dev;
 static struct cdev c_dev;
 static struct class *cl;
-static int status = 1, dignity = 3, ego = 5;
+
+void vulnerable_func(const char *msg, ssize_t msg_size, short call_times);
 
 static int my_open(struct inode *i, struct file *f) { return 0; }
 static int my_close(struct inode *i, struct file *f) { return 0; }
@@ -27,35 +30,41 @@ static int my_ioctl(struct inode *i, struct file *f, unsigned int cmd,
 static long my_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 #endif
 {
-  query_arg_t q;
+  struct poc_msg msg;
+
+  printk(INFO "cmd: %d\n", cmd);
 
   switch (cmd) {
-  case QUERY_GET_VARIABLES:
-    q.status = status;
-    q.dignity = dignity;
-    q.ego = ego;
-    if (copy_to_user((query_arg_t *)arg, &q, sizeof(query_arg_t))) {
+  case VBOX_POC_SEND_MSG:
+    if (copy_from_user(&msg, (struct poc_msg *)arg, sizeof(struct poc_msg))) {
       return -EACCES;
     }
-    break;
-  case QUERY_CLR_VARIABLES:
-    status = 0;
-    dignity = 0;
-    ego = 0;
-    break;
-  case QUERY_SET_VARIABLES:
-    if (copy_from_user(&q, (query_arg_t *)arg, sizeof(query_arg_t))) {
-      return -EACCES;
-    }
-    status = q.status;
-    dignity = q.dignity;
-    ego = q.ego;
-    break;
-  default:
-    return -EINVAL;
+
+    printk(INFO "msg.length: %d\n", msg.length);
+    printk(INFO "msg.buffer: %s\n", msg.buffer);
+
+    // Call it multiple times to make sure we dont overwrite the return on ioctl
+    // handler
+    vulnerable_func(msg.buffer, msg.length, 10);
   }
 
   return 0;
+}
+
+void vulnerable_func(const char *msg, ssize_t msg_size, short call_times) {
+  // The buffer we will overflow
+  char overflow_me[OF_SIZE];
+  printk(INFO "called vulnerable_func\n");
+  if (call_times > 0) {
+    // Doh! Used size of attacker controlled not defender controlled for copy!
+    // Stack overflow eminent!
+    memcpy(overflow_me, msg, msg_size);
+    // If we succeed in the memcpy then say so
+    printk(INFO "vulnerable_func finished memcpy\n");
+  } else {
+    vulnerable_func(msg, msg_size, --call_times);
+  }
+  printk(INFO "exit vulnerable_func\n");
 }
 
 static struct file_operations query_fops = {.owner = THIS_MODULE,
