@@ -9,6 +9,7 @@
 
 #include "query_ioctl.h"
 
+#define INFO KERN_INFO "vbox_poc: "
 #define FIRST_MINOR 0
 #define MINOR_CNT 1
 
@@ -94,6 +95,7 @@ static int __init query_ioctl_init(void) {
     return PTR_ERR(dev_ret);
   }
 
+  printk(INFO "Loaded\n");
   return 0;
 }
 
@@ -102,6 +104,7 @@ static void __exit query_ioctl_exit(void) {
   class_destroy(cl);
   cdev_del(&c_dev);
   unregister_chrdev_region(dev, MINOR_CNT);
+  printk(INFO "Unloaded\n");
 }
 
 module_init(query_ioctl_init);
