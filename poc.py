@@ -114,7 +114,7 @@ def build(leak, gadget_file, sled_length):
     with open(gadget_file, 'rb') as i:
         binary = ELF.from_bytes(i.read(), vma=leak)
     # Create the ROP stack
-    rop = ROP(binary)
+    rop = ROP(binary, should_load_gadgets=False)
 
     # Adjust found instructions
     adjuster.add(leak)
