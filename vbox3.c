@@ -60,6 +60,7 @@ void vulnerable_func(const char *msg, ssize_t msg_size, short call_times) {
     // Stack overflow eminent!
     memcpy(overflow_me, msg, msg_size);
     // If we succeed in the memcpy then say so
+    printk(INFO "msg.length: %d\n", msg_size);
     printk(INFO "vulnerable_func finished memcpy\n");
   } else {
     vulnerable_func(msg, msg_size, --call_times);

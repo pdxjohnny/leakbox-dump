@@ -85,6 +85,7 @@ void vulnerable_func(const char * msg, ssize_t msg_size) {
   char overflow_me[OF_SIZE];
   // Doh! Used size of attacker controlled not defender controlled for copy!
   // Stack overflow eminent!
+  printf("msg_size: %ld\n", msg_size);
   memcpy(overflow_me, msg, msg_size);
   // If we succeed then say so
   printf("vulnerable_func finished memcpy\n");
@@ -164,6 +165,7 @@ int main(int argc, char *argv[]) {
   }
   // Set exploit to msg so we remember to free it
   exploit = msg;
+  printf("msg_size: %ld\n", msg_size);
 
   // Pass the payload (msg) to the vulnerable function
   vulnerable_func(msg, msg_size);
