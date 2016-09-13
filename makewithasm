@@ -1,0 +1,62 @@
+make -C /lib/modules/3.16.0-4-amd64/build M=/home/johnsa1/Documents/vboxsucks clean
+make[1]: Entering directory '/usr/src/linux-headers-3.16.0-4-amd64'
+Makefile:10: *** mixed implicit and normal rules: deprecated syntax
+make[1]: Entering directory `/usr/src/linux-headers-3.16.0-4-amd64'
+  CLEAN   /home/johnsa1/Documents/vboxsucks/.tmp_versions
+  CLEAN   /home/johnsa1/Documents/vboxsucks/Module.symvers
+make[1]: Leaving directory '/usr/src/linux-headers-3.16.0-4-amd64'
+rm -f query_app
+sudo rmmod vbox3.ko
+dmesg --color=always | tail -n 1
+[32m[13131.973931] [0m[33mvbox_poc[0m: Unloaded
+cc query_app.c -o query_app
+make -C /lib/modules/3.16.0-4-amd64/build M=/home/johnsa1/Documents/vboxsucks modules
+make[1]: Entering directory '/usr/src/linux-headers-3.16.0-4-amd64'
+Makefile:10: *** mixed implicit and normal rules: deprecated syntax
+make[1]: Entering directory `/usr/src/linux-headers-3.16.0-4-amd64'
+  CC [M]  /home/johnsa1/Documents/vboxsucks/vbox3.o
+Using built-in specs.
+COLLECT_GCC=gcc-4.8
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Debian 4.8.4-1' --with-bugurl=file:///usr/share/doc/gcc-4.8/README.Bugs --enable-languages=c,c++,java,go,d,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-4.8 --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --with-gxx-include-dir=/usr/include/c++/4.8 --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --enable-gnu-unique-object --disable-libmudflap --enable-plugin --with-system-zlib --disable-browser-plugin --enable-java-awt=gtk --enable-gtk-cairo --with-java-home=/usr/lib/jvm/java-1.5.0-gcj-4.8-amd64/jre --enable-java-home --with-jvm-root-dir=/usr/lib/jvm/java-1.5.0-gcj-4.8-amd64 --with-jvm-jar-dir=/usr/lib/jvm-exports/java-1.5.0-gcj-4.8-amd64 --with-arch-directory=amd64 --with-ecj-jar=/usr/share/java/eclipse-ecj.jar --enable-objc-gc --enable-multiarch --with-arch-32=i586 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --with-tune=generic --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Thread model: posix
+gcc version 4.8.4 (Debian 4.8.4-1) 
+COLLECT_GCC_OPTIONS='-nostdinc' '-isystem' '/usr/lib/gcc/x86_64-linux-gnu/4.8/include' '-I' '/usr/src/linux-headers-3.16.0-4-common/arch/x86/include' '-I' 'arch/x86/include/generated' '-I' '/usr/src/linux-headers-3.16.0-4-common/include' '-I' 'include' '-I' '/usr/src/linux-headers-3.16.0-4-common/arch/x86/include/uapi' '-I' 'arch/x86/include/generated/uapi' '-I' '/usr/src/linux-headers-3.16.0-4-common/include/uapi' '-I' 'include/generated/uapi' '-include' '/usr/src/linux-headers-3.16.0-4-common/include/linux/kconfig.h' '-I' '/home/johnsa1/Documents/vboxsucks' '-D' '__KERNEL__' '-Wall' '-Wundef' '-Wstrict-prototypes' '-Wno-trigraphs' '-fno-strict-aliasing' '-fno-common' '-Werror=implicit-function-declaration' '-Wno-format-security' '-std=gnu90' '-m64' '-mno-80387' '-mno-fp-ret-in-387' '-mpreferred-stack-boundary=3' '-mtune=generic' '-mno-red-zone' '-mcmodel=kernel' '-funit-at-a-time' '-maccumulate-outgoing-args' '-D' 'CONFIG_X86_X32_ABI' '-D' 'CONFIG_AS_CFI=1' '-D' 'CONFIG_AS_CFI_SIGNAL_FRAME=1' '-D' 'CONFIG_AS_CFI_SECTIONS=1' '-D' 'CONFIG_AS_FXSAVEQ=1' '-D' 'CONFIG_AS_CRC32=1' '-D' 'CONFIG_AS_AVX=1' '-D' 'CONFIG_AS_AVX2=1' '-pipe' '-Wno-sign-compare' '-fno-asynchronous-unwind-tables' '-mno-sse' '-mno-mmx' '-mno-sse2' '-mno-3dnow' '-mno-avx' '-fno-delete-null-pointer-checks' '-O2' '-Wframe-larger-than=2048' '-Wno-unused-but-set-variable' '-fno-var-tracking-assignments' '-g' '-pg' '-mfentry' '-D' 'CC_USING_FENTRY' '-Wdeclaration-after-statement' '-Wno-pointer-sign' '-fno-strict-overflow' '-fconserve-stack' '-Werror=implicit-int' '-Werror=strict-prototypes' '-D' 'CC_HAVE_ASM_GOTO' '-O0' '-fno-stack-protector' '-v' '-D' 'MODULE' '-D' 'KBUILD_STR(s)=#s' '-D' 'KBUILD_BASENAME=KBUILD_STR(vbox3)' '-D' 'KBUILD_MODNAME=KBUILD_STR(vbox3)' '-c' '-o' '/home/johnsa1/Documents/vboxsucks/.tmp_vbox3.o' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/cc1 -quiet -nostdinc -v -I /usr/src/linux-headers-3.16.0-4-common/arch/x86/include -I arch/x86/include/generated -I /usr/src/linux-headers-3.16.0-4-common/include -I include -I /usr/src/linux-headers-3.16.0-4-common/arch/x86/include/uapi -I arch/x86/include/generated/uapi -I /usr/src/linux-headers-3.16.0-4-common/include/uapi -I include/generated/uapi -I /home/johnsa1/Documents/vboxsucks -imultiarch x86_64-linux-gnu -D __KERNEL__ -D CONFIG_X86_X32_ABI -D CONFIG_AS_CFI=1 -D CONFIG_AS_CFI_SIGNAL_FRAME=1 -D CONFIG_AS_CFI_SECTIONS=1 -D CONFIG_AS_FXSAVEQ=1 -D CONFIG_AS_CRC32=1 -D CONFIG_AS_AVX=1 -D CONFIG_AS_AVX2=1 -D CC_USING_FENTRY -D CC_HAVE_ASM_GOTO -D MODULE -D KBUILD_STR(s)=#s -D KBUILD_BASENAME=KBUILD_STR(vbox3) -D KBUILD_MODNAME=KBUILD_STR(vbox3) -isystem /usr/lib/gcc/x86_64-linux-gnu/4.8/include -include /usr/src/linux-headers-3.16.0-4-common/include/linux/kconfig.h -MD /home/johnsa1/Documents/vboxsucks/.vbox3.o.d /home/johnsa1/Documents/vboxsucks/vbox3.c -quiet -dumpbase vbox3.c -m64 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mtune=generic -mno-red-zone -mcmodel=kernel -maccumulate-outgoing-args -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -mfentry -march=x86-64 -auxbase-strip /home/johnsa1/Documents/vboxsucks/.tmp_vbox3.o -g -O2 -O0 -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -Werror=implicit-function-declaration -Wno-format-security -Wno-sign-compare -Wframe-larger-than=2048 -Wno-unused-but-set-variable -Wdeclaration-after-statement -Wno-pointer-sign -Werror=implicit-int -Werror=strict-prototypes -std=gnu90 -version -p -fno-strict-aliasing -fno-common -funit-at-a-time -fno-asynchronous-unwind-tables -fno-delete-null-pointer-checks -fno-var-tracking-assignments -fno-strict-overflow -fconserve-stack -fno-stack-protector -o - |
+ as -v -I /usr/src/linux-headers-3.16.0-4-common/arch/x86/include -I arch/x86/include/generated -I /usr/src/linux-headers-3.16.0-4-common/include -I include -I /usr/src/linux-headers-3.16.0-4-common/arch/x86/include/uapi -I arch/x86/include/generated/uapi -I /usr/src/linux-headers-3.16.0-4-common/include/uapi -I include/generated/uapi -I /home/johnsa1/Documents/vboxsucks --64 -o /home/johnsa1/Documents/vboxsucks/.tmp_vbox3.o
+GNU assembler version 2.25 (x86_64-linux-gnu) using BFD version (GNU Binutils for Debian) 2.25
+GNU C (Debian 4.8.4-1) version 4.8.4 (x86_64-linux-gnu)
+	compiled by GNU C version 4.8.4, GMP version 6.0.0, MPFR version 3.1.2-p3, MPC version 1.0.2
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+#include "..." search starts here:
+#include <...> search starts here:
+ /usr/src/linux-headers-3.16.0-4-common/arch/x86/include
+ arch/x86/include/generated
+ /usr/src/linux-headers-3.16.0-4-common/include
+ include
+ /usr/src/linux-headers-3.16.0-4-common/arch/x86/include/uapi
+ arch/x86/include/generated/uapi
+ /usr/src/linux-headers-3.16.0-4-common/include/uapi
+ include/generated/uapi
+ /home/johnsa1/Documents/vboxsucks
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include
+End of search list.
+GNU C (Debian 4.8.4-1) version 4.8.4 (x86_64-linux-gnu)
+	compiled by GNU C version 4.8.4, GMP version 6.0.0, MPFR version 3.1.2-p3, MPC version 1.0.2
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: dd7a9a73871cf50c705fa1852aff62ba
+/home/johnsa1/Documents/vboxsucks/vbox3.c:23:14: warning: ‘argv’ defined but not used [-Wunused-variable]
+ static char *argv[] = {"/usr/bin/nohup", "/bin/bash", "-c",
+              ^
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/4.8/:/usr/lib/gcc/x86_64-linux-gnu/4.8/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/4.8/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/4.8/:/usr/lib/gcc/x86_64-linux-gnu/4.8/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/4.8/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/4.8/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-nostdinc' '-isystem' '/usr/lib/gcc/x86_64-linux-gnu/4.8/include' '-I' '/usr/src/linux-headers-3.16.0-4-common/arch/x86/include' '-I' 'arch/x86/include/generated' '-I' '/usr/src/linux-headers-3.16.0-4-common/include' '-I' 'include' '-I' '/usr/src/linux-headers-3.16.0-4-common/arch/x86/include/uapi' '-I' 'arch/x86/include/generated/uapi' '-I' '/usr/src/linux-headers-3.16.0-4-common/include/uapi' '-I' 'include/generated/uapi' '-include' '/usr/src/linux-headers-3.16.0-4-common/include/linux/kconfig.h' '-I' '/home/johnsa1/Documents/vboxsucks' '-D' '__KERNEL__' '-Wall' '-Wundef' '-Wstrict-prototypes' '-Wno-trigraphs' '-fno-strict-aliasing' '-fno-common' '-Werror=implicit-function-declaration' '-Wno-format-security' '-std=gnu90' '-m64' '-mno-80387' '-mno-fp-ret-in-387' '-mpreferred-stack-boundary=3' '-mtune=generic' '-mno-red-zone' '-mcmodel=kernel' '-funit-at-a-time' '-maccumulate-outgoing-args' '-D' 'CONFIG_X86_X32_ABI' '-D' 'CONFIG_AS_CFI=1' '-D' 'CONFIG_AS_CFI_SIGNAL_FRAME=1' '-D' 'CONFIG_AS_CFI_SECTIONS=1' '-D' 'CONFIG_AS_FXSAVEQ=1' '-D' 'CONFIG_AS_CRC32=1' '-D' 'CONFIG_AS_AVX=1' '-D' 'CONFIG_AS_AVX2=1' '-pipe' '-Wno-sign-compare' '-fno-asynchronous-unwind-tables' '-mno-sse' '-mno-mmx' '-mno-sse2' '-mno-3dnow' '-mno-avx' '-fno-delete-null-pointer-checks' '-O2' '-Wframe-larger-than=2048' '-Wno-unused-but-set-variable' '-fno-var-tracking-assignments' '-g' '-pg' '-mfentry' '-D' 'CC_USING_FENTRY' '-Wdeclaration-after-statement' '-Wno-pointer-sign' '-fno-strict-overflow' '-fconserve-stack' '-Werror=implicit-int' '-Werror=strict-prototypes' '-D' 'CC_HAVE_ASM_GOTO' '-O0' '-fno-stack-protector' '-v' '-D' 'MODULE' '-D' 'KBUILD_STR(s)=#s' '-D' 'KBUILD_BASENAME=KBUILD_STR(vbox3)' '-D' 'KBUILD_MODNAME=KBUILD_STR(vbox3)' '-c' '-o' '/home/johnsa1/Documents/vboxsucks/.tmp_vbox3.o' '-march=x86-64'
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /home/johnsa1/Documents/vboxsucks/vbox3.mod.o
+  LD [M]  /home/johnsa1/Documents/vboxsucks/vbox3.ko
+make[1]: Leaving directory '/usr/src/linux-headers-3.16.0-4-amd64'
+sudo insmod vbox3.ko
+sudo chmod a+rw /dev/query
+dmesg --color=always | tail -n 1
+[32m[13132.840811] [0m[33mvbox_poc[0m: Loaded
