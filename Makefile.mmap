@@ -1,15 +1,16 @@
-obj-m := lookylooky.o
-CFLAGS_lookylooky.o := -fno-stack-protector -O0
+obj-m := mmap.o
+CFLAGS_mmap.o := -fno-stack-protector -O0
 
 all:
 	$(CC) query_app.c -o query_app
 	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-	sudo insmod lookylooky.ko
-	sudo chmod a+rw /dev/lookylooky
+	sudo insmod mmap.ko
+	sudo chown root:root query_app
+	sudo chmod +s query_app
 	dmesg --color=always | tail -n 1
 
 clean:
 	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 	${RM} query_app
-	sudo rmmod lookylooky.ko
+	sudo rmmod mmap.ko
 	dmesg --color=always | tail -n 1
