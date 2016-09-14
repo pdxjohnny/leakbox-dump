@@ -61,7 +61,7 @@ char *fd_to_string(int fd, size_t *string_size) {
 int main(int argc, char *argv[]) {
   int fd;
   ssize_t msg_length = 0;
-  char ioctl_device[] = "/dev/query";
+  char ioctl_device[] = "/dev/lookylooky";
   char *tmp;
   struct poc_msg msg;
 
