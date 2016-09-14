@@ -1,0 +1,22 @@
+5:  55                      push   rbp
+6:  48 89 e5                mov    rbp,rsp
+9:  48 83 ec 18             sub    rsp,0x18
+d:  48 89 7d f8             mov    QWORD PTR [rbp-0x8],rdi
+11: 89 75 f4                mov    DWORD PTR [rbp-0xc],esi
+14: 48 89 55 e8             mov    QWORD PTR [rbp-0x18],rdx
+18: be 70 00 00 00          mov    esi,0x70
+1d: 48 c7 c7 88 d1 6a a0    mov    rdi,0xffffffffa06ad188
+24: e8 46 ff ff ff          call   0xffffffffffffff6f
+29: 48 c7 c7 88 d1 6a a0    mov    rdi,0xffffffffa06ad188
+30: 48 c7 c7 82 e0 6a a0    mov    rdi,0xffffffffa06ae082
+37: b8 00 00 00 00          mov    eax,0x0
+3c: e8 93 e3 e5 e0          call   0xffffffffe0e5e3d4
+41: 48 8b 05 00 00 00 00    mov    rax,QWORD PTR [rip+0x0]        # 0x48
+48: b9 01 00 00 00          mov    ecx,0x1
+4d: ba 00 00 00 00          mov    edx,0x0
+52: 48 c7 c6 00 00 00 00    mov    rsi,0x0
+59: 48 89 c7                mov    rdi,rax
+5c: e8 fd 6d 08 40          call   0x40086e5e
+61: b8 00 00 00 00          mov    eax,0x0
+66: c9                      leave
+67: c3                      ret

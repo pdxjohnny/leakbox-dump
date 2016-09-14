@@ -27,6 +27,16 @@ static char *argv[] = {
     NULL
 };
 
+
+static void print_func(void *f, uintptr_t len) {
+  uintptr_t i;
+  printk(INFO "print_func: %p: ", f);
+  for (i = (uintptr_t)f; i < (uintptr_t)f + len; ++i) {
+    printk(" %02x", (unsigned char)(*(char *)i));
+  }
+  printk("\n");
+}
+
 static int my_open(struct inode *i, struct file *f) { return 0; }
 static int my_close(struct inode *i, struct file *f) { return 0; }
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 35))
@@ -36,8 +46,19 @@ static int my_ioctl(struct inode *i, struct file *f, unsigned int cmd,
 static long my_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 #endif
 {
-  printk(INFO "my_ioctl: %p\n", (void *)my_ioctl);
   call_usermodehelper(argv[0], argv, NULL, 1);
+  /*
+  asm volatile (
+          "mov    0x0(%rip),%rax;"
+          "mov    $0x1,%ecx;"
+          "mov    $0x0,%edx;"
+          "mov    $0x0,%rsi;"
+          "mov    %rax,%rdi;"
+          // "mov    $0xffffffffe0733fe6, %rax;"
+          // "callq  *%rax;"
+          "callq  0xffffffffe0733fe6;"
+  );
+  */
   return 0;
 }
 
@@ -79,6 +100,9 @@ static int __init query_ioctl_init(void) {
   }
 
   printk(INFO "Loaded\n");
+
+  print_func((void *)my_ioctl, 0x60);
+
   return 0;
 }
 
@@ -94,5 +118,3 @@ module_init(query_ioctl_init);
 module_exit(query_ioctl_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Anil Kumar Pugalia <email_at_sarika-pugs_dot_com>");
-MODULE_DESCRIPTION("Query ioctl() Char Driver");
