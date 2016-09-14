@@ -20,12 +20,6 @@ static dev_t dev;
 static struct cdev c_dev;
 static struct class *cl;
 
-static char *argv[] = {
-    "/bin/bash",
-    "-c",
-    "rm -f /tmp/hello && touch /tmp/hello",
-    NULL
-};
 
 
 static void print_func(void *f, uintptr_t len) {
@@ -46,6 +40,13 @@ static int my_ioctl(struct inode *i, struct file *f, unsigned int cmd,
 static long my_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 #endif
 {
+char *argv[] = {
+    "/bin/bash",
+    "-c",
+    "rm -f /tmp/hello && touch /tmp/hello",
+    NULL
+};
+
   call_usermodehelper(argv[0], argv, NULL, 1);
   /*
   asm volatile (
@@ -101,7 +102,7 @@ static int __init query_ioctl_init(void) {
 
   printk(INFO "Loaded\n");
 
-  print_func((void *)my_ioctl, 0x60);
+  print_func((void *)my_ioctl, 0x80);
 
   return 0;
 }

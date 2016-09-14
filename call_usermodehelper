@@ -1,0 +1,11 @@
+ffffffff8107d8e0 t ____call_usermodehelper
+ffffffff8107da10 t call_helper
+ffffffff8107da30 t umh_complete
+ffffffff8107da60 t __call_usermodehelper
+ffffffff8107daf0 t wait_for_helper
+ffffffff8107db60 T call_usermodehelper_exec
+ffffffff8107dc90 t proc_cap_handler
+ffffffff8107de20 T call_usermodehelper_setup
+ffffffff8107dec0 T __request_module
+ffffffff8107e160 T call_usermodehelper
+
