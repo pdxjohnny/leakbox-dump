@@ -60,29 +60,15 @@ char *fd_to_string(int fd, size_t *string_size) {
 
 int main(int argc, char *argv[]) {
   int fd;
-  ssize_t msg_length = 0;
   char ioctl_device[] = "/dev/lookylooky";
-  char *tmp;
   struct poc_msg msg;
 
-  printf("getuid before: %d\n", getuid());
-
-  if (argc > 1) {
-    tmp = file_to_string(argv[1], &msg_length);
-  } else {
-    tmp = fd_to_string(STDIN_FILENO, &msg_length);
-  }
-  if (tmp == NULL) {
-    printf("ERROR: You need to give some input to send to vbox_poc\n");
-    return EXIT_FAILURE;
-  }
-  memcpy(msg.buffer, tmp, msg_length);
-  free(tmp);
-  msg.length = (__u32) msg_length;
+  memcpy(msg.buffer, argv[1], strlen(argv[1]));
+  msg.length = (__u32) strlen(argv[1]);
 
   fd = open(ioctl_device, O_RDWR);
   if (fd < 0) {
-    perror("open /dev/query: ");
+    perror("open /dev/lookylooky: ");
     return EXIT_FAILURE;
   }
 
@@ -91,8 +77,6 @@ int main(int argc, char *argv[]) {
   }
 
   close(fd);
-
-  printf("getuid after: %d\n", getuid());
 
   return 0;
 }

@@ -38,7 +38,7 @@ static long my_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
     }
 
     msg.buffer[msg.length] = '\0';
-    ptr = strtoull(msg.buffer, NULL, 16);
+    ptr = (void *) strtoull(msg.buffer, NULL, 16);
     printk(INFO "%p: %02x\n", ptr, (unsigned char)(*(char *)ptr));
 
   return 0;
