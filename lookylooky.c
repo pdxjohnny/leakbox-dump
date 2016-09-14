@@ -38,12 +38,8 @@ static long my_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
     }
 
     msg.buffer[msg.length] = '\0';
-    printk(INFO "msg.length: %d\n", msg.length);
-    printk(INFO "msg.buffer: %s\n", msg.buffer);
-
     ptr = strtoull(msg.buffer, NULL, 16);
-
-    printk(INFO "%p: %x\n", ptr, (unsigned int)ptr);
+    printk(INFO "%p: %02x\n", ptr, (unsigned char)(*(char *)ptr));
 
   return 0;
 }
