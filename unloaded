@@ -1,0 +1,20 @@
+ 12f:   e8 00 00 00 00          callq  134 <my_ioctl+0x5>
+ 134:   55                      push   %rbp
+ 135:   48 89 e5                mov    %rsp,%rbp
+ 138:   48 83 ec 18             sub    $0x18,%rsp
+ 13c:   48 89 7d f8             mov    %rdi,-0x8(%rbp)
+ 140:   89 75 f4                mov    %esi,-0xc(%rbp)
+ 143:   48 89 55 e8             mov    %rdx,-0x18(%rbp)
+ 147:   48 c7 c6 00 00 00 00    mov    $0x0,%rsi
+ 14e:   48 c7 c7 00 00 00 00    mov    $0x0,%rdi
+ 155:   b8 00 00 00 00          mov    $0x0,%eax
+ 15a:   e8 00 00 00 00          callq  15f <my_ioctl+0x30>
+ 15f:   48 8b 05 00 00 00 00    mov    0x0(%rip),%rax        # 166 <my_ioctl+0x37>
+ 166:   b9 01 00 00 00          mov    $0x1,%ecx
+ 16b:   ba 00 00 00 00          mov    $0x0,%edx
+ 170:   48 c7 c6 00 00 00 00    mov    $0x0,%rsi
+ 177:   48 89 c7                mov    %rax,%rdi
+ 17a:   e8 00 00 00 00          callq  17f <my_ioctl+0x50>
+ 17f:   b8 00 00 00 00          mov    $0x0,%eax
+ 184:   c9                      leaveq
+ 185:   c3                      retq
