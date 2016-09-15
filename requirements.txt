@@ -1,1 +1,2 @@
--e git+https://github.com/pdxjohnny/unalignedrop.git#egg=unalignedrop
+git+https://github.com/pdxjohnny/unalignedrop
+git+https://github.com/arthaud/python3-pwntools

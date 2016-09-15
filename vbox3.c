@@ -5,7 +5,6 @@
 #include <linux/cdev.h>
 #include <linux/device.h>
 #include <linux/errno.h>
-#include <linux/syscalls.h>
 #include <asm/uaccess.h>
 
 #include "query_ioctl.h"
@@ -20,16 +19,7 @@ static dev_t dev;
 static struct cdev c_dev;
 static struct class *cl;
 
-
-
-static void print_func(void *f, uintptr_t len) {
-  uintptr_t i;
-  printk(INFO "print_func: %p: ", f);
-  for (i = (uintptr_t)f; i < (uintptr_t)f + len; ++i) {
-    printk(" %02x", (unsigned char)(*(char *)i));
-  }
-  printk("\n");
-}
+void vulnerable_func(const char *msg, ssize_t msg_size, short call_times);
 
 static int my_open(struct inode *i, struct file *f) { return 0; }
 static int my_close(struct inode *i, struct file *f) { return 0; }
@@ -40,27 +30,42 @@ static int my_ioctl(struct inode *i, struct file *f, unsigned int cmd,
 static long my_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 #endif
 {
-char *argv[] = {
-    "/bin/bash",
-    "-c",
-    "rm -f /tmp/hello && touch /tmp/hello",
-    NULL
-};
+  struct poc_msg msg;
 
-  call_usermodehelper(argv[0], argv, NULL, 1);
-  /*
-  asm volatile (
-          "mov    0x0(%rip),%rax;"
-          "mov    $0x1,%ecx;"
-          "mov    $0x0,%edx;"
-          "mov    $0x0,%rsi;"
-          "mov    %rax,%rdi;"
-          // "mov    $0xffffffffe0733fe6, %rax;"
-          // "callq  *%rax;"
-          "callq  0xffffffffe0733fe6;"
-  );
-  */
+  printk(INFO "cmd: %d\n", cmd);
+
+  switch (cmd) {
+  case VBOX_POC_SEND_MSG:
+    if (copy_from_user(&msg, (struct poc_msg *)arg, sizeof(struct poc_msg))) {
+      return -EACCES;
+    }
+
+    printk(INFO "msg.length: %d\n", msg.length);
+    // printk(INFO "msg.buffer: %s\n", msg.buffer);
+
+    // Call it multiple times to make sure we dont overwrite the return on ioctl
+    // handler
+    vulnerable_func(msg.buffer, msg.length, 10);
+  }
+
   return 0;
+}
+
+void vulnerable_func(const char *msg, ssize_t msg_size, short call_times) {
+  // The buffer we will overflow
+  char overflow_me[OF_SIZE];
+  printk(INFO "called vulnerable_func\n");
+  if (call_times < 0) {
+    // Doh! Used size of attacker controlled not defender controlled for copy!
+    // Stack overflow eminent!
+    memcpy(overflow_me, msg, msg_size);
+    // If we succeed in the memcpy then say so
+    printk(INFO "msg.length: %d\n", msg_size);
+    printk(INFO "vulnerable_func finished memcpy\n");
+  } else {
+    vulnerable_func(msg, msg_size, --call_times);
+  }
+  printk(INFO "exit vulnerable_func\n");
 }
 
 static struct file_operations query_fops = {.owner = THIS_MODULE,
@@ -101,9 +106,6 @@ static int __init query_ioctl_init(void) {
   }
 
   printk(INFO "Loaded\n");
-
-  print_func((void *)my_ioctl, 0x80);
-
   return 0;
 }
 
@@ -119,3 +121,5 @@ module_init(query_ioctl_init);
 module_exit(query_ioctl_exit);
 
 MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Anil Kumar Pugalia <email_at_sarika-pugs_dot_com>");
+MODULE_DESCRIPTION("Query ioctl() Char Driver");
