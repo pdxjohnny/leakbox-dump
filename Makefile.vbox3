@@ -5,12 +5,16 @@ LDFLAGS_vbox3.o := -static
 all:
 	$(CC) query_app.c -o query_app
 	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-	sudo insmod vbox3.ko
-	sudo chmod a+rw /dev/query
-	dmesg --color=always | tail -n 1
 
 clean:
 	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 	${RM} query_app
+
+unload:
 	sudo rmmod vbox3.ko
+	dmesg --color=always | tail -n 1
+
+load: all
+	sudo insmod vbox3.ko
+	sudo chmod a+rw /dev/query
 	dmesg --color=always | tail -n 1

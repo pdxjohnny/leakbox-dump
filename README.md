@@ -93,6 +93,10 @@ is invoked.
 > because we still changed the permissions on the file so we've succeeded in
 > escalating our privileges.
 
+## Hmm if only there were some kind of moving picture I would believe you
+
+[![asciicast](https://asciinema.org/a/etjtqyaj24agdp0d547i7a5on.png)](https://asciinema.org/a/etjtqyaj24agdp0d547i7a5on)
+
 ## Running For Yourself
 
 You need to have python3.5 and python3-pwntools installed (you must be on the
